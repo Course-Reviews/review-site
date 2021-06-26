@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint --fix",
-    "clean": "rm -rf node_modules && yarn",
+    "clean": "rm -rf node_modules && yarn"
   },
   "dependencies": {
     "next": "latest",
