@@ -21,7 +21,9 @@
     "prefer-template": "error",
     "quotes": ["error", "single"],
     "jsx-quotes": ["error", "prefer-single"],
-    "spaced-comment": ["error", "always"],
+    "spaced-comment": ["error", "always", {
+      "markers": ["/"]
+    }],
     "no-trailing-spaces": [
       "error",
       {
