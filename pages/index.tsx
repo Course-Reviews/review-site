@@ -2,8 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import logo from '../public/vercel.svg'
 
-const Home = () => {
-  return (
+const Home = () => (
     <div className='flex flex-col items-center justify-center min-h-screen py-2'>
       <Head>
         <title>Create Next App</title>
@@ -81,6 +80,5 @@ const Home = () => {
       </footer>
     </div>
   )
-}
 
 export default Home;

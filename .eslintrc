@@ -17,6 +17,7 @@
     "sourceType": "module"
   },
   "rules": {
+    "arrow-body-style": ["error", "as-needed"],
     "prefer-template": "error",
     "quotes": ["error", "single"],
     "jsx-quotes": ["error", "prefer-single"],
