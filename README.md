@@ -1,4 +1,4 @@
-# Next.js + Tailwind CSS Example
+# Next.js + Tailwind CSS + Typescript Example
 
 This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v2.2)](https://blog.tailwindcss.com/tailwindcss-2-2) with Next.js and [Typescript](https://www.typescriptlang.org/). It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
 
