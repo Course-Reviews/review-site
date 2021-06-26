@@ -5,7 +5,7 @@ import logo from '../public/vercel.svg'
 const Home = () => (
     <div className='flex flex-col items-center justify-center min-h-screen py-2'>
       <Head>
-        <title>Create Next App</title>
+        <title>Please Work</title>
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
