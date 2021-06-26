@@ -1,6 +1,8 @@
 import Head from 'next/head'
+import Image from 'next/image'
+import logo from '../public/vercel.svg'
 
-export default function Home() {
+const Home = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
       <Head>
@@ -74,9 +76,11 @@ export default function Home() {
           rel="noopener noreferrer"
         >
           Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className="h-4 ml-2" />
+          <Image src={logo} alt="Vercel Logo" className="h-4 ml-2" />
         </a>
       </footer>
     </div>
   )
 }
+
+export default Home;
