@@ -4,6 +4,7 @@ import React from 'react';
 import BreadCrumbs from '../components/BreadCrumbs';
 import Button from '../components/Button';
 import Card from '../components/Card';
+import StarRating from '../components/StarRating';
 import logo from '../public/vercel.svg'
 
 const Home = () => (
@@ -23,6 +24,7 @@ const Home = () => (
           <Card.Body>
             <Card.Title>This is a card</Card.Title>
             <Card.Text>This is some text on a card</Card.Text>
+            <StarRating rating={2.5}/>
             <Button grow>Click me!</Button>
           </Card.Body>
         </Card>
