@@ -19,7 +19,7 @@ interface ModalTitleProps extends HTMLAttributes<HTMLElement> {
 
 const ModalTitle: React.FC<ModalTitleProps> = ({ close, children, className, ...rest }) => (
   <Card.Title
-    className={'text-gray-800 flex items-start justify-between -mx-1'}
+    className={'text-gray-800 flex items-center justify-between -mx-1'}
     {...rest}
   >
     {children}
