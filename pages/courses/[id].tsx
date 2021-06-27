@@ -1,11 +1,11 @@
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import React from 'react';
-import BreadCrumbs from '../../components/BreadCrumbs';
-import Col from '../../components/Col';
-import Container from '../../components/Container';
+import BreadCrumbs from '../../components/atom/BreadCrumbs';
+import Col from '../../components/atom/Col';
+import Container from '../../components/atom/Container';
 import CourseCard from '../../components/CourseCard';
-import Row from '../../components/Row';
+import Row from '../../components/atom/Row';
 
 interface CourseProps {
   id: string;

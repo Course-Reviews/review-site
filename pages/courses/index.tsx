@@ -1,13 +1,10 @@
 import Head from 'next/head';
 import React from 'react';
-import BreadCrumbs from '../../components/BreadCrumbs';
-import Button from '../../components/Button';
-import Card from '../../components/Card';
-import Col from '../../components/Col';
-import Container from '../../components/Container';
+import Container from '../../components/atom/Container';
+import BreadCrumbs from '../../components/atom/BreadCrumbs';
+import Col from '../../components/atom/Col';
 import CourseCard from '../../components/CourseCard';
-import Row from '../../components/Row';
-import StarRating from '../../components/StarRating';
+import Row from '../../components/atom/Row';
 
 interface indexProps {}
 

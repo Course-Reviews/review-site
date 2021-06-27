@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 import Card from './Card';
 import Ripple from './Ripple';
@@ -12,7 +13,8 @@ interface CourseCardProps {
 
 const CourseCard: React.FC<CourseCardProps> = ({name, uni, rating, ratingCount}) => (
   <Ripple grow rippleClassName='bg-primary-400' rippleContainerClassName='rounded-xl'>
-    <Card>
+    <Link href={`/courses/${name}`} passHref>
+    <Card as='article'>
       <Card.Body className={'relative z-10'}>
         <Card.Title>{name}</Card.Title>
         <Card.Text>{uni}</Card.Text>
@@ -22,6 +24,7 @@ const CourseCard: React.FC<CourseCardProps> = ({name, uni, rating, ratingCount})
         </div>
       </Card.Body>
     </Card>
+    </Link>
     </Ripple>
   )
 

@@ -3,14 +3,16 @@ import React, { HTMLAttributes, ImgHTMLAttributes } from 'react';
 import { Color, Position } from '../types/tailwind';
 import Image, { ImageProps } from 'next/image';
 import { renderChildrenWithClassName } from '../util/renderChildrenWithClassName';
+import { ElementType } from 'react';
 
 interface CardProps extends HTMLAttributes<HTMLElement> {
   variant?: Color;
   horizontal?: boolean;
+  as?: ElementType;
 }
 
-const Card: React.FC<CardProps> = ({ children, className, variant, ...rest }) => (
-  <div
+const Card: React.FC<CardProps> = ({ children, className, variant, as: Component = 'div', ...rest }) => (
+  <Component
     className={classNames(
       'rounded-xl  shadow-lg',
       variant ? `bg-${variant}-600` : 'bg-white',
@@ -26,7 +28,7 @@ const Card: React.FC<CardProps> = ({ children, className, variant, ...rest }) =>
           })
         )
       : children}
-  </div>
+  </Component>
 );
 
 interface CardBodyProps extends HTMLAttributes<HTMLElement> {
