@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import React from 'react';
-import Card from './Card';
-import Ripple from './Ripple';
-import StarRating from './StarRating';
+import Card from './atom/Card';
+import Ripple from './atom/Ripple';
+import StarRating from './atom/StarRating';
 
 interface CourseCardProps {
   name: string;
@@ -11,21 +11,28 @@ interface CourseCardProps {
   ratingCount: number;
 }
 
-const CourseCard: React.FC<CourseCardProps> = ({name, uni, rating, ratingCount}) => (
-  <Ripple grow rippleClassName='bg-primary-400' rippleContainerClassName='rounded-xl'>
+const CourseCard: React.FC<CourseCardProps> = ({ name, uni, rating, ratingCount }) => (
+  <Ripple
+    grow
+    rippleClassName='bg-primary-400'
+    rippleContainerClassName='rounded-xl'
+    className='my-4'
+  >
     <Link href={`/courses/${name}`} passHref>
-    <Card as='article'>
-      <Card.Body className={'relative z-10'}>
-        <Card.Title>{name}</Card.Title>
-        <Card.Text>{uni}</Card.Text>
-        <div className={'flex flex-wrap'}>
-          <StarRating rating={rating}/>
-          <div className={'ml-2 font-semibold'}>{rating} ({ratingCount} reviews)</div>
-        </div>
-      </Card.Body>
-    </Card>
+      <Card as='article'>
+        <Card.Body className={'relative z-10'}>
+          <Card.Title>{name}</Card.Title>
+          <Card.Text>{uni}</Card.Text>
+          <div className={'flex flex-wrap'}>
+            <StarRating rating={rating} />
+            <div className={'ml-2 font-semibold'}>
+              {rating} ({ratingCount} reviews)
+            </div>
+          </div>
+        </Card.Body>
+      </Card>
     </Link>
-    </Ripple>
-  )
+  </Ripple>
+);
 
 export default CourseCard;

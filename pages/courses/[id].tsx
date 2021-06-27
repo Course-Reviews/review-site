@@ -6,6 +6,9 @@ import Col from '../../components/atom/Col';
 import Container from '../../components/atom/Container';
 import CourseCard from '../../components/CourseCard';
 import Row from '../../components/atom/Row';
+import { useModal } from 'async-modals';
+import MessageModal from '../../components/MessageModal';
+import Button from '../../components/atom/Button';
 
 interface CourseProps {
   id: string;
@@ -17,7 +20,15 @@ interface CourseParams {
   }
 }
 
-const Course: React.FC<CourseProps> = ({id}) => (
+const Course: React.FC<CourseProps> = ({id}) => {
+
+  const messageModal = useModal(MessageModal);
+
+  const showModal = async () => {
+    await messageModal.show();
+  }
+
+  return(
   <Container as={'main'}>
     <Head>
       <title>Please Work</title>
@@ -37,9 +48,14 @@ const Course: React.FC<CourseProps> = ({id}) => (
         <h1 className={'text-2xl font-bold text-gray-800'}>{id}</h1>
       </Col>
     </Row>
-
+    <Row>
+      <Col>
+        <Button onClick={showModal}>Click me!</Button>
+      </Col>
+    </Row>
   </Container>
-);
+)
+};
 
 // export const getStaticPaths = async (): Promise<{
 //   paths: CourseParams[];

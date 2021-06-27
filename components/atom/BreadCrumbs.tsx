@@ -1,8 +1,7 @@
 import classNames from 'classnames';
-import classnames from 'classnames';
 import Link, { LinkProps } from 'next/link';
-import React, { HTMLAttributes } from 'react';
 import { useRouter } from 'next/router';
+import React, { HTMLAttributes } from 'react';
 
 interface BreadCrumbsProps extends HTMLAttributes<HTMLElement> {}
 
@@ -34,8 +33,38 @@ const BreadCrumbItem: React.FC<BreadCrumbItemProps> = ({
 }) => {
   const router = useRouter();
 
-  console.log(router.asPath, href);
+  return (
+    <Link {...{ href, as, replace, scroll, shallow, passHref, prefetch, locale }}>
+      <a
+        className={classNames(
+          'hover:text-primary-500',
+          router.asPath === encodeURI(`${href}`) ? 'font-semibold text-primary-500' : 'text-gray-700',
+          className
+        )}
+        {...rest}
+      >
+        {children}
+      </a>
+    </Link>
+  );
+};
 
+interface BreadCrumbItemHomeProps extends HTMLAttributes<HTMLElement>, LinkProps {}
+
+const BreadCrumbItemHome: React.FC<BreadCrumbItemHomeProps> = ({
+  children,
+  className,
+  href,
+  as,
+  replace,
+  scroll,
+  shallow,
+  passHref,
+  prefetch,
+  locale,
+  ...rest
+}) => {
+  const router = useRouter();
 
   return (
     <Link {...{ href, as, replace, scroll, shallow, passHref, prefetch, locale }}>
@@ -55,4 +84,5 @@ const BreadCrumbItem: React.FC<BreadCrumbItemProps> = ({
 
 export default Object.assign(BreadCrumbs, {
   Item: BreadCrumbItem,
+  Home: BreadCrumbItemHome,
 });

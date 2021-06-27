@@ -1,10 +1,10 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import React from 'react';
-import BreadCrumbs from '../components/BreadCrumbs';
-import Button from '../components/Button';
-import Card from '../components/Card';
-import StarRating from '../components/StarRating';
+import BreadCrumbs from '../components/atom/BreadCrumbs';
+import Button from '../components/atom/Button';
+import Card from '../components/atom/Card';
+import StarRating from '../components/atom/StarRating';
 import logo from '../public/vercel.svg'
 
 const Home = () => (

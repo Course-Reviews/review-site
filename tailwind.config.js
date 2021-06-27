@@ -139,11 +139,53 @@ module.exports = {
             'background-position': '-200% center',
           },
         },
+        'modal-bg-fade-in': {
+          '0%': {
+            background: 'rgba(62,63,66,0)',
+          },
+          '100%': {
+            background: 'rgba(62,63,66,0.75)',
+          },
+        },
+        'modal-bg-fade-out': {
+          '0%': {
+            background: 'rgba(62,63,66,0.75)',
+          },
+          '100%': {
+            background: 'rgba(62,63,66,0)',
+          },
+        },
+        'float-in': {
+          '0%': {
+            opacity: '0',
+            transform: 'translateY(-1rem) scale(0.8, 0.8)'
+          },
+          '75%': {
+            opacity: '1',
+          },
+          '100%': {
+            transform: 'unset'
+          },
+        },
+        'float-out': {
+          '0%': {
+            transform: 'unset'
+          },
+          '25%': {
+            opacity: '1',
+          },
+          '100%': {
+            transform: 'translateY(-1rem) scale(0.8, 0.8)',
+            opacity: '0'
+          },
+        },
       },
       animation: {
         scrollRight: 'scroll 5s ease-in-out infinite',
-        grow: 'grow 500ms',
-        shrink: 'shrink 500ms',
+        'modal-bg-fade-in': 'modal-bg-fade-in 200ms',
+        'modal-bg-fade-out': 'modal-bg-fade-out 200ms',
+        'float-in': 'float-in 200ms',
+        'float-out': 'float-out 200ms'
       },
     },
   },

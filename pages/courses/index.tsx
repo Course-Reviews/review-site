@@ -27,11 +27,11 @@ const index: React.FC<indexProps> = ({}) => (
         <h1 className={'text-2xl font-bold text-gray-800'}>All Courses</h1>
       </Col>
     </Row>
-    <Row>
-      <Col>
     <CourseCard name='SOFTENG 351' rating={4.4} uni='UoA' ratingCount={12} />
-    </Col>
-    </Row>
+    <CourseCard name='SOFTENG 351' rating={4.4} uni='UoA' ratingCount={12} />
+    <CourseCard name='SOFTENG 351' rating={4.4} uni='UoA' ratingCount={12} />
+    <CourseCard name='SOFTENG 351' rating={4.4} uni='UoA' ratingCount={12} />
+
   </Container>
 );
 

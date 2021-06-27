@@ -1,8 +1,8 @@
 import classNames from 'classnames';
 import React, { HTMLAttributes, ImgHTMLAttributes } from 'react';
-import { Color, Position } from '../types/tailwind';
+import { Color, Position } from '../../types/tailwind';
 import Image, { ImageProps } from 'next/image';
-import { renderChildrenWithClassName } from '../util/renderChildrenWithClassName';
+import { renderChildrenWithClassName } from '../../util/renderChildrenWithClassName';
 import { ElementType } from 'react';
 
 interface CardProps extends HTMLAttributes<HTMLElement> {

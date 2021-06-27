@@ -438,10 +438,10 @@ astral-regex@^2.0.0:
   resolved "https://registry.yarnpkg.com/astral-regex/-/astral-regex-2.0.0.tgz#483143c567aeed4785759c0865786dc77d7d2e31"
   integrity sha512-Z7tMw1ytTXt5jqMcOP+OQteU1VuNK9Y02uuJtKQ1Sv69jXQKKg5cibLwGJow8yzZP+eAc18EmLGPal0bp36rvQ==
 
-async-modals@^0.3.4:
-  version "0.3.4"
-  resolved "https://registry.yarnpkg.com/async-modals/-/async-modals-0.3.4.tgz#871da8aa832ae18824ca7676e0d83923fa99a070"
-  integrity sha512-8DMpP4k7BQfnWEcA8UJY8YyTtOngCPIz7LEGcy98fLtfJpVzaPOxLLhJ4WPf/QUVF4x4APT+IFyhCTVD0bmZ7A==
+async-modals@^0.3.14:
+  version "0.3.14"
+  resolved "https://registry.yarnpkg.com/async-modals/-/async-modals-0.3.14.tgz#ca135a8994f7956d91dc93fa9477efd1045a94a9"
+  integrity sha512-ELo/0FNWChEZmq5D456zrtzwxJAms8hUkL567OPM1JkTthcHKBLewPAz5B+fsPc2xU1urVJtt2d30A+Rm7sJwA==
 
 autoprefixer@^10.2.6:
   version "10.2.6"
