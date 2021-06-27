@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import React from 'react';
+import BreadCrumbs from '../components/BreadCrumbs';
 import Button from '../components/Button';
 import Card from '../components/Card';
 import logo from '../public/vercel.svg'
@@ -13,6 +14,11 @@ const Home = () => (
       </Head>
 
       <main className='container mx-auto py-32'>
+        <BreadCrumbs>
+          <BreadCrumbs.Item href='/'>Home</BreadCrumbs.Item>
+          <BreadCrumbs.Item href='/courses'>Courses</BreadCrumbs.Item>
+          <BreadCrumbs.Item href='/courses/softeng351'>Home</BreadCrumbs.Item>
+        </BreadCrumbs>
         <Card className={'w-48'}>
           <Card.Body>
             <Card.Title>This is a card</Card.Title>
