@@ -1,8 +1,8 @@
 import classNames from 'classnames';
-import classnames from 'classnames';
 import Link, { LinkProps } from 'next/link';
-import React, { HTMLAttributes } from 'react';
 import { useRouter } from 'next/router';
+import React, { HTMLAttributes } from 'react';
+import { FiHome } from 'react-icons/fi';
 
 interface BreadCrumbsProps extends HTMLAttributes<HTMLElement> {}
 
@@ -34,9 +34,6 @@ const BreadCrumbItem: React.FC<BreadCrumbItemProps> = ({
 }) => {
   const router = useRouter();
 
-  console.log(router.asPath, href);
-
-
   return (
     <Link {...{ href, as, replace, scroll, shallow, passHref, prefetch, locale }}>
       <a
@@ -53,6 +50,32 @@ const BreadCrumbItem: React.FC<BreadCrumbItemProps> = ({
   );
 };
 
+interface BreadCrumbItemHomeProps extends HTMLAttributes<HTMLElement> {}
+
+const BreadCrumbItemHome: React.FC<BreadCrumbItemHomeProps> = ({
+  children,
+  className,
+  ...rest
+}) => {
+  const router = useRouter();
+
+  return (
+    <Link href='/'>
+      <a
+        className={classNames(
+          'hover:text-primary-500',
+          router.asPath === '/' ? 'font-semibold text-primary-500' : 'text-gray-700',
+          className
+        )}
+        {...rest}
+      >
+        <FiHome className={'inline align-middle relative -top-0.5'}/>
+      </a>
+    </Link>
+  );
+};
+
 export default Object.assign(BreadCrumbs, {
   Item: BreadCrumbItem,
+  Home: BreadCrumbItemHome,
 });
