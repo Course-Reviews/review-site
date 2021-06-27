@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import React, { ButtonHTMLAttributes } from 'react';
-import { Color, Size } from '../types/tailwind';
+import { Color, Size } from '../../types/tailwind';
 import Ripple from './Ripple';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {

@@ -5,8 +5,9 @@ import Navbar from '../components/atom/Navbar';
 import { ModalProvider } from 'async-modals';
 import '../styles/index.css';
 import classNames from 'classnames';
-import { FiFeather } from 'react-icons/fi';
+import { FiFeather, FiSearch } from 'react-icons/fi';
 import Link from 'next/link';
+import IconButton from '../components/atom/IconButton';
 
 const MyApp = ({ Component, pageProps }: AppProps) => (
   <ModalProvider
@@ -20,13 +21,20 @@ const MyApp = ({ Component, pageProps }: AppProps) => (
   >
     <div className='bg-gray-50 min-h-screen select-none'>
       <Navbar>
-        <Container>
+        <Container className={'flex justify-between'}>
           <Link href='/'>
             <a className={'flex items-center'}>
               <FiFeather className={'text-primary-500 mr-4'} size={32} />
               Review App
             </a>
           </Link>
+          <div className={'flex items-center'}>
+            {/* TODO: Hook this up to the search modal */}
+            <IconButton variant='none' icon={FiSearch}/>
+
+            {/* TODO: make this the account thingy */}
+            <div className={'ml-8 w-10 h-10 bg-gray-600 rounded-full'}></div>
+          </div>
         </Container>
       </Navbar>
       <Component {...pageProps} />
