@@ -7,8 +7,8 @@ import Container from '../../components/atom/Container';
 import CourseCard from '../../components/CourseCard';
 import Row from '../../components/atom/Row';
 import { useModal } from 'async-modals';
-import MessageModal from '../../components/MessageModal';
 import Button from '../../components/atom/Button';
+import MessageModal from '../../components/MessageModal';
 
 interface CourseProps {
   id: string;

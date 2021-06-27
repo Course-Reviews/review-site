@@ -8,7 +8,7 @@ interface ModalProps extends HTMLAttributes<HTMLElement> {
 }
 
 const Modal: React.FC<ModalProps> = ({ isClosing, children, className, ...rest }) => (
-  <Card className={classNames(isClosing ? 'animate-float-out' : 'animate-float-in', 'mx-4', className)} {...rest}>
+  <Card className={classNames(isClosing ? 'animate-float-out' : 'animate-float-in', className)} {...rest}>
     <Card.Body>{children}</Card.Body>
   </Card>
 );
