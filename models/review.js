@@ -7,7 +7,6 @@ const reviewSchema = new moongoose.Schema({
   },
   content: {
     type: String,
-    required: false,
   },
   course_rating: {
     type: Number,

@@ -16,8 +16,12 @@ const courseSchema = new mongoose.Schema({
   },
   rating: {
     type: Number,
-    required: false,
+    required: true,
   },
+  lecturers: {
+    type: String,
+    required: true,
+  }
 });
 
 courseSchema.virtual('reviews', {
