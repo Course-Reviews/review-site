@@ -69,7 +69,7 @@ const Ripple: React.FC<RippleProps> = ({
   return (
     <div
       onMouseDown={handleClick}
-      className={classNames('relative isolate', grow ? 'grid' : 'max-w-max flex', className)}
+      className={classNames('relative isolate cursor-pointer', grow ? 'grid' : 'max-w-max flex', className)}
       {...rest}
     >
       {children}

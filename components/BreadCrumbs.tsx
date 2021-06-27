@@ -33,12 +33,16 @@ const BreadCrumbItem: React.FC<BreadCrumbItemProps> = ({
   ...rest
 }) => {
   const router = useRouter();
+
+  console.log(router.asPath, href);
+
+
   return (
     <Link {...{ href, as, replace, scroll, shallow, passHref, prefetch, locale }}>
       <a
         className={classNames(
           'hover:text-primary-500',
-          router.pathname === href ? 'font-semibold text-primary-500' : 'text-gray-700',
+          router.asPath === encodeURI(`${href}`) ? 'font-semibold text-primary-500' : 'text-gray-700',
           className
         )}
         {...rest}
