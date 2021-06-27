@@ -61,6 +61,12 @@ const Course: React.FC<CourseProps> = ({ id }) => {
           <h1 className={'text-2xl font-bold text-gray-800'}>{id}</h1>
           <h1 className={'text-sm font-semibold text-gray-500'}>The University of Auckland</h1>
         </Col>
+        <Col className={'items-end fixed md:static bottom-0 right-0 p-6 md:p-0'}>
+        <Button onClick={showModal}>
+          <FiStar size={24} className={'-m-2 mr-2'} />
+          Leave a review
+        </Button>
+        </Col>
       </Row>
       <Row onClick={() => setCourseInfo((v) => !v)}>
         <Col>
@@ -107,12 +113,7 @@ const Course: React.FC<CourseProps> = ({ id }) => {
           </Card>
         </Col>
       </Row>
-      <div className={'fixed bottom-0 right-0 p-6'}>
-        <Button onClick={showModal}>
-          <FiStar size={24} className={'-m-2 mr-2'} />
-          Leave a review
-        </Button>
-      </div>
+
     </Container>
   );
 };
