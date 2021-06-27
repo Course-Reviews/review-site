@@ -9,12 +9,16 @@ const reviewSchema = new moongoose.Schema({
     type: String,
     required: false,
   },
-  rating: {
+  course_rating: {
     type: Number,
     required: true,
   },
+  created_date: {
+    type: Date,
+    default: Date.now
+  },
   owner: {
-    type: Moongoose.Schema.Types.ObjectId,
+    type: moongoose.Schema.Types.ObjectId,
     required: true,
     ref: 'Course',
   },
