@@ -2,12 +2,15 @@ import type { AppProps } from 'next/app';
 import React from 'react';
 import Container from '../components/atom/Container';
 import Navbar from '../components/atom/Navbar';
-import { ModalProvider } from 'async-modals';
+import { ModalProvider, useModal } from 'async-modals';
 import '../styles/index.css';
 import classNames from 'classnames';
 import { FiFeather, FiSearch } from 'react-icons/fi';
 import Link from 'next/link';
 import IconButton from '../components/atom/IconButton';
+import SearchModal from '../components/SearchModal';
+import SearchButton from '../components/SearchButton';
+import ScrollToTop from '../components/ScrollToTop';
 
 const MyApp = ({ Component, pageProps }: AppProps) => (
   <ModalProvider
@@ -30,7 +33,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => (
           </Link>
           <div className={'flex items-center'}>
             {/* TODO: Hook this up to the search modal */}
-            <IconButton variant='none' icon={FiSearch} />
+            <SearchButton/>
 
             {/* TODO: make this the account thingy */}
             <div className={'ml-8 w-10 h-10 bg-gray-600 rounded-full'}></div>
@@ -38,6 +41,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => (
         </Container>
       </Navbar>
       <Component {...pageProps} />
+      <ScrollToTop/>
     </div>
   </ModalProvider>
 );

@@ -4,13 +4,14 @@ import { FiStar } from 'react-icons/fi';
 
 interface StarRatingProps extends HTMLAttributes<HTMLElement> {
   rating: number;
+  size?: number;
 }
 
-const StarRating: React.FC<StarRatingProps> = ({ rating, className, ...rest }) => (
+const StarRating: React.FC<StarRatingProps> = ({ rating, size = 24, className, ...rest }) => (
   <div className={classnames('flex', className)} {...rest}>
     {[0, 1, 2, 3, 4].map((e, i) => (
       <FiStar
-        size={24}
+        size={size}
         className={'mx-0.5'}
         key={i}
         fill={rating > e + 1 ? 'currentColor' : 'none'}

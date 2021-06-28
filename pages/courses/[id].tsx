@@ -21,6 +21,7 @@ import {
 import { useState } from 'react';
 import Expand from '../../components/atom/Expand';
 import classNames from 'classnames';
+import Review from '../../components/Review';
 
 interface CourseProps {
   id: string;
@@ -42,7 +43,7 @@ const Course: React.FC<CourseProps> = ({ id }) => {
   };
 
   return (
-    <Container as={'main'}>
+    <Container as={'main'} style={{height: '200vh'}}>
       <Head>
         <title>{id}</title>
         <link rel='icon' href='/favicon.ico' />
@@ -61,7 +62,7 @@ const Course: React.FC<CourseProps> = ({ id }) => {
           <h1 className={'text-2xl font-bold text-gray-800'}>{id}</h1>
           <h1 className={'text-sm font-semibold text-gray-500'}>The University of Auckland</h1>
         </Col>
-        <Col className={'items-end fixed md:static bottom-0 right-0 p-6 md:p-0'}>
+        <Col className={'items-end fixed md:static bottom-0 left-0 p-6 md:p-0'}>
         <Button onClick={showModal}>
           <FiStar size={24} className={'-m-2 mr-2'} />
           Leave a review
@@ -106,11 +107,7 @@ const Course: React.FC<CourseProps> = ({ id }) => {
       </Row>
       <Row>
         <Col>
-          <Card>
-            <Card.Body>
-              <Card.Text>wow</Card.Text>
-            </Card.Body>
-          </Card>
+          <Review content='Was a pretty cool course' rating={3} dateTaken='Sem 2, 2021'/>
         </Col>
       </Row>
 
