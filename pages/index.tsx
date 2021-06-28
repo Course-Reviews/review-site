@@ -1,18 +1,13 @@
 import Head from 'next/head';
-
 import React, { ChangeEvent, useState } from 'react';
-import { useRef } from 'react';
 import { FiSearch, FiFilter, FiInfo } from 'react-icons/fi';
 import UniTag from '../components/UniTag';
-import { isMobile } from 'react-device-detect';
 import { useRouter } from 'next/router';
 import UniFilter from '../components/UniFilter';
 import SearchResult from '../components/SearchResult';
 export interface LandingProps {}
 
 const Landing: React.FC<LandingProps> = () => {
-  const searchInput = useRef<HTMLInputElement>(null);
-
   const [searchValue, setSearchValue] = useState<string>('');
 
   const [filter, setFilter] = useState<{
@@ -27,16 +22,6 @@ const Landing: React.FC<LandingProps> = () => {
   const router = useRouter();
   // Landing page contains the search where users will primarily select courses to view.
   // Todo For SEO, might need content to have needed keywords and stuff (could be latest posts etc.)
-
-  const toMobileSearch = async () => {
-    // * On mobile we use the modal instead so need to un-focus from this input to prevent typing behind modal
-    // * On desktop we just use this page
-    console.log(isMobile);
-    if (!isMobile) {
-      return;
-    }
-    router.push('./search/MobileSearch');
-  };
 
   const results = [
     { id: '1', name: 'SOFTENG 351', uni: 'UoA' },
@@ -58,22 +43,21 @@ const Landing: React.FC<LandingProps> = () => {
               type='text'
               className='px-2 focus:outline-none w-full'
               value={searchValue}
-              onFocus={toMobileSearch}
-              ref={searchInput}
+              autoFocus
               onChange={(event: ChangeEvent<HTMLInputElement>) =>
                 setSearchValue(event.currentTarget.value)
               }
             />
           </div>
           <div className='px-4 text-primary-900 border-l border-primary-900 border-opacity-40'>
-            <button onClick={() => !isMobile && setFilter({ ...filter, show: !filter.show })}>
+            <button onClick={() => setFilter({ ...filter, show: !filter.show })}>
               <FiFilter />
             </button>
           </div>
         </div>
       </section>
       <section
-        className='w-1/4   my-4 mx-auto '
+        className='w-2/3  xl:w-1/4 md:w-2/5  my-4 mx-auto '
         style={{ display: filter.show ? 'block' : 'none' }}
       >
         {/* //Todo add transition/animation to dropping down
@@ -82,9 +66,9 @@ const Landing: React.FC<LandingProps> = () => {
 
         <UniFilter list={universities} state={filter} action={setFilter} />
       </section>
-      <section className='w-1/3 md:w-1/2 xl:px-20 md:px-10 xl:w-2/5 mx-auto text-center'>
+      <section className='w-5/6 xl:px-24 sm:w-5/6 md:w-1/2  xl:w-2/5 mx-auto text-center'>
         {searchResults.loaded && (
-          <ul>
+          <ul className='w-full'>
             {results.map((result) => (
               <SearchResult result={result} key={result.id} />
             ))}
