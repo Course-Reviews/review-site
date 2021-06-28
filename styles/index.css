@@ -7,3 +7,8 @@
     -webkit-tap-highlight-color: transparent;
   }
 }
+#__next,
+body,
+html {
+  height: 100%;
+}

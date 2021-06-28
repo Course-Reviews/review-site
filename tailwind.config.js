@@ -9,7 +9,7 @@ module.exports = {
         /bg-(primary|secondary|info|warning|danger|success|gray)-(400|500|600)/,
         /ring-(primary|secondary|info|warning|danger|success|gray)-(400|500)/,
       ],
-    }
+    },
   },
 
   darkMode: false, // or 'media' or 'class'
@@ -118,6 +118,11 @@ module.exports = {
         800: '#004999',
         900: '#003c7d',
       },
+      uoa: '#00467F',
+      aut: '#000000',
+      vic: '#3E9C4F',
+      massey: '#8998B9',
+      otago: '#F9C000',
     },
     extend: {
       transitionProperty: {
@@ -158,25 +163,25 @@ module.exports = {
         'float-in': {
           '0%': {
             opacity: '0',
-            transform: 'translateY(-1rem) scale(0.8, 0.8)'
+            transform: 'translateY(-1rem) scale(0.8, 0.8)',
           },
           '75%': {
             opacity: '1',
           },
           '100%': {
-            transform: 'unset'
+            transform: 'unset',
           },
         },
         'float-out': {
           '0%': {
-            transform: 'unset'
+            transform: 'unset',
           },
           '25%': {
             opacity: '1',
           },
           '100%': {
             transform: 'translateY(-1rem) scale(0.8, 0.8)',
-            opacity: '0'
+            opacity: '0',
           },
         },
       },
@@ -185,7 +190,7 @@ module.exports = {
         'modal-bg-fade-in': 'modal-bg-fade-in 200ms',
         'modal-bg-fade-out': 'modal-bg-fade-out 200ms',
         'float-in': 'float-in 200ms',
-        'float-out': 'float-out 200ms'
+        'float-out': 'float-out 200ms',
       },
     },
   },
