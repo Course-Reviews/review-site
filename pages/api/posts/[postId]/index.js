@@ -1,4 +1,4 @@
-// a post request for a post on a course
+// a post request for a post on a course (work in progress)
 import Review from '../../../../models/review';
 
 const handler = async (req, res) => {
