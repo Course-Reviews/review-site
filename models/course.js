@@ -1,4 +1,4 @@
-import mongoose from 'moongoose';
+import mongoose from 'mongoose';
 
 const courseSchema = new mongoose.Schema({
   name: {
@@ -30,6 +30,6 @@ courseSchema.virtual('reviews', {
   foreignfield: 'owner',
 });
 
-const Course = moongoose.mode('Course', courseSchema);
+const Course = mongoose.mode('Course', courseSchema);
 
 export default Course;
