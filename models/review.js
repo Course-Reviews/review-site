@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const reviewSchema = new mongoose.Schema( { name: String }, { collection: 'Review' },
+const reviewSchema = new mongoose.Schema(
   {
     taken_date: {
       type: String,
