@@ -5,33 +5,38 @@ import BreadCrumbs from '../../components/atom/BreadCrumbs';
 import Col from '../../components/atom/Col';
 import CourseCard from '../../components/CourseCard';
 import Row from '../../components/atom/Row';
-
+import Badge from '../../components/atom/Badge';
+import { BiSortAZ } from 'react-icons/bi';
+import IconButton from '../../components/atom/IconButton';
 interface indexProps {}
 
 const index: React.FC<indexProps> = ({}) => (
   <Container as={'main'}>
     <Head>
-      <title>Please Work</title>
+      <title>Browse Courses</title>
       <link rel='icon' href='/favicon.ico' />
     </Head>
     <Row>
       <Col>
         <BreadCrumbs>
-          <BreadCrumbs.Item href='/'>Home</BreadCrumbs.Item>
+          <BreadCrumbs.Home />
           <BreadCrumbs.Item href='/courses'>Courses</BreadCrumbs.Item>
         </BreadCrumbs>
       </Col>
     </Row>
     <Row>
       <Col>
-        <h1 className={'text-2xl font-bold text-gray-800'}>All Courses</h1>
+        <div className={'flex justify-between items-center'}>
+          {' '}
+          <h1 className={'text-2xl font-bold text-gray-800'}>All Courses</h1>{' '}
+          <IconButton variant='none' icon={BiSortAZ} />
+        </div>
       </Col>
     </Row>
     <CourseCard name='SOFTENG 351' rating={4.4} uni='UoA' ratingCount={12} />
     <CourseCard name='SOFTENG 351' rating={4.4} uni='UoA' ratingCount={12} />
     <CourseCard name='SOFTENG 351' rating={4.4} uni='UoA' ratingCount={12} />
     <CourseCard name='SOFTENG 351' rating={4.4} uni='UoA' ratingCount={12} />
-
   </Container>
 );
 

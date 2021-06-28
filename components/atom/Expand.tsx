@@ -1,11 +1,12 @@
 import classnames from 'classnames';
-import React, { HTMLAttributes, useEffect, useRef } from 'react';
+import React, { ElementType, HTMLAttributes, useEffect, useRef } from 'react';
 
 interface ExpandProps extends HTMLAttributes<HTMLElement> {
   expanded?: boolean;
+  as?: ElementType;
 }
 
-const Expand: React.FC<ExpandProps> = ({ children, className, expanded, ...rest }) => {
+const Expand: React.FC<ExpandProps> = ({ children, className, expanded, as: Component = 'div', ...rest }) => {
   const container = useRef<any>(0);
 
   useEffect(() => {
@@ -22,7 +23,7 @@ const Expand: React.FC<ExpandProps> = ({ children, className, expanded, ...rest 
   }, [expanded]);
 
   return (
-    <div
+    <Component
       ref={container}
       className={classnames(
         'h-0 transition-height overflow-hidden duration-300 flex flex-col',
@@ -31,7 +32,7 @@ const Expand: React.FC<ExpandProps> = ({ children, className, expanded, ...rest 
       {...rest}
     >
       {children}
-    </div>
+    </Component>
   );
 };
 
