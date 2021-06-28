@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
 
-const courseSchema = new mongoose.Schema({ name: String }, { collection: 'Course' }, {
+const courseSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
   },
   description: {
     type: String,
@@ -21,7 +21,7 @@ const courseSchema = new mongoose.Schema({ name: String }, { collection: 'Course
   lecturers: {
     type: String,
     required: true,
-  }
+  },
 });
 
 courseSchema.virtual('reviews', {
