@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const courseSchema = new mongoose.Schema({
+const courseSchema = new mongoose.Schema({ name: String }, { collection: 'Course' }, {
   name: {
     type: String,
     required: true,
@@ -26,10 +26,12 @@ const courseSchema = new mongoose.Schema({
 
 courseSchema.virtual('reviews', {
   ref: 'Review',
-  localfield: '_id',
-  foreignfield: 'owner',
+  localField: '_id',
+  foreignField: 'owner',
 });
 
-const Course = mongoose.mode('Course', courseSchema);
+mongoose.models = {};
+
+const Course = mongoose.model('Course', courseSchema);
 
 export default Course;

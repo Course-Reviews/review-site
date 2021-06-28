@@ -1,36 +1,20 @@
-// work in progress
+import connectDB from '../../../../db/mongoose';
+import Course from '../../../../models/course';
 
-const dummy = [
-  {
-    name: 'softeng251',
-    description: 'Algorithms course',
-    uni: 'Uoa',
-    rating: 3,
-    lecturers: 'Bakh',
-  },
-  {
-    name: 'softeng250',
-    description: 'Java course',
-    uni: 'Uoa',
-    rating: 3,
-    lecturers: 'Ewan',
-  },
-];
+connectDB();
 
 const handler = async (req, res) => {
   if (req.method === 'GET') {
     const { courseName, uni } = req.query;
-    const query = {};
 
     if (uni) {
-      query.uni = uni;
+      const courses = await Course.find({ name: { $regex: courseName }, uni }, '_id name uni');
+      res.json(courses);
+    } else {
+      const courses = await Course.find({ name: { $regex: courseName } }, '_id name uni');
+      res.json(courses);
     }
 
-    // const course = await Course.find({query, name: { $regex: courseName} }, 'name uni');
-
-    const c = dummy.filter((course) => course.uni === uni && course.name.includes(courseName));
-
-    res.json(c);
   }
 };
 

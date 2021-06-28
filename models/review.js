@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const reviewSchema = new mongoose.Schema(
+const reviewSchema = new mongoose.Schema( { name: String }, { collection: 'Review' },
   {
     taken_date: {
       type: String,
@@ -23,6 +23,8 @@ const reviewSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+mongoose.models = {};
 
 const Review = mongoose.model('Review', reviewSchema);
 
