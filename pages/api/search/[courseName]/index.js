@@ -1,15 +1,35 @@
-import Course from '../../../../models/course';
+const dummy = [
+  {
+    name: 'softeng251',
+    description: 'Algorithms course',
+    uni: 'Uoa',
+    rating: 3,
+    lecturers: 'Bakh',
+  },
+  {
+    name: 'softeng250',
+    description: 'Java course',
+    uni: 'Uoa',
+    rating: 3,
+    lecturers: 'Ewan',
+  },
+];
 
 const handler = async (req, res) => {
-  const { courseName } = req.query;
+  if (req.method === 'GET') {
+    const { courseName, uni } = req.query;
+    const query = {};
 
-  const course = await Course.find({ name: { $regex: courseName }, uni: req.query.uni });
+    if (uni) {
+      query.uni = uni;
+    }
 
-  res.send({
-    name: course.name,
-    uni: course.uni
-  });
+    // const course = await Course.find({query, name: { $regex: courseName} }, 'name uni');
 
+    const c = dummy.filter((course) => course.uni === uni && course.name.includes(courseName));
+
+    res.json(c);
+  }
 };
 
 export default handler;

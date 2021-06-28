@@ -1,6 +1,6 @@
-import moongoose from 'moongoose';
+import mongoose from 'mongoose';
 
-const reviewSchema = new moongoose.Schema(
+const reviewSchema = new mongoose.Schema(
   {
     taken_date: {
       type: String,
@@ -14,7 +14,7 @@ const reviewSchema = new moongoose.Schema(
       required: true,
     },
     owner: {
-      type: moongoose.Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: 'Course',
     },
@@ -24,6 +24,6 @@ const reviewSchema = new moongoose.Schema(
   }
 );
 
-const Review = moongoose.model('Review', reviewSchema);
+const Review = mongoose.model('Review', reviewSchema);
 
 export default Review;
