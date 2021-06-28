@@ -8,10 +8,10 @@ const handler = async (req, res) => {
     const { courseName, uni } = req.query;
 
     if (uni) {
-      const courses = await Course.find({ name: { $regex: courseName }, uni }, '_id name uni');
+      const courses = await Course.find({ name: new RegExp(`^${courseName}.*`, 'i'), uni }, '_id name uni');
       res.json(courses);
     } else {
-      const courses = await Course.find({ name: { $regex: courseName } }, '_id name uni');
+      const courses = await Course.find({ name: new RegExp(`^${courseName}.*`, 'i')}, '_id name uni');
       res.json(courses);
     }
 

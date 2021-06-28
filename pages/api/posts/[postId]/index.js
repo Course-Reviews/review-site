@@ -1,6 +1,6 @@
 // a post request for a post on a course (work in progress)
-import Review from '../../../../models/review';
 import mongoose from 'mongoose';
+import Review from '../../../../models/review';
 import connectDB from '../../../../db/mongoose';
 
 connectDB();
