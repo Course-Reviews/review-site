@@ -1,12 +1,12 @@
-import React, { ChangeEvent, useState } from 'react';
-import { FiFeather, FiSearch } from 'react-icons/fi';
+import classNames from 'classnames';
+import React, { ChangeEvent, HTMLAttributes, useState } from 'react';
+import { FiSearch } from 'react-icons/fi';
 import fetchSearchResults from '../functions/fetchSearchResults';
 import Ripple from './atom/Ripple';
 import Loader from './Loader';
 import SearchResult, { Uni } from './SearchResult';
-export interface NavSearchProps {}
 
-const NavSearch: React.FC<NavSearchProps> = () => {
+const NavSearch: React.FC<HTMLAttributes<HTMLElement>> = ({ className }) => {
   const [searchResults, setSearchResults] = useState<{
     loaded: boolean;
     list: Uni[];
@@ -17,10 +17,11 @@ const NavSearch: React.FC<NavSearchProps> = () => {
 
   return (
     <div
-      className={` transition-width bg-gray-100 ${
-        focused ? 'w-2/3' : 'w-1/4  md:w-1/3'
-      } flex items-center hover:w-2/3  rounded-full
-      `}
+      className={classNames(
+        'transition-width bg-gray-100 flex items-center rounded-full',
+        focused ? 'w-72' : 'w-48',
+        className
+      )}
     >
       <Ripple
         className={'w-full md:max-w-md mx-auto '}
@@ -28,7 +29,7 @@ const NavSearch: React.FC<NavSearchProps> = () => {
         rippleClassName={'bg-primary-200'}
         rippleContainerClassName='rounded-full'
       >
-        <div className='flex items-center w-full'>
+        <div className='flex items-center w-full relative z-10'>
           <div className='pl-3'>
             <FiSearch size={20} />
           </div>
@@ -36,6 +37,7 @@ const NavSearch: React.FC<NavSearchProps> = () => {
             className='px-2 focus:outline-none w-full py-2  bg-transparent'
             onFocus={() => setFocused(true)}
             value={searchValue}
+            placeholder='Search Courses'
             onChange={(event: ChangeEvent<HTMLInputElement>) => {
               setSearchValue(event.currentTarget.value);
               fetchSearchResults({
@@ -50,7 +52,7 @@ const NavSearch: React.FC<NavSearchProps> = () => {
           {!searchResults.loaded && <Loader className='mx-4' />}
         </div>
         {focused && searchValue.length > 0 && (
-          <ul className='absolute mt-11 pl-3 bg-white rounded-lg w-full py-1 shadow'>
+          <ul className='absolute mt-12 px-2 bg-white rounded-lg w-full py-1 shadow-lg text-gray-700 transition-height'>
             {searchResults.loaded ? (
               searchResults.list.length > 0 ? (
                 searchResults.list.map((result) => (

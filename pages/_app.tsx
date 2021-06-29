@@ -13,6 +13,7 @@ import SearchButton from '../components/SearchButton';
 import ScrollToTop from '../components/ScrollToTop';
 import NavSearch from '../components/NavSearch';
 import { isMobile } from 'react-device-detect';
+import Footer from '../components/Footer';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   // Mobile search opens the modal instead
@@ -37,11 +38,12 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
               </a>
             </Link>
             <div className={`flex items-center ${isMobile ? 'w-2/3' : 'w-1/3'} justify-end`}>
-              {isMobile ? <SearchButton /> : <NavSearch />}
+               <SearchButton className={'sm:hidden'} /> <NavSearch className={'hidden sm:flex'} />
             </div>
           </Container>
         </Navbar>
         <Component {...pageProps} />
+        <Footer />
         <ScrollToTop />
       </div>
     </ModalProvider>
