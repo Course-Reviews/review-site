@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const courseSchema = new mongoose.Schema({
-  name: {
+  title: {
     type: String,
     required: true,
     trim: true,
@@ -9,19 +9,56 @@ const courseSchema = new mongoose.Schema({
   description: {
     type: String,
     required: true,
+    trim: true,
+  },
+  code: {
+    type: String,
+    required: true,
+    trim: true,
   },
   uni: {
     type: String,
     required: true,
+    trim: true,
   },
-  rating: {
-    type: Number,
+  faculty: {
+    type: String,
     required: true,
+    trim: true,
   },
-  lecturers: {
+  no_of_reviews: {
+    type: Number,
+    default: 0,
+  },
+  url: {
     type: String,
     required: true,
   },
+  term: [
+    {
+      type: String,
+    },
+  ],
+  requirements: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      course_type: String,
+      ref: 'Course',
+      unique: true,
+    },
+  ],
+  assessments: [
+    {
+      name: {
+        type: String,
+        required: true,
+      },
+      percentage: {
+        type: Number,
+        required: true,
+      },
+    },
+  ],
 });
 
 courseSchema.virtual('reviews', {
