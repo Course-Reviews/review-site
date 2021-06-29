@@ -10,16 +10,12 @@ import { useModal } from 'async-modals';
 import Button from '../../../components/atom/Button';
 import MessageModal from '../../../components/MessageModal';
 import Card from '../../../components/atom/Card';
-import {
-  FiBook,
-  FiChevronUp,
-  FiMessageSquare,
-  FiStar,
-} from 'react-icons/fi';
+import { FiBook, FiChevronUp, FiMessageSquare, FiStar } from 'react-icons/fi';
 import { useState } from 'react';
 import Expand from '../../../components/atom/Expand';
 import classNames from 'classnames';
 import Review from '../../../components/Review';
+import Accordian from '../../../components/atom/Accordian';
 
 export interface CourseProps {
   id: number;
@@ -44,11 +40,8 @@ interface CourseParams {
   };
 }
 
-const Course: React.FC<CourseProps> = ({id, code, title, pageId}) => {
-
+const Course: React.FC<CourseProps> = ({ id, code, title, pageId, description }) => {
   const messageModal = useModal(MessageModal);
-
-  const [courseInfo, setCourseInfo] = useState<boolean>(false);
 
   const showModal = async () => {
     await messageModal.show();
@@ -72,7 +65,9 @@ const Course: React.FC<CourseProps> = ({id, code, title, pageId}) => {
       </Row>
       <Row>
         <Col>
-          <h1 className={'text-2xl font-bold text-gray-800'}>{code} - {title}</h1>
+          <h1 className={'text-2xl font-bold text-gray-800'}>
+            {code} - {title}
+          </h1>
           <h2 className={'text-sm font-semibold text-gray-500'}>The University of Auckland</h2>
         </Col>
         <Col className={'items-end fixed md:static bottom-0 left-0 p-6 md:p-0'}>
@@ -82,36 +77,62 @@ const Course: React.FC<CourseProps> = ({id, code, title, pageId}) => {
           </Button>
         </Col>
       </Row>
-      <Row onClick={() => setCourseInfo((v) => !v)}>
+      <Row>
         <Col>
-          <h2 className={'text-xl font-semibold text-gray-800 flex items-center justify-between'}>
-            <div className={'flex items-center'}>
-              <FiBook className={'mr-2'} />
-              Course Info
-            </div>
-            <button>
-              <FiChevronUp
-                size={30}
-                className={classNames('transform transition-transform', courseInfo && 'rotate-180')}
-              />
-            </button>
+          <h2 className={'text-xl font-bold text-gray-800 flex items-center'}>
+            <FiBook className={'mr-2'} />
+            Course Info
           </h2>
         </Col>
       </Row>
       <Row>
         <Col>
-          <Expand expanded={courseInfo} className={'rounded-xl shadow-lg'}>
-            <Card>
-              <Card.Body>
-                <Card.Text>wow</Card.Text>
-              </Card.Body>
-            </Card>
-          </Expand>
+          <Card>
+            <Card.Body>
+              <Accordian>
+                <Accordian.Item>
+                  <Accordian.Header>
+                    <h3 className={'text-lg font-semibold text-gray-700'}>Course Overview</h3>
+                  </Accordian.Header>
+                  <Accordian.Body>
+                    <p className={'text-gray-700'}>{description}</p>
+                  </Accordian.Body>
+                </Accordian.Item>
+                <Accordian.Item>
+                  <Accordian.Header>
+                    <h3 className={'text-lg font-semibold text-gray-700'}>Assessments</h3>
+                  </Accordian.Header>
+                  <Accordian.Body>
+                    <p className={'text-gray-700'}>{description}</p>
+                  </Accordian.Body>
+                </Accordian.Item>
+              </Accordian>
+              <Accordian>
+                <Accordian.Item>
+                  <Accordian.Header>
+                    <h3 className={'text-lg font-semibold text-gray-700'}>Course Overview</h3>
+                  </Accordian.Header>
+                  <Accordian.Body>
+                    <p className={'text-gray-700'}>{description}</p>
+                  </Accordian.Body>
+                </Accordian.Item>
+                <Accordian.Item>
+                  <Accordian.Header>
+                    <h3 className={'text-lg font-semibold text-gray-700'}>Assessments</h3>
+                  </Accordian.Header>
+                  <Accordian.Body>
+                    <p className={'text-gray-700'}>{description}</p>
+                  </Accordian.Body>
+                </Accordian.Item>
+              </Accordian>
+              <div className={'text-primary-500'}></div>
+            </Card.Body>
+          </Card>
         </Col>
       </Row>
       <Row>
         <Col>
-          <h2 className={'text-xl font-semibold text-gray-800 flex items-center'}>
+          <h2 className={'text-xl font-bold text-gray-800 flex items-center'}>
             <FiMessageSquare />
             <div className={'mx-2'}>Reviews</div>
             <div className={'text-secondary-700 font-bold text-sm'}>(13)</div>
@@ -169,38 +190,37 @@ export const getStaticPaths: GetStaticPaths = async () => ({
   fallback: false,
 });
 
-export const getStaticProps: GetStaticProps = async ({ params }): Promise<{ props: CourseProps; }> => ({
-  props:   {
-    'id': 21563,
-    'term': [
-      0,
-      3,
-      5
+export const getStaticProps: GetStaticProps = async ({
+  params,
+}): Promise<{ props: CourseProps }> => ({
+  props: {
+    id: 21563,
+    term: [0, 3, 5],
+    code: 'ACCTG 101',
+    pageId: 'acctg101',
+    title: 'Accounting Information',
+    description:
+      'This course focuses on understanding the reason why as well as how economic events affect a firm’s financial statements. Rather than simply rote learning the impact of financial transactions on a companies’ financial statements, this course teaches you why accountants record the transactions the way they do and this will help you to explain financial statements in layman terms to other users.',
+    university: 'uoa',
+    faculty: 'Business and Economics',
+    url: 'https://courseoutline.auckland.ac.nz/dco/course/ACCTG/101/1200',
+    assessments: [
+      {
+        name: 'Quizzes',
+        percentage: 10,
+      },
+      {
+        name: 'Assignment (1-3)',
+        percentage: 20,
+      },
+      {
+        name: 'Test',
+        percentage: 20,
+      },
+      {
+        name: 'Final Exam',
+        percentage: 50,
+      },
     ],
-    'code': 'ACCTG 101',
-    'pageId': 'acctg101',
-    'title': 'Accounting Information',
-    'description': 'This course focuses on understanding the reason why as well as how economic events affect a firm’s financial statements. Rather than simply rote learning the impact of financial transactions on a companies’ financial statements, this course teaches you why accountants record the transactions the way they do and this will help you to explain financial statements in layman terms to other users.',
-    'university': 'uoa',
-    'faculty': 'Business and Economics',
-    'url': 'https://courseoutline.auckland.ac.nz/dco/course/ACCTG/101/1200',
-    'assessments': [
-      {
-        'name': 'Quizzes',
-        'percentage': 10
-      },
-      {
-        'name': 'Assignment (1-3)',
-        'percentage': 20
-      },
-      {
-        'name': 'Test',
-        'percentage': 20
-      },
-      {
-        'name': 'Final Exam',
-        'percentage': 50
-      }
-    ]
   },
 });
