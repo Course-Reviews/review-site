@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 export type Uni = {
   id: string;
-  name: string;
+  code: string;
   uni: string;
 };
 
@@ -16,7 +16,7 @@ export interface SearchResultProps {
 }
 
 const SearchResult: React.FC<SearchResultProps> = ({ result, className, isCondensed }) => (
-  <Link key={result.id} href={`/courses/${result.uni}/${result.name.replace(' ', '')}`}>
+  <Link key={result.id} href={`/courses/${result.uni}/${result.code.replace(' ', '').toLowerCase()}`}>
     <a>
       <li
         className={`hover:bg-gray-100 flex items-center w-full justify-between py-2 my-2 px-4   ${className}`}
@@ -27,7 +27,7 @@ const SearchResult: React.FC<SearchResultProps> = ({ result, className, isConden
               <FiSearch />
             </div>
           )}
-          <span className='px-2 font-semibold uppercase'>{result.name}</span>
+          <span className='px-2 font-semibold uppercase'>{result.code}</span>
         </div>
         <div className='w-1/4 text-right'>
           <UniTag uni={result.uni} />
