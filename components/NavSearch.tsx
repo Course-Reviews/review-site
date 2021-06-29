@@ -52,7 +52,7 @@ const NavSearch: React.FC<HTMLAttributes<HTMLElement>> = ({ className }) => {
           {!searchResults.loaded && <Loader className='mx-4' />}
         </div>
         {focused && searchValue.length > 0 && (
-          <ul className='absolute mt-12 pl-4 bg-white rounded-lg w-full py-1 shadow-lg text-gray-700 transition-height'>
+          <ul className='absolute mt-12 px-2 bg-white rounded-lg w-full py-1 shadow-lg text-gray-700 transition-height'>
             {searchResults.loaded ? (
               searchResults.list.length > 0 ? (
                 searchResults.list.map((result) => (

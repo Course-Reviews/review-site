@@ -7,29 +7,29 @@ import SearchResult, { Uni } from './SearchResult';
 import UniFilter from './UniFilter';
 import Loader from './Loader';
 import fetchSearchResults from '../functions/fetchSearchResults';
-
+import Link from 'next/link';
 interface CourseSearchProps {}
 
 const CourseSearch: React.FC<CourseSearchProps> = ({}) => {
-  const [filter, setFilter] = useState<{
-    value: string;
-    show: boolean;
-  }>({ value: 'uoa', show: false }); // Todo only filters by university right now
+  // const [filter, setFilter] = useState<{
+  //   value: string;
+  //   show: boolean;
+  // }>({ value: 'uoa', show: false }); // Todo only filters by university right now
   const [searchResults, setSearchResults] = useState<{
     loaded: boolean;
     list: Uni[];
   }>({ list: [], loaded: true });
   const [searchValue, setSearchValue] = useState<string>('');
-  const universities: string[] = ['UoA', 'Massey', 'AUT', 'VIC', 'Otago'];
+  // const universities: string[] = ['UoA', 'Massey', 'AUT', 'VIC', 'Otago'];
 
   // Todo is condensed
 
   return (
     <>
-      <section className='container flex flex-col '>
-        <h1 className='text-center font-semibold py-4'>Search your courses for reviews</h1>
+      <section className='container flex flex-col rounded-full '>
+        <h1 className='text-center font-semibold py-4'>Search reviews for your courses</h1>
         <Ripple
-          className={'w-5/6 md:max-w-md mx-auto bg-white '}
+          className={'w-5/6 md:max-w-md mx-auto bg-white rounded-full'}
           grow
           rippleClassName={'bg-primary-200'}
           rippleContainerClassName='rounded-full'
@@ -40,6 +40,7 @@ const CourseSearch: React.FC<CourseSearchProps> = ({}) => {
               type='text'
               className='px-2 focus:outline-none w-full py-2 bg-transparent'
               autoFocus
+              placeholder='ACCTG 102'
               value={searchValue}
               onChange={(event: ChangeEvent<HTMLInputElement>) => {
                 setSearchValue(event.currentTarget.value);
@@ -47,12 +48,14 @@ const CourseSearch: React.FC<CourseSearchProps> = ({}) => {
                   searchValue: event.currentTarget.value,
                   state: searchResults,
                   action: setSearchResults,
-                  filter: filter.value,
+                  filter: 'uoa',
                 });
               }}
             />
-            {!searchResults.loaded && <Loader className='mx-4' />}
-            <button
+            <div className={`${!searchResults.loaded ? 'opacity-100' : 'opacity-0'}`}>
+              <Loader className='mx-4' />
+            </div>
+            {/* <button
               onClick={() => setFilter({ ...filter, show: !filter.show })}
               className={classNames(
                 filter.show ? 'text-primary-500' : 'text-primary-900',
@@ -60,27 +63,28 @@ const CourseSearch: React.FC<CourseSearchProps> = ({}) => {
               )}
             >
               <FiFilter size={20} />
-            </button>
+            </button> */}
           </div>
         </Ripple>
       </section>
-      <Expand expanded={filter.show} className='w-2/3 xl:w-1/4 md:w-2/5  my-4 mx-auto'>
+      {/* <Expand expanded={filter.show} className='w-2/3 xl:w-1/4 md:w-2/5  my-4 mx-auto'>
         {/* //Todo add transition/animation to dropping down
-         */}
+         }
         <div>
           <span className='text-sm text-gray-700'>Filter by:</span>
           <UniFilter list={universities} state={filter} action={setFilter} />
         </div>
       </Expand>
-      <section className='w-5/6 xl:px-24 sm:w-5/6 md:w-1/2  xl:w-2/5 mx-auto text-center'>
+      */}
+      <section className='mt-2 w-5/6 xl:px-24 sm:w-5/6 md:w-1/2  2xl:w-3/12 xl:w-5/12 mx-auto text-center'>
         {searchResults.loaded && (
-          <ul className='w-full'>
+          <ul className='w-full bg-white shadow-lg rounded-lg'>
             {searchResults.list.map((result) => (
               <SearchResult
                 result={result}
                 key={result.id}
                 isCondensed={false}
-                className='bg-gray-100'
+                className='bg-white'
               />
             ))}
           </ul>
@@ -89,7 +93,7 @@ const CourseSearch: React.FC<CourseSearchProps> = ({}) => {
         {searchValue.length > 0 && searchResults.loaded && searchResults.list.length < 1 && (
           <div>
             <span>No results.</span>
-            <div className='flex items-center flex-col my-4'>
+            <div className='flex items-center flex-col my-4 '>
               <div className='my-4'>
                 <FiInfo size='20' />
               </div>
@@ -98,6 +102,9 @@ const CourseSearch: React.FC<CourseSearchProps> = ({}) => {
             </div>
           </div>
         )}
+        <Link href='/courses'>
+          <a className='text-center pt-4 font-bold'>Browse All Courses</a>
+        </Link>
       </section>
     </>
   );

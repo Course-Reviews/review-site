@@ -124,7 +124,15 @@ module.exports = {
       massey: '#8998B9',
       otago: '#F9C000',
     },
+
     extend: {
+      height: {
+        '90vh': '90vh',
+        '80vh': '80vh',
+      },
+      backgroundImage: {
+        hero: 'url(../assets/landing-background.svg)',
+      },
       transitionProperty: {
         width: 'width',
         height: 'height',
