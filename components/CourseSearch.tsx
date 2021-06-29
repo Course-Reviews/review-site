@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { FiSearch, FiFilter, FiInfo } from 'react-icons/fi';
 import Expand from './atom/Expand';
 import Ripple from './atom/Ripple';
@@ -8,6 +8,8 @@ import UniFilter from './UniFilter';
 import Loader from './Loader';
 import fetchSearchResults from '../functions/fetchSearchResults';
 import Link from 'next/link';
+import { MixpanelConsumer } from 'react-mixpanel';
+
 interface CourseSearchProps {}
 
 const CourseSearch: React.FC<CourseSearchProps> = ({}) => {
@@ -15,12 +17,47 @@ const CourseSearch: React.FC<CourseSearchProps> = ({}) => {
   //   value: string;
   //   show: boolean;
   // }>({ value: 'uoa', show: false }); // Todo only filters by university right now
+
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const [searchResults, setSearchResults] = useState<{
     loaded: boolean;
     list: Uni[];
   }>({ list: [], loaded: true });
   const [searchValue, setSearchValue] = useState<string>('');
+  const [showUI, setShowUI] = useState<boolean>(false);
   // const universities: string[] = ['UoA', 'Massey', 'AUT', 'VIC', 'Otago'];
+  const [timeout, setTime] = useState(null);
+
+  const delayedSearch = (value: string, mixpanel: any) => {
+    // if (!showUI) {
+    // setShowUI(true);
+    // }
+  };
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+      inputRef?.current.addEventListener('keyup', function (e) {
+        clearTimeout(timeout);
+        setShowUI(false);
+        const time = setTimeout(() => {
+          setShowUI(true);
+
+          fetchSearchResults({
+            searchValue: inputRef.current.value,
+            state: searchResults,
+            action: setSearchResults,
+            filter: 'uoa',
+          });
+          console.log('Value:', inputRef.current.value);
+
+          // mixpanel.track('Search Course', { value: event.currentTarget.value });
+        }, 1000);
+        setTimeout(time);
+      });
+    }
+  }, []);
 
   return (
     <>
@@ -34,23 +71,32 @@ const CourseSearch: React.FC<CourseSearchProps> = ({}) => {
         >
           <div className='focus-within:ring-4 focus-within:ring-primary-300 pl-4 my-auto flex items-center border rounded-full shadow-lg relative z-10'>
             <FiSearch size={20} />
-            <input
-              type='text'
-              className='px-2 focus:outline-none w-full py-2 bg-transparent'
-              autoFocus
-              placeholder='ACCTG 102'
-              value={searchValue}
-              onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                setSearchValue(event.currentTarget.value);
-                fetchSearchResults({
-                  searchValue: event.currentTarget.value,
-                  state: searchResults,
-                  action: setSearchResults,
-                  filter: 'uoa',
-                });
-              }}
-            />
-            <div className={`${!searchResults.loaded ? 'opacity-100' : 'opacity-0'}`}>
+            <MixpanelConsumer>
+              {(mixpanel: any) => (
+                <input
+                  type='text'
+                  className='px-2 focus:outline-none w-full py-2 bg-transparent'
+                  autoFocus
+                  ref={inputRef}
+                  placeholder='ACCTG 102'
+                  // value={searchValue}
+                  onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>) => {
+                    const value = event.key;
+
+                    setSearchValue(value);
+
+                    // delayedSearch(value, mixpanel);
+                  }}
+                />
+              )}
+            </MixpanelConsumer>
+            <div
+              className={`${
+                showUI && inputRef.current.value.length > 0 && !searchResults.loaded
+                  ? 'opacity-100'
+                  : 'opacity-0'
+              }`}
+            >
               <Loader className='mx-4' />
             </div>
             {/* <button
@@ -90,18 +136,21 @@ const CourseSearch: React.FC<CourseSearchProps> = ({}) => {
           )}
         </Expand>
 
-        {searchValue.length > 0 && searchResults.loaded && searchResults.list.length < 1 && (
-          <div className='bg-white shadow rounded-lg py-2 '>
-            <span>No results.</span>
-            <div className='flex items-center flex-col my-4 '>
-              <div className='my-4'>
-                <FiInfo size='20' />
+        {showUI &&
+          inputRef.current?.value.length > 0 &&
+          searchResults.loaded &&
+          searchResults.list.length < 1 && (
+            <div className='bg-white shadow rounded-lg py-2 '>
+              <span>No results.</span>
+              <div className='flex items-center flex-col my-4 '>
+                <div className='my-4'>
+                  <FiInfo size='20' />
+                </div>
+                <span>Is your course not here?</span>
+                <span className='text-info-600 my-2'>Please tell us!</span>
               </div>
-              <span>Is your course not here?</span>
-              <span className='text-info-600 my-2'>Please tell us!</span>
             </div>
-          </div>
-        )}
+          )}
         <Link href='/courses'>
           <a className='text-center pt-4 font-bold'>Browse All Courses</a>
         </Link>
