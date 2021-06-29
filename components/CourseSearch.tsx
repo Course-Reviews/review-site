@@ -3,7 +3,7 @@ import React, { ChangeEvent, useState } from 'react';
 import { FiSearch, FiFilter, FiInfo } from 'react-icons/fi';
 import Expand from './atom/Expand';
 import Ripple from './atom/Ripple';
-import SearchResult from './SearchResult';
+import SearchResult, { Uni } from './SearchResult';
 import UniFilter from './UniFilter';
 import { Uni } from './SearchResult';
 import Loader from './Loader';
