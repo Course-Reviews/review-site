@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Link from 'next/link';
 import React, { Fragment } from 'react';
 import CourseSearch from '../components/CourseSearch';
 
@@ -22,6 +23,9 @@ const Landing: React.FC<LandingProps> = () => (
     </Head>
     <main className='mt-10 mx-auto h-80vh md:h-90vh my-auto md:flex md:flex-col md:w-full md:justify-center md:items-center bg-hero bg-bottom bg-no-repeat md:bg-cover bg-contain '>
       <CourseSearch />
+      <Link href='/courses'>
+          <a className='text-center pt-4 font-bold'>Browse All Courses</a>
+        </Link>
     </main>
   </Fragment>
 );
