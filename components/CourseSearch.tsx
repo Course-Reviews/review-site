@@ -5,7 +5,6 @@ import Expand from './atom/Expand';
 import Ripple from './atom/Ripple';
 import SearchResult, { Uni } from './SearchResult';
 import UniFilter from './UniFilter';
-import { Uni } from './SearchResult';
 import Loader from './Loader';
 import fetchSearchResults from '../functions/fetchSearchResults';
 
