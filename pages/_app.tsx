@@ -20,7 +20,7 @@ import { MixpanelProvider, MixpanelConsumer } from 'react-mixpanel';
 const MyApp = ({ Component, pageProps }: AppProps) => {
   // Mobile search opens the modal instead
   mixpanel.init('08d4d7028dcc32f1449375dc93c154c7');
-  console.log(mixpanel);
+  // console.log(mixpanel);
   return (
     <MixpanelProvider mixpanel={mixpanel}>
       <ModalProvider

@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { FiArrowUp } from 'react-icons/fi';
@@ -33,8 +34,8 @@ const ScrollToTop: React.FC<ScrollToTopProps> = ({}) => {
   };
 
   return (
-    <div className={'fixed bottom-0 left:0 md:right-0 m-5'}>
-    {<IconButton icon={FiArrowUp} innerClassName={show ? 'animate-float-in' : 'animate-float-out opacity-0'} onClick={handleClick}/>}
+    <div className={classNames('fixed bottom-0 left:0 md:right-0 m-5', show ? 'animate-float-in' : 'animate-float-out opacity-0')}>
+    {<IconButton icon={FiArrowUp}  onClick={handleClick}/>}
     </div>
   );
 };

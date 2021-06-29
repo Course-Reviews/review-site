@@ -50,7 +50,7 @@ const CourseSearch: React.FC<CourseSearchProps> = ({}) => {
             action: setSearchResults,
             filter: 'uoa',
           });
-          console.log('Value:', inputRef.current.value);
+          // console.log('Value:', inputRef.current.value);
 
           // mixpanel.track('Search Course', { value: event.currentTarget.value });
         }, 1000);

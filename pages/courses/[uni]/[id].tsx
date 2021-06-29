@@ -171,7 +171,7 @@ const Course: React.FC<CourseProps> = ({
                     <p className={'text-gray-700'}>{description}</p>
                     {url && <a
                       className={
-                        'text-primary-300 text-sm font-semibold hover:text-primary-100 flex p-2'
+                        'text-primary-400 text-sm font-semibold hover:text-primary-500 flex p-2 underline'
                       }
                       href={url}
                     >

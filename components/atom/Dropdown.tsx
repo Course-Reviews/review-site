@@ -8,24 +8,25 @@ import Button from './Button';
 import Expand from './Expand';
 import { FiChevronDown } from 'react-icons/fi';
 
-interface Option { label: string; value: string | number | boolean }
+export interface Option { label: string; value: string | number | boolean }
 
 interface DropdownProps {
   options: Option[];
-
+  selectedIndex?: number;
   disabled?: boolean;
 }
 
-const Dropdown: React.FC<DropdownProps> = ({ options, children, disabled, ...rest }) => {
-  const [focused, setFocused] = useState<boolean>(true);
-  const [option, setOption] = useState<Option>(options[0]);
+const Dropdown: React.FC<DropdownProps> = ({ options, children, selectedIndex = 0, disabled, ...rest }) => {
+  selectedIndex = selectedIndex === -1 ? 0 : selectedIndex;
+  const [focused, setFocused] = useState<boolean>(false);
+  const [option, setOption] = useState<Option>(options[selectedIndex]);
 
   return (
     <div className={'relative w-full'}>
         <Ripple disabled={disabled} grow rippleClassName={'bg-primary-100'} rippleContainerClassName='rounded-xl'>
       <button
       className={'bg-transparent border border-gray-300 px-3 py-2 rounded-xl focus:outline-none focus:ring focus:ring-primary-300 relative z-10 flex items-center text-gray-800'}
-      onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} >
+      onClick={() => setFocused(v => !v)} onBlur={() => setFocused(false)} >
           {option.label}
           <FiChevronDown className={'ml-2 absolute right-3'} size={20}/>
         </button>

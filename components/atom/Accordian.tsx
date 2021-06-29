@@ -75,6 +75,7 @@ const AccordianBody: React.FC<AccordianBodyProps> = ({
   expanded,
   children,
   className,
+  setExpanded,
   ...rest
 }) => (
   <Expand expanded={expanded} {...rest}>
