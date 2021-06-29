@@ -14,11 +14,10 @@ const SearchModal: React.FC<ModalType<void, void>> = ({ isClosing, cancel }) => 
     )}
   >
     <div className={'text-gray-800 flex items-center justify-end -mx-1'}>
-      {close && (
-        <button onClick={close}>
+        <button onClick={cancel}>
           <FiX size={24} />
         </button>
-      )}
+
     </div>
     <CourseSearch />
   </div>

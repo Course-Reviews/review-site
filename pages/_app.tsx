@@ -37,7 +37,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
               </a>
             </Link>
             <div className={`flex items-center ${isMobile ? 'w-2/3' : 'w-1/3'} justify-end`}>
-              {isMobile ? <SearchButton /> : <NavSearch />}
+               <SearchButton className={'sm:hidden'} /> <NavSearch className={'hidden sm:flex'} />
             </div>
           </Container>
         </Navbar>

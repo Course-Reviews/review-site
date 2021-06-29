@@ -14,7 +14,7 @@ const StarRating: React.FC<StarRatingProps> = ({ rating, size = 24, className, .
         size={size}
         className={'mx-0.5'}
         key={i}
-        fill={rating > e + 1 ? 'currentColor' : 'none'}
+        fill={rating >= e + 1 ? 'currentColor' : 'none'}
       />
     ))}
   </div>

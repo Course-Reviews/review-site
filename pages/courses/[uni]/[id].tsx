@@ -12,8 +12,6 @@ import MessageModal from '../../../components/MessageModal';
 import Card from '../../../components/atom/Card';
 import {
   FiBook,
-  FiChevronDown,
-  FiChevronRight,
   FiChevronUp,
   FiMessageSquare,
   FiStar,
@@ -23,24 +21,22 @@ import Expand from '../../../components/atom/Expand';
 import classNames from 'classnames';
 import Review from '../../../components/Review';
 
-
-
 export interface CourseProps {
   id: number;
+  pageId: string;
   description?: string;
   term: number[];
   title: string;
   code: string;
   faculty: string;
-  requirements: string;
+  requirements?: string;
   url?: string;
   university: string;
   assessments?: Array<{
-      name: string;
-      percentage: number;
-  }>
+    name: string;
+    percentage: number;
+  }>;
 }
-
 
 interface CourseParams {
   params: {
@@ -48,7 +44,8 @@ interface CourseParams {
   };
 }
 
-const Course: React.FC<CourseProps> = ({ id }) => {
+const Course: React.FC<CourseProps> = ({id, code, title, pageId}) => {
+
   const messageModal = useModal(MessageModal);
 
   const [courseInfo, setCourseInfo] = useState<boolean>(false);
@@ -58,7 +55,7 @@ const Course: React.FC<CourseProps> = ({ id }) => {
   };
 
   return (
-    <Container as={'main'} style={{ height: '200vh' }}>
+    <Container as={'main'}>
       <Head>
         <title>{id}</title>
         <link rel='icon' href='/favicon.ico' />
@@ -68,14 +65,15 @@ const Course: React.FC<CourseProps> = ({ id }) => {
           <BreadCrumbs>
             <BreadCrumbs.Home />
             <BreadCrumbs.Item href='/courses'>Courses</BreadCrumbs.Item>
-            <BreadCrumbs.Item href={`/courses/${id}`}>{id}</BreadCrumbs.Item>
+            <BreadCrumbs.Item href={'/courses/uoa'}>UoA</BreadCrumbs.Item>
+            <BreadCrumbs.Item href={`/courses/uoa/${pageId}`}>{code}</BreadCrumbs.Item>
           </BreadCrumbs>
         </Col>
       </Row>
       <Row>
         <Col>
-          <h1 className={'text-2xl font-bold text-gray-800'}>{id}</h1>
-          <h1 className={'text-sm font-semibold text-gray-500'}>The University of Auckland</h1>
+          <h1 className={'text-2xl font-bold text-gray-800'}>{code} - {title}</h1>
+          <h2 className={'text-sm font-semibold text-gray-500'}>The University of Auckland</h2>
         </Col>
         <Col className={'items-end fixed md:static bottom-0 left-0 p-6 md:p-0'}>
           <Button onClick={showModal}>
@@ -152,7 +150,7 @@ export const getStaticPaths: GetStaticPaths = async () => ({
     {
       params: {
         uni: 'uoa',
-        id: 'SOFTENG350',
+        id: 'acctg101',
       },
     },
     {
@@ -171,10 +169,38 @@ export const getStaticPaths: GetStaticPaths = async () => ({
   fallback: false,
 });
 
-export const getStaticProps: GetStaticProps = async ({ params }) => ({
-  props: {
-    data: {
-      id: params?.id,
-    },
-  }, // will be passed to the page component as props
+export const getStaticProps: GetStaticProps = async ({ params }): Promise<{ props: CourseProps; }> => ({
+  props:   {
+    'id': 21563,
+    'term': [
+      0,
+      3,
+      5
+    ],
+    'code': 'ACCTG 101',
+    'pageId': 'acctg101',
+    'title': 'Accounting Information',
+    'description': 'This course focuses on understanding the reason why as well as how economic events affect a firm’s financial statements. Rather than simply rote learning the impact of financial transactions on a companies’ financial statements, this course teaches you why accountants record the transactions the way they do and this will help you to explain financial statements in layman terms to other users.',
+    'university': 'uoa',
+    'faculty': 'Business and Economics',
+    'url': 'https://courseoutline.auckland.ac.nz/dco/course/ACCTG/101/1200',
+    'assessments': [
+      {
+        'name': 'Quizzes',
+        'percentage': 10
+      },
+      {
+        'name': 'Assignment (1-3)',
+        'percentage': 20
+      },
+      {
+        'name': 'Test',
+        'percentage': 20
+      },
+      {
+        'name': 'Final Exam',
+        'percentage': 50
+      }
+    ]
+  },
 });

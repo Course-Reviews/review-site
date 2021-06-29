@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import UniTag from './UniTag';
 import { FiSearch } from 'react-icons/fi';
+import classNames from 'classnames';
 
 export type Uni = {
   id: string;
@@ -14,23 +15,24 @@ export interface SearchResultProps {
   className?: string;
 }
 
-const SearchResult: React.FC<SearchResultProps> = (props) => (
-  <Link key={props.result.id} href='#' passHref>
+const SearchResult: React.FC<SearchResultProps> = ({ result, className, isCondensed }) => (
+  <Link key={result.id} href='#' passHref>
     <li
-      className={`flex items-center w-full justify-between py-3 my-4 px-4 rounded-full ${props.className}`}
+      className={classNames(
+        'flex items-center w-full justify-between my-4 rounded-full',
+        isCondensed ? 'px-1 py-0.5' : 'px-4 py-3',
+        className
+      )}
     >
       <div className='flex items-center'>
-        {!props.isCondensed && (
-          <div className='text-primary-900 '>
+        {!isCondensed && (
+          <div className='text-primary-900'>
             <FiSearch />
           </div>
         )}
-        <span className='px-2 font-semibold uppercase'>{props.result.name}</span>
+        <span className='px-2 font-semibold uppercase'>{result.name}</span>
       </div>
-
-      <div className='w-1/4'>
-        <UniTag uni={props.result.uni} />
-      </div>
+        <UniTag uni={result.uni} className='w-1/4'/>
     </li>
   </Link>
 );

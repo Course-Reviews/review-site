@@ -19,7 +19,7 @@ const Review: React.FC<ReviewProps> = ({ name, rating, content }) => (
       <div className={'flex flex-col'}>
         {' '}
         <div className={'mt-2'}>{content}</div>
-        <div className={'italic font-semibold text-gray-500'}>-{name ? name : 'Anonymous'}</div>
+        <div className={'italic font-semibold text-gray-500'}>- {name ? name : 'Anonymous'}</div>
       </div>
     </Card.Body>
   </Card>
