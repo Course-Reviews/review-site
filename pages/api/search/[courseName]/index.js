@@ -10,9 +10,16 @@ const handler = async (req, res) => {
     if (uni) {
       try {
         const courses = await Course.find(
-          { name: new RegExp(`^${courseName}.*`, 'i'), uni },
-          '_id name uni'
+          {
+            $or: [
+              { code: new RegExp(`^${courseName}.*`, 'i') },
+              { code: new RegExp(`.*\\s${courseName}.*`, 'i') },
+            ],
+            uni,
+          },
+          '_id code uni'
         );
+
         res.status(200).json(courses);
       } catch (e) {
         res.status(400).json(e);
@@ -20,9 +27,15 @@ const handler = async (req, res) => {
     } else {
       try {
         const courses = await Course.find(
-          { name: new RegExp(`^${courseName}.*`, 'i') },
-          '_id name uni'
+          {
+            $or: [
+              { code: new RegExp(`^${courseName}.*`, 'i') },
+              { code: new RegExp(`.*\\s${courseName}.*`, 'i') },
+            ],
+          },
+          '_id code uni'
         );
+
         res.json(courses);
       } catch (e) {
         res.status(400).json(e);
