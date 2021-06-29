@@ -4,14 +4,15 @@ import { HTMLAttributes } from 'react';
 import { useState } from 'react';
 import Expand from './Expand';
 import classNames from 'classnames';
-import { FiChevronUp } from 'react-icons/fi';
+import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import { SetStateAction } from 'react';
 import { Dispatch } from 'react';
+import IconButton from './IconButton';
 
 interface AccordianProps extends HTMLAttributes<HTMLElement> {}
 
 const Accordian: React.FC<AccordianProps> = ({ children, className, ...rest }) => (
-  <div className={classnames('flex flex-col mb-2', className)}>{children}</div>
+  <div className={classnames('mb-2', className)}>{children}</div>
 );
 
 interface AccordianItemProps extends HTMLAttributes<HTMLElement> {}
@@ -42,12 +43,7 @@ const AccordianHeader: React.FC<AccordianHeaderProps> = ({
 }) => (
   <div onClick={() => setExpanded && setExpanded(v => !v) } className={classnames('cursor-pointer flex items-center justify-between pb-1 my-1 border-b', className)}>
     <div>{children}</div>
-    <button>
-      <FiChevronUp
-        size={24}
-        className={classNames('transform transition-transform', !expanded && 'rotate-180')}
-      />
-    </button>
+    <IconButton size={'sm'} variant='none' icon={FiChevronDown} innerClassName={classNames('transform transition-transform', !expanded && '-rotate-90')}/>
   </div>
 );
 

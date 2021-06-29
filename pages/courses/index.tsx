@@ -28,7 +28,7 @@ const index: React.FC<indexProps> = ({}) => (
       <Col>
         <div className={'flex justify-between items-center'}>
           {' '}
-          <h1 className={'text-2xl font-bold text-gray-800'}>All Courses</h1>{' '}
+          <h1 className={'text-2xl font-bold text-gray-800'}>Browse Courses</h1>{' '}
           <IconButton variant='none' icon={BiSortAZ} />
         </div>
       </Col>
