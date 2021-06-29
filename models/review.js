@@ -13,6 +13,14 @@ const reviewSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    upvote: {
+      type: Number,
+      default: 0,
+    },
+    downvote: {
+      type: Number,
+      default: 0,
+    },
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
