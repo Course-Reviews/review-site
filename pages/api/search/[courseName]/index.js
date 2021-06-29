@@ -13,7 +13,7 @@ const handler = async (req, res) => {
           {
             $or: [
               { code: new RegExp(`^${courseName}.*`, 'i') },
-              { code: new RegExp(`.*${courseName}.*`, 'i') },
+              { code: new RegExp(`.*\\s${courseName}.*`, 'i') },
             ],
             uni,
           },
