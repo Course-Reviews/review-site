@@ -34,9 +34,6 @@ const MyApp = ({ Component, pageProps }: AppProps) => (
           <div className={'flex items-center'}>
             {/* TODO: Hook this up to the search modal */}
             <SearchButton/>
-
-            {/* TODO: make this the account thingy */}
-            <div className={'ml-8 w-10 h-10 bg-gray-600 rounded-full'}></div>
           </div>
         </Container>
       </Navbar>

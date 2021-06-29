@@ -2,7 +2,7 @@ import Link from 'next/link';
 import UniTag from './UniTag';
 import { FiSearch } from 'react-icons/fi';
 
-type Uni = {
+export type Uni = {
   id: string;
   name: string;
   uni: string;

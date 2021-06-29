@@ -1,15 +1,15 @@
-import { GetServerSideProps } from 'next';
+import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 import React from 'react';
-import BreadCrumbs from '../../components/atom/BreadCrumbs';
-import Col from '../../components/atom/Col';
-import Container from '../../components/atom/Container';
-import CourseCard from '../../components/CourseCard';
-import Row from '../../components/atom/Row';
+import BreadCrumbs from '../../../components/atom/BreadCrumbs';
+import Col from '../../../components/atom/Col';
+import Container from '../../../components/atom/Container';
+import CourseCard from '../../../components/CourseCard';
+import Row from '../../../components/atom/Row';
 import { useModal } from 'async-modals';
-import Button from '../../components/atom/Button';
-import MessageModal from '../../components/MessageModal';
-import Card from '../../components/atom/Card';
+import Button from '../../../components/atom/Button';
+import MessageModal from '../../../components/MessageModal';
+import Card from '../../../components/atom/Card';
 import {
   FiBook,
   FiChevronDown,
@@ -19,13 +19,28 @@ import {
   FiStar,
 } from 'react-icons/fi';
 import { useState } from 'react';
-import Expand from '../../components/atom/Expand';
+import Expand from '../../../components/atom/Expand';
 import classNames from 'classnames';
-import Review from '../../components/Review';
+import Review from '../../../components/Review';
 
-interface CourseProps {
-  id: string;
+
+
+export interface CourseProps {
+  id: number;
+  description?: string;
+  term: number[];
+  title: string;
+  code: string;
+  faculty: string;
+  requirements: string;
+  url?: string;
+  university: string;
+  assessments?: Array<{
+      name: string;
+      percentage: number;
+  }>
 }
+
 
 interface CourseParams {
   params: {
@@ -43,7 +58,7 @@ const Course: React.FC<CourseProps> = ({ id }) => {
   };
 
   return (
-    <Container as={'main'} style={{height: '200vh'}}>
+    <Container as={'main'} style={{ height: '200vh' }}>
       <Head>
         <title>{id}</title>
         <link rel='icon' href='/favicon.ico' />
@@ -63,10 +78,10 @@ const Course: React.FC<CourseProps> = ({ id }) => {
           <h1 className={'text-sm font-semibold text-gray-500'}>The University of Auckland</h1>
         </Col>
         <Col className={'items-end fixed md:static bottom-0 left-0 p-6 md:p-0'}>
-        <Button onClick={showModal}>
-          <FiStar size={24} className={'-m-2 mr-2'} />
-          Leave a review
-        </Button>
+          <Button onClick={showModal}>
+            <FiStar size={24} className={'-m-2 mr-2'} />
+            Leave a review
+          </Button>
         </Col>
       </Row>
       <Row onClick={() => setCourseInfo((v) => !v)}>
@@ -107,22 +122,59 @@ const Course: React.FC<CourseProps> = ({ id }) => {
       </Row>
       <Row>
         <Col>
-          <Review content='Was a pretty cool course' rating={3} dateTaken='Sem 2, 2021'/>
+          <Review content='Was a pretty cool course' rating={3} dateTaken='Sem 2, 2021' />
         </Col>
       </Row>
-
     </Container>
   );
 };
 
-export const getServerSideProps: GetServerSideProps<CourseProps> = async (context) => {
-  const id = context.params?.id as string;
+// export const getServerSideProps: GetServerSideProps<CourseProps> = async (context) => {
+//   const id = context.params?.id as string;
 
-  return {
-    props: {
-      id,
-    }, // will be passed to the page component as props
-  };
-};
+//   return {
+//     props: {
+//       id,
+//     }, // will be passed to the page component as props
+//   };
+// };
 
 export default Course;
+
+interface data {
+  params: {
+    id: string;
+  };
+}
+
+export const getStaticPaths: GetStaticPaths = async () => ({
+  paths: [
+    {
+      params: {
+        uni: 'uoa',
+        id: 'SOFTENG350',
+      },
+    },
+    {
+      params: {
+        uni: 'uoa',
+        id: 'SOFTENG350',
+      },
+    },
+    {
+      params: {
+        uni: 'uoa',
+        id: 'SOFTENG350',
+      },
+    },
+  ],
+  fallback: false,
+});
+
+export const getStaticProps: GetStaticProps = async ({ params }) => ({
+  props: {
+    data: {
+      id: params?.id,
+    },
+  }, // will be passed to the page component as props
+});
