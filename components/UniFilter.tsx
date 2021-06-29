@@ -6,7 +6,7 @@ import { SetStateAction } from 'react';
 export interface UniFilterProps {
   list: string[]; // list of unis to include
   state: {
-    list: string[];
+    value: string;
     show: boolean;
   };
   action: React.Dispatch<SetStateAction<any>>;
@@ -18,17 +18,9 @@ const UniFilter: React.FC<UniFilterProps> = (props) => (
     {props.list.map((uni) => (
       <div
         key={uni}
-        className={`w-1/4 px-1 py-1 ${
-          props.state.list.includes(uni) ? 'opacity-100' : 'opacity-30'
-        }`}
+        className={`w-1/4 px-1 py-1 ${props.state.value === uni ? 'opacity-100' : 'opacity-30'}`}
         onClick={() => {
-          if (props.state.list.includes(uni)) {
-            // toggle unis
-            const updated: string[] = props.state.list.filter((u) => u !== uni);
-            props.action({ ...props.state, list: updated });
-          } else {
-            props.action({ ...props.state, list: [...props.state.list, uni] });
-          }
+          props.action({ ...props.state, value: uni });
         }}
       >
         <UniTag uni={uni} />

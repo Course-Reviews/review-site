@@ -9,6 +9,7 @@ import Expand from '../components/atom/Expand';
 import classNames from 'classnames';
 import Ripple from '../components/atom/Ripple';
 import CourseSearch from '../components/CourseSearch';
+import { Uni } from '../components/SearchResult';
 export interface LandingProps {}
 
 const Landing: React.FC<LandingProps> = () => {
@@ -38,7 +39,7 @@ const Landing: React.FC<LandingProps> = () => {
 
   return (
     <main className='container mx-auto my-auto md:h-5/6 md:flex md:flex-col md:w-full md:justify-center md:items-center'>
-     <CourseSearch/>
+      <CourseSearch />
     </main>
   );
 };
