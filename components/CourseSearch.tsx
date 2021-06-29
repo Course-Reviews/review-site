@@ -58,7 +58,7 @@ const CourseSearch: React.FC<CourseSearchProps> = ({}) => {
   }, [searchValue]);
 
   return (
-    <div className={'w-full md:max-w-md mb-2'}>
+    <div className={'w-full md:max-w-md mb-2 mx-auto'}>
       <h1 className='text-center font-semibold py-4'>Search reviews for your courses</h1>
       <section className='container flex flex-col rounded-full relative'>
         <Ripple
@@ -95,7 +95,7 @@ const CourseSearch: React.FC<CourseSearchProps> = ({}) => {
             </button> */}
           </div>
         </Ripple>
-        <div className='mt-2 text-center inset-x-0 absolute top-12'>
+        <div className='mt-2 text-center inset-x-0 absolute top-12 z-10'>
         <Expand expanded={searchValue.length >= SEARCH_LENGTH_THRESHOLD} className='w-full mx-auto shadow-xl rounded-lg'>
           <ul className='w-full bg-white '>
             {loading ? (
