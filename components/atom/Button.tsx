@@ -16,7 +16,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /**
    * Allow the button to grow to fit the width of its container
    */
-  grow?: boolean;
+  block?: boolean;
   /**
    * Classnames to apply to the inner button element
    */
@@ -34,16 +34,17 @@ const Button: React.FC<ButtonProps> = ({
   className,
   innerClassName,
   outline,
-  grow,
+  block,
   disabled,
   hasIcon,
   ...rest
 }) => (
-  <Ripple grow={grow} className={classNames(outline && '-m-0.5', className)} disabled={disabled}>
+  <Ripple grow={block} className={classNames(outline && '-m-0.5', className)} disabled={disabled}>
     <button
       className={classNames(
-        'rounded-full font-bold focus:ring transition transform duration-300 ease-in-out focus:outline-none flex items-center',
+        'rounded-full font-bold focus:ring transition transform duration-300 ease-in-out focus:outline-none flex items-center relative',
         !disabled && 'shadow',
+        block && 'justify-center',
         {
           'text-xs px-4 py-2': size === 'sm',
           'text-sm px-5 py-3': size === 'md',

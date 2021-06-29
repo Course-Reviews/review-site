@@ -35,8 +35,6 @@ const Ripple: React.FC<RippleProps> = ({
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const { pageX, pageY, currentTarget } = e;
 
-    console.log('well');
-
     const bounds = currentTarget.getBoundingClientRect();
 
     const left = pageX - (bounds.left + window.scrollX);
@@ -44,8 +42,6 @@ const Ripple: React.FC<RippleProps> = ({
     const size = Math.max(bounds.width, bounds.height);
 
     setRippleStyle(() => {
-      console.log('h');
-
       timer.current = setTimeout(() => {
         setRippleStyle({
           left,

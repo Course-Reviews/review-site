@@ -59,10 +59,10 @@ const NavSearch: React.FC<HTMLAttributes<HTMLElement>> = ({ className }) => {
                   <SearchResult result={result} key={result.id} isCondensed />
                 ))
               ) : (
-                <span>No results.</span>
+                <div className={'py-2 my-2 px-4'}>No Results</div>
               )
             ) : (
-              <span>Loading...</span>
+              <div className={'py-2 my-2 px-4'}>Loading...</div>
             )}
           </ul>
         )}

@@ -47,16 +47,16 @@ module.exports = {
       // Theme Colours
       // Each color has 10 variants
       primary: {
-        '50': '#87e2a1',
-      '100': '#7dd897',
-      '200': '#73ce8d',
-      '300': '#69c483',
-      '400': '#5fba79',
-      '500': '#55b06f',
-      '600': '#4ba665',
-      '700': '#419c5b',
-      '800': '#379251',
-      '900': '#2d8847'
+        '50': '#109104108',
+        '100': '#f5faf6',
+        '200': '#cee8d6',
+        '300': '#a5d5b2',
+        '400': '#7ec392',
+        '500': '#54b06e',
+        '600': '#428f58',
+        '700': '#326c43',
+        '800': '#20462b',
+        '900': '#102315'
       },
       'secondary': {
         '50': '#ffc662',
@@ -131,7 +131,8 @@ module.exports = {
         '80vh': '80vh',
       },
       backgroundImage: {
-        hero: 'url(../assets/landing-background.svg)',
+        // hero: 'url(../assets/landing-background.svg)',
+        hero: 'url(../assets/bg_2.svg)',
       },
       transitionProperty: {
         width: 'width',

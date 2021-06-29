@@ -8,7 +8,7 @@ import CourseCard from '../../../components/CourseCard';
 import Row from '../../../components/atom/Row';
 import { useModal } from 'async-modals';
 import Button from '../../../components/atom/Button';
-import MessageModal from '../../../components/MessageModal';
+import PostReviewModal from '../../../components/PostReviewModal';
 import Card from '../../../components/atom/Card';
 import { FiBook, FiChevronUp, FiExternalLink, FiMessageSquare, FiStar } from 'react-icons/fi';
 import { useState } from 'react';
@@ -58,7 +58,7 @@ const Course: React.FC<CourseProps> = ({
   requirements,
   university,
 }) => {
-  const messageModal = useModal(MessageModal);
+  const messageModal = useModal(PostReviewModal);
 
   const [reviews ,setReviews] = useState<ReviewData[]>([]);
 
@@ -143,7 +143,7 @@ const Course: React.FC<CourseProps> = ({
             'No ratings yet'
           )}
         </Col>
-        <Col className={'items-end fixed md:static bottom-0 left-0 p-6 md:p-0'}>
+        <Col className={'items-end fixed md:static bottom-0 left-0 p-6 md:p-0 z-10'}>
           <Button onClick={showModal}>
             <FiStar size={24} className={'-m-2 mr-2'} />
             Leave a review
@@ -163,13 +163,13 @@ const Course: React.FC<CourseProps> = ({
           <Card>
             <Card.Body>
               <Accordian>
-                <Accordian.Item>
+                {(url || description) && <Accordian.Item expanded>
                   <Accordian.Header>
                     <h3 className={'text-lg font-semibold text-gray-700'}>Course Overview</h3>
                   </Accordian.Header>
                   <Accordian.Body>
                     <p className={'text-gray-700'}>{description}</p>
-                    <a
+                    {url && <a
                       className={
                         'text-primary-300 text-sm font-semibold hover:text-primary-100 flex p-2'
                       }
@@ -177,13 +177,13 @@ const Course: React.FC<CourseProps> = ({
                     >
                       <FiExternalLink size={20} className={'mr-1'} />
                       Official UoA site for {code}
-                    </a>
+                    </a>}
                   </Accordian.Body>
-                </Accordian.Item>
+                </Accordian.Item>}
                 {requirements && (
                   <Accordian.Item>
                     <Accordian.Header>
-                      <h3 className={'text-lg font-semibold text-gray-700'}>Prequisites</h3>
+                      <h3 className={'text-lg font-semibold text-gray-700'}>Prerequisites</h3>
                     </Accordian.Header>
                     <Accordian.Body>
                       <p className={'text-gray-700'}>{renderLinkedCourses(requirements)}</p>
