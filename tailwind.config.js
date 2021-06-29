@@ -206,6 +206,7 @@ module.exports = {
     extend: {
       margin: ['first'],
       width: ['hover'],
+      borderRadius: ['first', 'last']
     },
   },
   plugins: [],

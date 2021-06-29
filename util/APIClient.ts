@@ -5,7 +5,7 @@ export interface CourseSummary {
   rating: number;
 }
 
-export interface Review {
+export interface ReviewData {
   id: string;
   dateCreated: Date;
   name: string;
