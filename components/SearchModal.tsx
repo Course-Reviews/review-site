@@ -9,7 +9,7 @@ import CourseSearch from './CourseSearch';
 const SearchModal: React.FC<ModalType<void, void>> = ({ isClosing, cancel }) => (
   <div
     className={classNames(
-      isClosing ? 'animate-float-out' : 'animate-float-in bg-hero bg-no-repeat bg-bottom bg-contain',
+      isClosing ? 'animate-float-out' : 'animate-float-in',
       'w-full h-full bg-white p-4'
     )}
   >

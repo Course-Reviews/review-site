@@ -1,5 +1,7 @@
+import classNames from 'classnames';
 import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
+import { HTMLAttributes } from 'react';
 import { FiInfo, FiSearch } from 'react-icons/fi';
 import { MixpanelConsumer } from 'react-mixpanel';
 import fetchSearchResults from '../functions/fetchSearchResults';
@@ -8,7 +10,7 @@ import Ripple from './atom/Ripple';
 import Loader from './Loader';
 import SearchResult, { CourseSearchResult } from './SearchResult';
 
-interface CourseSearchProps {}
+interface CourseSearchProps extends HTMLAttributes<HTMLElement>{}
 
 // This is how long we should wait after each keypress before actually executing the search
 const SEARCH_DELAY = 500;
@@ -16,7 +18,7 @@ const SEARCH_DELAY = 500;
 // Dont search until the user has typed at least this many characters
 const SEARCH_LENGTH_THRESHOLD = 2;
 
-const CourseSearch: React.FC<CourseSearchProps> = ({}) => {
+const CourseSearch: React.FC<CourseSearchProps> = ({className}) => {
   // When we do a search cache the results in a map
   // * We might want to think abt making sure the cache doesnt exceed a certain number of entries but it should be fine
   const cache = useRef(new Map());
@@ -58,8 +60,8 @@ const CourseSearch: React.FC<CourseSearchProps> = ({}) => {
   }, [searchValue]);
 
   return (
-    <div className={'w-full md:max-w-md mb-2 mx-auto'}>
-      <h1 className='text-center font-semibold py-4'>Search reviews for your courses</h1>
+    <div className={classNames('w-full md:max-w-xl mb-2 mx-auto px-8', className)}>
+      {/* <h1 className='text-center font-semibold py-4'>Search reviews for your courses</h1> */}
       <section className='container flex flex-col rounded-full relative'>
         <Ripple
           className={'bg-white rounded-full '}
@@ -67,13 +69,13 @@ const CourseSearch: React.FC<CourseSearchProps> = ({}) => {
           rippleClassName={'bg-primary-200'}
           rippleContainerClassName='rounded-full'
         >
-          <div className='focus-within:ring-4 focus-within:ring-primary-300 pl-4 my-auto flex items-center border rounded-full shadow-lg relative z-10'>
-            <FiSearch size={20} />
+          <div className='focus-within:ring-4 focus-within:ring-primary-300 pl-6 my-auto flex items-center border rounded-full shadow-lg relative z-10'>
+            <FiSearch size={24} className={'text-primary-600'} strokeWidth={3}/>
             <MixpanelConsumer>
               {(mixpanel: any) => (
                 <input
                   type='text'
-                  className='px-2 focus:outline-none w-full py-2 bg-transparent'
+                  className='px-6 focus:outline-none w-full py-4 bg-transparent text-xl'
                   autoFocus
                   placeholder='ACCTG 102'
                   value={searchValue}
@@ -95,7 +97,7 @@ const CourseSearch: React.FC<CourseSearchProps> = ({}) => {
             </button> */}
           </div>
         </Ripple>
-        <div className='mt-2 text-center inset-x-0 absolute top-12 z-10'>
+        <div className='mt-2 text-center inset-x-0 absolute top-16 z-10'>
           <Expand
             expanded={searchValue.length >= SEARCH_LENGTH_THRESHOLD}
             className='w-full mx-auto shadow-xl rounded-lg'

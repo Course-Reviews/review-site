@@ -129,10 +129,11 @@ module.exports = {
       height: {
         '90vh': '90vh',
         '80vh': '80vh',
+        'hero': '40vh'
       },
       backgroundImage: {
         // hero: 'url(../assets/landing-background.svg)',
-        hero: 'url(../assets/bg_2.svg)',
+        hero: 'url(../assets/bg_3.svg)',
       },
       transitionProperty: {
         width: 'width',

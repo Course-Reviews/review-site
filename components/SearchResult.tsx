@@ -23,11 +23,11 @@ const SearchResult: React.FC<SearchResultProps> = ({ result, className, isConden
       >
         <div className='flex items-center'>
           {!isCondensed && (
-            <div className='text-primary-900 '>
+            <div className='text-primary-800'>
               <FiSearch />
             </div>
           )}
-          <span className='px-2 font-semibold uppercase'>{result.code}</span>
+          <span className='px-2 font-semibold uppercase text-gray-800'>{result.code}</span>
         </div>
         <div className='w-1/4 text-right'>
           <UniTag uni={result.university} />

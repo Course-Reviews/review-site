@@ -3,6 +3,9 @@ import Link from 'next/link';
 import React, { Fragment } from 'react';
 import Button from '../components/atom/Button';
 import CourseSearch from '../components/CourseSearch';
+import Image from 'next/image';
+import bg from '../assets/bg_3.svg';
+import Parallax from '../components/Parallax';
 
 export interface LandingProps {}
 
@@ -22,12 +25,18 @@ const Landing: React.FC<LandingProps> = () => (
       <meta name='robots' content='index,follow' />
       <link rel='icon' href='/favicon.ico' />
     </Head>
-    <main className='mt-10 mx-auto h-80vh md:h-90vh my-auto flex flex-col md:w-full md:justify-center items-center bg-hero bg-bottom bg-no-repeat md:bg-cover bg-contain '>
-      <CourseSearch />
+    <main className='-mt-4 flex-grow mx-auto flex flex-col items-center justify-start' style={{'height': '200vh'}}>
+      <Parallax className={'h-hero w-screen bg-hero bg-center'}/>
+      <div className={'flex flex-col relative -top-8 items-center'}>
+        {/* <h1 className={'mb-6 text-white font-bold text-2xl shadow-xl text-center'}>Search reviews for 1000+ courses</h1> */}
+      <CourseSearch  />
+      </div>
       <div className={'my-2 font-semibold text-gray-500'}>or</div>
       <Link href='/courses'>
-          <a className='text-center pt-4 font-bold'><Button variant='gray'>Browse all courses</Button></a>
-        </Link>
+        <a className='text-center pt-4 font-bold'>
+          <Button variant='gray'>Browse all courses</Button>
+        </a>
+      </Link>
     </main>
   </Fragment>
 );
