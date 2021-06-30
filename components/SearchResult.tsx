@@ -3,14 +3,14 @@ import UniTag from './UniTag';
 import { FiSearch } from 'react-icons/fi';
 import classNames from 'classnames';
 
-export type Uni = {
+export type CourseSearchResult = {
   id: string;
   code: string;
   uni: string;
 };
 
 export interface SearchResultProps {
-  result: Uni;
+  result: CourseSearchResult;
   isCondensed?: boolean;
   className?: string;
 }

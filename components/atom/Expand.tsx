@@ -20,7 +20,7 @@ const Expand: React.FC<ExpandProps> = ({ children, className, expanded, as: Comp
     } else {
       element.style.height = '0px';
     }
-  }, [expanded]);
+  }, [expanded, children]);
 
   return (
     <Component

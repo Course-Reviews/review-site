@@ -15,7 +15,7 @@ export const getHeaders = () => {
 export const getData = async (url, data) => {
   const response = await axios
     .get(
-      `${SERVER_URL}/${url}`,
+      `${window.location.origin}/${url}`,
 
       {
         headers: getHeaders(),

@@ -1,16 +1,13 @@
-import { SetStateAction } from 'react';
 import { getData } from '.';
-import { Uni } from '../components/SearchResult';
 
-const fetchSearchResults = async (arg: {
-  searchValue: string;
-  state: { list: Uni[]; loaded: boolean };
-  action: React.Dispatch<SetStateAction<any>>;
-  filter: string;
-}) => {
+const fetchSearchResults = async (query: string, filters?: { [k: string]: any }) => {
   // eslint-disable-next-line quotes
-  arg.action({ ...arg.state, loaded: false });
-  const data = await getData(`api/search/${arg.searchValue.trim()}?uni=${arg.filter}`);
-  arg.action({ ...arg.state, list: data.data, loaded: true });
+
+  const {data} = await getData(
+    `api/search/${query.trim()}${
+      filters ? `?${Object.entries(filters).map(([k, v]) => `${k}=${v}`)}` : ''
+    }`
+  );
+  return data;
 };
 export default fetchSearchResults;
