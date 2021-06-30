@@ -10,7 +10,7 @@ import Ripple from './atom/Ripple';
 import Loader from './Loader';
 import SearchResult, { CourseSearchResult } from './SearchResult';
 
-interface CourseSearchProps extends HTMLAttributes<HTMLElement>{}
+interface CourseSearchProps extends HTMLAttributes<HTMLElement> {}
 
 // This is how long we should wait after each keypress before actually executing the search
 const SEARCH_DELAY = 500;
@@ -18,7 +18,7 @@ const SEARCH_DELAY = 500;
 // Dont search until the user has typed at least this many characters
 const SEARCH_LENGTH_THRESHOLD = 2;
 
-const CourseSearch: React.FC<CourseSearchProps> = ({className}) => {
+const CourseSearch: React.FC<CourseSearchProps> = ({ className }) => {
   // When we do a search cache the results in a map
   // * We might want to think abt making sure the cache doesnt exceed a certain number of entries but it should be fine
   const cache = useRef(new Map());
@@ -51,6 +51,7 @@ const CourseSearch: React.FC<CourseSearchProps> = ({className}) => {
       setLoading(true);
       timer.current = window.setTimeout(async () => {
         // if we get to this point then we do the actual search
+
         const res = await fetchSearchResults(searchValue);
         cache.current.set(searchValue, res);
         setSearchResults(res);
@@ -70,7 +71,7 @@ const CourseSearch: React.FC<CourseSearchProps> = ({className}) => {
           rippleContainerClassName='rounded-full'
         >
           <div className='focus-within:ring-4 focus-within:ring-primary-300 pl-6 my-auto flex items-center border rounded-full shadow-lg relative z-10'>
-            <FiSearch size={24} className={'text-primary-600'} strokeWidth={3}/>
+            <FiSearch size={24} className={'text-primary-600'} strokeWidth={3} />
             <MixpanelConsumer>
               {(mixpanel: any) => (
                 <input
@@ -79,7 +80,10 @@ const CourseSearch: React.FC<CourseSearchProps> = ({className}) => {
                   autoFocus
                   placeholder='ACCTG 102'
                   value={searchValue}
-                  onChange={(e) => setSearchValue(e.target?.value || '')}
+                  onChange={(e) => {
+                    mixpanel.track('[LANDING] Searching', { value: e.target?.value });
+                    setSearchValue(e.target?.value || '');
+                  }}
                 />
               )}
             </MixpanelConsumer>
@@ -106,14 +110,21 @@ const CourseSearch: React.FC<CourseSearchProps> = ({className}) => {
               {loading ? (
                 <div className={'py-2 px-3'}>loading...</div>
               ) : searchResults.length > 0 ? (
-                searchResults.map((result) => (
-                  <SearchResult
-                    result={result}
-                    key={result.id}
-                    isCondensed={false}
-                    className='bg-white'
-                  />
-                ))
+                <MixpanelConsumer>
+                  {(mixpanel: any) =>
+                    searchResults.map((result) => (
+                      <SearchResult
+                        onClick={() => {
+                          mixpanel.track('[LANDING] Course Clicked', { value: result.code });
+                        }}
+                        result={result}
+                        key={result.id}
+                        isCondensed={false}
+                        className='bg-white'
+                      />
+                    ))
+                  }
+                </MixpanelConsumer>
               ) : (
                 <div className='bg-white shadow rounded-lg py-2 '>
                   <span>No results.</span>
@@ -122,7 +133,13 @@ const CourseSearch: React.FC<CourseSearchProps> = ({className}) => {
                       <FiInfo size='20' />
                     </div>
                     <span>Is your course not here?</span>
-                    <span className='text-info-600 my-2'>Please tell us!</span>
+                    <MixpanelConsumer>
+                      {(mixpanel: any) => (
+                        <span className='text-info-600 my-2' onClick={() => {}}>
+                          Please tell us!
+                        </span>
+                      )}
+                    </MixpanelConsumer>
                   </div>
                 </div>
               )}

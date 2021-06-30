@@ -17,6 +17,8 @@ import PostReviewModal from '../../../components/PostReviewModal';
 import Review from '../../../components/Review';
 import { ReviewData } from '../../../types/config';
 import courses from '../../../util/courseDetails.json';
+import { MixpanelConsumer } from 'react-mixpanel';
+
 export interface CourseProps {
   id: number;
   pageId: string;
@@ -122,192 +124,208 @@ const Course: React.FC<CourseProps> = ({
   };
 
   return (
-    <Container
-      as={'main'}
-      className={'pb-24 flex-grow'}
-      itemScope={true}
-      itemType={'https://schema.org/UserReview'}
-    >
-      <Head>
-        <title>{code} Course Reviews - Discors</title>
-        <meta name='keywords' content={`${code} review, ${title} review, course review`} />
-        <meta
-          name='description'
-          content={`Check out what other students had to say about ${code} ${title} and related course reviews for The University of Auckland.`}
-        />
-        <meta name='robots' content='index,follow' />
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
-      <Row className={'mb-2 py-2'}>
-        <Col>
-          <BreadCrumbs>
-            <BreadCrumbs.Home />
-            <BreadCrumbs.Item href='/courses'>Courses</BreadCrumbs.Item>
-            <BreadCrumbs.Item href={'/courses/uoa'}>UoA</BreadCrumbs.Item>
-            <BreadCrumbs.Item href={`/courses/uoa/${pageId}`}>{code}</BreadCrumbs.Item>
-          </BreadCrumbs>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <h1 className={'text-2xl font-bold text-gray-800 py-2'}>
-            {code} - {title}
-          </h1>
-          <h2 className={'text-sm text-gray-400 font-semibold py-2'}>The University of Auckland</h2>
+    <MixpanelConsumer>
+      {(mixpanel: any) => (
+        <Container
+          as={'main'}
+          className={'pb-24 flex-grow'}
+          itemScope={true}
+          itemType={'https://schema.org/UserReview'}
+        >
+          <Head>
+            <title>{code} Course Reviews - Discors</title>
+            <meta name='keywords' content={`${code} review, ${title} review, course review`} />
+            <meta
+              name='description'
+              content={`Check out what other students had to say about ${code} ${title} and related course reviews for The University of Auckland.`}
+            />
+            <meta name='robots' content='index,follow' />
+            <link rel='icon' href='/favicon.ico' />
+          </Head>
+          <Row className={'mb-2 py-2'}>
+            <Col>
+              <BreadCrumbs>
+                <BreadCrumbs.Home />
+                <BreadCrumbs.Item href='/courses'>Courses</BreadCrumbs.Item>
+                <BreadCrumbs.Item href={'/courses/uoa'}>UoA</BreadCrumbs.Item>
+                <BreadCrumbs.Item href={`/courses/uoa/${pageId}`}>{code}</BreadCrumbs.Item>
+              </BreadCrumbs>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <h1 className={'text-2xl font-bold text-gray-800 py-2'}>
+                {code} - {title}
+              </h1>
+              <h2 className={'text-sm text-gray-400 font-semibold py-2'}>
+                The University of Auckland
+              </h2>
 
-          <div className={'flex items-center my-4'}>
-            <StarRating
-              className={classNames(rating ? 'text-secondary-500' : 'text-gray-500', 'mr-4')}
-              rating={rating || 0}
-              size={30}
-            />{' '}
-            <div className={'text-gray-600 max-h-min'}>
-              {rating ? (
-                <div
-                  itemScope
-                  itemType='https://schema.org/AggregateRating'
-                  itemProp='aggregateRating'
-                >
-                  <span itemProp='ratingValue'>{rating}</span>/ <span>5</span>{' '}
-                  <span itemProp='reviewCount'>({numRatings} ratings)</span>
+              <div className={'flex items-center my-4'}>
+                <StarRating
+                  className={classNames(rating ? 'text-secondary-500' : 'text-gray-500', 'mr-4')}
+                  rating={rating || 0}
+                  size={30}
+                />{' '}
+                <div className={'text-gray-600 max-h-min'}>
+                  {rating ? (
+                    <div
+                      itemScope
+                      itemType='https://schema.org/AggregateRating'
+                      itemProp='aggregateRating'
+                    >
+                      <span itemProp='ratingValue'>{rating}</span>/ <span>5</span>{' '}
+                      <span itemProp='reviewCount'>({numRatings} ratings)</span>
+                    </div>
+                  ) : (
+                    'No ratings yet'
+                  )}
                 </div>
-              ) : (
-                'No ratings yet'
-              )}
-            </div>
-          </div>
-        </Col>
-        <Col className={'items-end fixed md:static bottom-0 left-0 p-6 md:p-0 z-10'}>
-          <Button onClick={showModal}>
-            <FiStar size={24} className={'-m-2 mr-2'} />
-            Leave a review
-          </Button>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <h2 className={'text-xl font-bold text-gray-800 flex items-center my-4'}>
-            <FiBook className={'mr-2'} />
-            Course Info
-          </h2>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <Card>
-            <Card.Body>
-              <Accordian>
-                {(url || description) && (
-                  <Accordian.Item expanded>
-                    <Accordian.Header>
-                      <h3 className={'text-lg font-semibold text-gray-700'}>Course Overview</h3>
-                    </Accordian.Header>
-                    <Accordian.Body>
-                      <p className={'text-gray-700'}>{description}</p>
-                      {url && (
-                        <div className={'flex'}>
-                          <a
-                            className={
-                              'text-primary-400 text-sm font-semibold hover:text-primary-500 flex p-2 underline'
-                            }
-                            href={url}
-                          >
-                            <FiExternalLink size={20} className={'mr-1'} />
-                            Official UoA site for {code}
-                          </a>
-                        </div>
-                      )}
-                    </Accordian.Body>
-                  </Accordian.Item>
-                )}
-                {requirements && (
-                  <Accordian.Item>
-                    <Accordian.Header>
-                      <h3 className={'text-lg font-semibold text-gray-700'}>Prerequisites</h3>
-                    </Accordian.Header>
-                    <Accordian.Body>
-                      <p className={'text-gray-700'}>{renderLinkedCourses(requirements)}</p>
-                    </Accordian.Body>
-                  </Accordian.Item>
-                )}
-                {assessments && (
-                  <Accordian.Item>
-                    <Accordian.Header>
-                      <h3 className={'text-lg font-semibold text-gray-700'}>Assessments</h3>
-                    </Accordian.Header>
-                    <Accordian.Body>
-                      <table className={'text-gray-600 mx-auto w-full md:w-1/2'}>
-                        <thead>
-                          <tr>
-                            <th className={'text-left'}>Assessment</th>
-                            <th>Weighting</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {assessments.map((v, i) => (
-                            <tr key={i} className={classNames(i % 2 && ' rounded-xl')}>
-                              <td
-                                className={classNames(
-                                  i % 2 && 'rounded-l-xl bg-gray-100',
-                                  'px-4 py-2 '
-                                )}
+              </div>
+            </Col>
+            <Col className={'items-end fixed md:static bottom-0 left-0 p-6 md:p-0 z-10'}>
+              <Button onClick={showModal}>
+                <FiStar size={24} className={'-m-2 mr-2'} />
+                Leave a review
+              </Button>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <h2 className={'text-xl font-bold text-gray-800 flex items-center my-4'}>
+                <FiBook className={'mr-2'} />
+                Course Info
+              </h2>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Card>
+                <Card.Body>
+                  <Accordian>
+                    {(url || description) && (
+                      <Accordian.Item expanded>
+                        <Accordian.Header>
+                          <h3 className={'text-lg font-semibold text-gray-700'}>Course Overview</h3>
+                        </Accordian.Header>
+                        <Accordian.Body>
+                          <p className={'text-gray-700'}>{description}</p>
+                          {url && (
+                            <div className={'flex'}>
+                              <a
+                                className={
+                                  'text-primary-400 text-sm font-semibold hover:text-primary-500 flex p-2 underline'
+                                }
+                                href={url}
                               >
-                                {v.name}
-                              </td>
-                              <td
-                                className={classNames(
-                                  i % 2 && 'rounded-r-xl bg-gray-100',
-                                  'px-4 py-2 text-center '
-                                )}
-                              >
-                                {v.percentage}%
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </Accordian.Body>
-                  </Accordian.Item>
-                )}
-              </Accordian>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <h2 className={'text-xl font-bold text-gray-800 flex items-center my-4'}>
-            <FiMessageSquare />
-            <div className={'mx-2'}>Reviews</div>
-          </h2>
-        </Col>
-      </Row>
-      {reviews ? (
-        reviews.length > 0 ? (
-          reviews.map((r, i) => <Review key={i} rating={3} content='' dateTaken='sem 2' />)
-        ) : (
-          <div
-            className={
-              'w-2/3 mx-auto text-center flex flex-col items-center text-lg font-semibold text-gray-400 mt-6'
-            }
-          >
-            <FiInbox className={'my-2'} size={30} />
-            <div>Nobody has written a reivew for this course yet</div>
-            <Button className={'mt-4'} onClick={() => showModal()}>
-              Be the first
-            </Button>
-          </div>
-        )
-      ) : (
-        [0, 1].map((v, i) => (
-          <div key={i} className={'bg-gray-100 animate-pulse my-4 rounded-xl p-4 flex flex-col'}>
-            <StarRating rating={5} className={'text-gray-200'} />
-            <div className={'h-3 mt-3 bg-gray-200 w-1/2 rounded-full'} />
-            <div className={'h-3 mt-3 bg-gray-200 w-1/3 rounded-full'} />
-          </div>
-        ))
+                                <FiExternalLink size={20} className={'mr-1'} />
+                                Official UoA site for {code}
+                              </a>
+                            </div>
+                          )}
+                        </Accordian.Body>
+                      </Accordian.Item>
+                    )}
+                    {requirements && (
+                      <Accordian.Item>
+                        <Accordian.Header>
+                          <h3 className={'text-lg font-semibold text-gray-700'}>Prerequisites</h3>
+                        </Accordian.Header>
+                        <Accordian.Body>
+                          <p className={'text-gray-700'}>{renderLinkedCourses(requirements)}</p>
+                        </Accordian.Body>
+                      </Accordian.Item>
+                    )}
+                    {assessments && (
+                      <Accordian.Item>
+                        <Accordian.Header>
+                          <h3 className={'text-lg font-semibold text-gray-700'}>Assessments</h3>
+                        </Accordian.Header>
+                        <Accordian.Body>
+                          <table className={'text-gray-600 mx-auto w-full md:w-1/2'}>
+                            <thead>
+                              <tr>
+                                <th className={'text-left'}>Assessment</th>
+                                <th>Weighting</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {assessments.map((v, i) => (
+                                <tr key={i} className={classNames(i % 2 && ' rounded-xl')}>
+                                  <td
+                                    className={classNames(
+                                      i % 2 && 'rounded-l-xl bg-gray-100',
+                                      'px-4 py-2 '
+                                    )}
+                                  >
+                                    {v.name}
+                                  </td>
+                                  <td
+                                    className={classNames(
+                                      i % 2 && 'rounded-r-xl bg-gray-100',
+                                      'px-4 py-2 text-center '
+                                    )}
+                                  >
+                                    {v.percentage}%
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </Accordian.Body>
+                      </Accordian.Item>
+                    )}
+                  </Accordian>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <h2 className={'text-xl font-bold text-gray-800 flex items-center my-4'}>
+                <FiMessageSquare />
+                <div className={'mx-2'}>Reviews</div>
+              </h2>
+            </Col>
+          </Row>
+
+          {reviews ? (
+            reviews.length > 0 ? (
+              reviews.map((r, i) => <Review key={i} rating={3} content='' dateTaken='sem 2' />)
+            ) : (
+              <div
+                className={
+                  'w-2/3 mx-auto text-center flex flex-col items-center text-lg font-semibold text-gray-400 mt-6'
+                }
+              >
+                <FiInbox className={'my-2'} size={30} />
+                <div>Nobody has written a reivew for this course yet</div>
+                <Button
+                  className={'mt-4'}
+                  onClick={() => {
+                    showModal();
+                    mixpanel.track(`'['${code}']' Click review  `);
+                  }}
+                >
+                  Be the first
+                </Button>
+              </div>
+            )
+          ) : (
+            [0, 1].map((v, i) => (
+              <div
+                key={i}
+                className={'bg-gray-100 animate-pulse my-4 rounded-xl p-4 flex flex-col'}
+              >
+                <StarRating rating={5} className={'text-gray-200'} />
+                <div className={'h-3 mt-3 bg-gray-200 w-1/2 rounded-full'} />
+                <div className={'h-3 mt-3 bg-gray-200 w-1/3 rounded-full'} />
+              </div>
+            ))
+          )}
+        </Container>
       )}
-    </Container>
+    </MixpanelConsumer>
   );
 };
 
