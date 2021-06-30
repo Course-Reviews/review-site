@@ -12,24 +12,36 @@ interface ReviewProps {
 }
 
 const Review: React.FC<ReviewProps> = ({ name, rating, content, dateTaken }) => (
-  <Card className={'my-2'}>
+  <Card
+    className={'my-2'}
+    as='article'
+    itemProp='review'
+    itemScope={true}
+    itemType='https://schema.org/Review'
+  >
     <Card.Body>
-          <div className={'flex items-center text-sm font-bold '}>
-          <StarRating rating={rating} size={20} className={'text-secondary-500 mr-2'}/>
-          <div>{rating}/5</div>
-          <div className={'flex-grow'}/>
-          <IconButton variant='none' >
-            <FiFlag size={24} className={'text-gray-300'}/>
-          </IconButton>
-          </div>
-          <div className={'flex flex-col'}>
-            {' '}
-            <div className={'mt-2'}>{content}</div>
-          </div>
-          <div className={'flex justify-between mt-2'}>
-          <div className={' text-gray-500 italic font-semibold'}>- {name ? name : 'Anonymous'}</div>
-          <div> {dateTaken}</div>
-          </div>
+      <div className={'flex items-center text-sm font-bold '}>
+        <StarRating rating={rating} size={20} className={'text-secondary-500 mr-2'} />
+        <div itemProp='reviewRating' itemScope itemType='https://schema.org/Rating'>
+          <meta itemProp='worstRating' content='1' />
+          <span itemProp='ratingValue'>{rating}</span>/<span itemProp='bestRating'>5</span>
+        </div>
+        <div className={'flex-grow'} />
+        <IconButton variant='none'>
+          <FiFlag size={24} className={'text-gray-300'} />
+        </IconButton>
+      </div>
+      <section className={'flex flex-col'}>
+        <p itemProp='reviewBody' className={'mt-2'}>
+          {content}
+        </p>
+      </section>
+      <section className={'flex justify-between mt-2'}>
+        <div itemProp='author' className={' text-gray-500 italic font-semibold'}>
+          - {name ? name : 'Anonymous'}
+        </div>
+        <div> {dateTaken}</div>
+      </section>
     </Card.Body>
   </Card>
 );

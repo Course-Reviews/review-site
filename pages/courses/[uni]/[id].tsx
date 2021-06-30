@@ -122,10 +122,20 @@ const Course: React.FC<CourseProps> = ({
   };
 
   return (
-    <Container as={'main'} className={'pb-24 flex-grow'}>
+    <Container
+      as={'main'}
+      className={'pb-24 flex-grow'}
+      itemScope={true}
+      itemType={'https://schema.org/UserReview'}
+    >
       <Head>
         <title>{code} Course Reviews - Discors</title>
         <meta name='keywords' content={`${code} review, ${title} review, course review`} />
+        <meta
+          name='description'
+          content={`Check out what other students had to say about ${code} ${title} and related course reviews for The University of Auckland.`}
+        />
+        <meta name='robots' content='index,follow' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <Row className={'mb-2 py-2'}>
@@ -152,7 +162,18 @@ const Course: React.FC<CourseProps> = ({
               size={30}
             />{' '}
             <div className={'text-gray-600 max-h-min'}>
-              {rating ? `${rating}/5 (${numRatings} ratings)` : 'No ratings yet'}
+              {rating ? (
+                <div
+                  itemScope
+                  itemType='https://schema.org/AggregateRating'
+                  itemProp='aggregateRating'
+                >
+                  <span itemProp='ratingValue'>{rating}</span>/ <span>5</span>{' '}
+                  <span itemProp='reviewCount'>({numRatings} ratings)</span>
+                </div>
+              ) : (
+                'No ratings yet'
+              )}
             </div>
           </div>
         </Col>
