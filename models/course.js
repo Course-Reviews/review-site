@@ -1,6 +1,9 @@
 import mongoose from 'mongoose';
 
 const courseSchema = new mongoose.Schema({
+  id: {
+    type: Number,
+  },
   title: {
     type: String,
     required: true,
@@ -16,7 +19,12 @@ const courseSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-  uni: {
+  pageId : {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  university: {
     type: String,
     required: true,
     trim: true,
@@ -32,30 +40,22 @@ const courseSchema = new mongoose.Schema({
   },
   url: {
     type: String,
-    required: true,
+  },
+  requirements: {
+    type: String,
   },
   term: [
     {
-      type: String,
-    },
-  ],
-  requirements: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      course_type: String,
-      ref: 'Course',
-      unique: true,
+      type: Number,
     },
   ],
   assessments: [
     {
       name: {
         type: String,
-        required: true,
       },
       percentage: {
         type: Number,
-        required: true,
       },
     },
   ],

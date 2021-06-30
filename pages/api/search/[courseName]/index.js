@@ -5,9 +5,9 @@ connectDB();
 
 const handler = async (req, res) => {
   if (req.method === 'GET') {
-    const { courseName, uni } = req.query;
+    const { courseName, university } = req.query;
 
-    if (uni) {
+    if (university) {
       try {
         const courses = await Course.find(
           {
@@ -15,10 +15,12 @@ const handler = async (req, res) => {
               { code: new RegExp(`^${courseName}.*`, 'i') },
               { code: new RegExp(`.*\\s${courseName}.*`, 'i') },
             ],
-            uni,
+            university,
           },
-          '_id code uni'
-        );
+          '_id code university'
+        )
+        .sort({'code': 1})
+        .limit(5);
 
         res.status(200).json(courses);
       } catch (e) {
@@ -33,8 +35,10 @@ const handler = async (req, res) => {
               { code: new RegExp(`.*\\s${courseName}.*`, 'i') },
             ],
           },
-          '_id code uni'
-        );
+          '_id code university'
+        )
+        .sort({'code': 1})
+        .limit(5);
 
         res.json(courses);
       } catch (e) {
