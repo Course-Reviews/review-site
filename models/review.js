@@ -8,6 +8,11 @@ const reviewSchema = new mongoose.Schema(
     },
     content: {
       type: String,
+      validate(value) {
+        if (value.length > 200) {
+          throw new Error('The word limit is 200');
+        }
+      },
     },
     course_rating: {
       type: Number,

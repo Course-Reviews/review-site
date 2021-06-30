@@ -16,7 +16,7 @@ const handler = async (req, res) => {
       await review.save();
       res.status(201).json(review);
     } catch (e) {
-      res.status(400).json(e);
+      res.status(400).json(e.errors.content.properties.message);
     }
   }
 };
