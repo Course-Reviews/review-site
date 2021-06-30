@@ -51,9 +51,8 @@ const CourseSearch: React.FC<CourseSearchProps> = ({}) => {
         // if we get to this point then we do the actual search
         const res = await fetchSearchResults(searchValue);
         cache.current.set(searchValue, res);
-        // setSearchResults(res);
+        setSearchResults(res);
         setLoading(false);
-        console.log(res);
 
       }, SEARCH_DELAY);
     }
