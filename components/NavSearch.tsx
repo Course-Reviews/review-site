@@ -6,6 +6,7 @@ import Expand from './atom/Expand';
 import Ripple from './atom/Ripple';
 import Loader from './Loader';
 import SearchResult, { CourseSearchResult, Uni } from './SearchResult';
+import { MixpanelConsumer } from 'react-mixpanel';
 
 // This is how long we should wait after each keypress before actually executing the search
 const SEARCH_DELAY = 500;
@@ -67,14 +68,22 @@ const NavSearch: React.FC<HTMLAttributes<HTMLElement>> = ({ className }) => {
           <div className='pl-3'>
             <FiSearch size={20} />
           </div>
-          <input
-            className='px-2 focus:outline-none w-full py-2  bg-transparent'
-            onFocus={() => setFocused(true)}
-            value={searchValue}
-            placeholder='Search Courses'
-            onChange={(e) => setSearchValue(e.target?.value || '')}
-            onBlur={() => !searchValue.length && setFocused(false)}
-          />
+
+          <MixpanelConsumer>
+            {(mixpanel: any) => (
+              <input
+                className='px-2 focus:outline-none w-full py-2  bg-transparent'
+                onFocus={() => setFocused(true)}
+                value={searchValue}
+                placeholder='Search Courses'
+                onChange={(e) => {
+                  setSearchValue(e.target?.value || '');
+                  mixpanel.track('[NAV] Search ', { value: e.target?.value });
+                }}
+                onBlur={() => setFocused(false)}
+              />
+            )}
+          </MixpanelConsumer>
           {loading && <Loader className='mx-4' />}
         </div>
 
@@ -86,9 +95,20 @@ const NavSearch: React.FC<HTMLAttributes<HTMLElement>> = ({ className }) => {
             <ul className='w-full py-1 shadow-lg  bg-white '>
               {!loading ? (
                 searchResults.length > 0 ? (
-                  searchResults.map((result) => (
-                    <SearchResult result={result} key={result.id} isCondensed />
-                  ))
+                  <MixpanelConsumer>
+                    {(mixpanel: any) =>
+                      searchResults.map((result) => (
+                        <SearchResult
+                          result={result}
+                          key={result.id}
+                          isCondensed
+                          onClick={() => {
+                            mixpanel.track('[NAV] Course Clicked', { value: result.code });
+                          }}
+                        />
+                      ))
+                    }
+                  </MixpanelConsumer>
                 ) : (
                   <div className={'py-2 my-2 px-4'}>No Results</div>
                 )
