@@ -17,7 +17,10 @@ const handler = async (req, res) => {
     }
 
     try {
-      const courses = await Course.find(match);
+      const courses = await Course.find({
+        code: new RegExp(`.*\\s${match.stage}.*`, 'i'),
+        university,
+      });
 
       res.status(200).json(courses);
     } catch (e) {

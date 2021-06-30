@@ -9,7 +9,7 @@ const handler = async (req, res) => {
   if (req.method === 'POST') {
     const review = new Review({
       ...req.body,
-      owner: mongoose.Types.ObjectId(req.query.postId),
+      owner: mongoose.Types.ObjectId(req.query.courseId),
     });
 
     try {
