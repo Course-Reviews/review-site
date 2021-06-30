@@ -13,11 +13,15 @@ export interface SearchResultProps {
   result: CourseSearchResult;
   isCondensed?: boolean;
   className?: string;
+  onClick?: any;
 }
 
-const SearchResult: React.FC<SearchResultProps> = ({ result, className, isCondensed }) => (
-  <Link key={result.id} href={`/courses/${result.university}/${result.code.replace(' ', '').toLowerCase()}`}>
-    <a>
+const SearchResult: React.FC<SearchResultProps> = ({ result, className, isCondensed, onClick }) => (
+  <Link
+    key={result.id}
+    href={`/courses/${result.university}/${result.code.replace(' ', '').toLowerCase()}`}
+  >
+    <a onClick={onClick}>
       <li
         className={`hover:bg-gray-100 flex items-center w-full justify-between py-2 my-2 px-4 ${className}`}
       >

@@ -11,6 +11,7 @@ import Modal from './atom/Modal';
 import RatingInput from './atom/RatingInput';
 import Row from './atom/Row';
 import StarRating from './atom/StarRating';
+import { MixpanelConsumer } from 'react-mixpanel';
 
 interface ModalData {
   terms: number[];
@@ -34,34 +35,48 @@ const PostReviewModal: React.FC<ModalType<ModalData, void>> = ({ data, isClosing
   });
 
   return (
-    <Modal isClosing={isClosing} className={'w-full sm:w-3/4 md:w-2/3 lg:max-w-lg m-4'}>
-      <Modal.Title close={cancel}>Review {data.code}</Modal.Title>
-      <form>
-      <FormGroup label='Taken In' required>
-          <Row>
-            <Col className={'w-1/2'}>
-              <Dropdown
-                options={data.terms.map((t) => ({ label: TERMS[t], value: t }))}
-                selectedIndex={termIndex}
-              />
-            </Col>
-            <Col className={'w-1/2'}>
-              <Dropdown options={YEARS.map((v) => ({ label: v, value: v }))} selectedIndex={1} />
-            </Col>
-          </Row>
-        </FormGroup>
-        <FormGroup label='Rating' required>
-          <RatingInput className={'mt-1'} />
-        </FormGroup>
-        <FormGroup label='Review'>
-          <Input as='textarea' className={'h-48'}/>
-        </FormGroup>
+    <MixpanelConsumer>
+      {(mixpanel: any) => (
+        <Modal isClosing={isClosing} className={'w-full sm:w-3/4 md:w-2/3 lg:max-w-lg m-4'}>
+          <Modal.Title close={cancel}>Review {data.code}</Modal.Title>
+          <form>
+            <FormGroup label='Taken In' required>
+              <Row>
+                <Col className={'w-1/2'}>
+                  <Dropdown
+                    options={data.terms.map((t) => ({ label: TERMS[t], value: t }))}
+                    selectedIndex={termIndex}
+                  />
+                </Col>
+                <Col className={'w-1/2'}>
+                  <Dropdown
+                    options={YEARS.map((v) => ({ label: v, value: v }))}
+                    selectedIndex={1}
+                  />
+                </Col>
+              </Row>
+            </FormGroup>
+            <FormGroup label='Rating' required>
+              <RatingInput className={'mt-1'} />
+            </FormGroup>
+            <FormGroup label='Review'>
+              <Input as='textarea' className={'h-48'} />
+            </FormGroup>
 
-        <div className={'flex flex-col mt-4 first:mt-0'}>
-          <Button block>Post Review</Button>
-        </div>
-      </form>
-    </Modal>
+            <div className={'flex flex-col mt-4 first:mt-0'}>
+              <Button
+                block
+                onClick={() => {
+                  mixpanel.track('[REVIEW MODAL] Post');
+                }}
+              >
+                Post Review
+              </Button>
+            </div>
+          </form>
+        </Modal>
+      )}
+    </MixpanelConsumer>
   );
 };
 
