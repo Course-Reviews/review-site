@@ -47,28 +47,28 @@ module.exports = {
       // Theme Colours
       // Each color has 10 variants
       primary: {
-        '50': '#109104108',
-        '100': '#f5faf6',
-        '200': '#cee8d6',
-        '300': '#a5d5b2',
-        '400': '#7ec392',
-        '500': '#54b06e',
-        '600': '#428f58',
-        '700': '#326c43',
-        '800': '#20462b',
-        '900': '#102315'
+        '50': '#f8f7ff',
+        '100': '#f0efff',
+        '200': '#dad7fe',
+        '300': '#c4bffd',
+        '400': '#978efc',
+        '500': '#6B5EFA',
+        '600': '#6055e1',
+        '700': '#5047bc',
+        '800': '#403896',
+        '900': '#342e7b'
       },
-      'secondary': {
-        '50': '#ffc662',
-        '100': '#ffbc58',
-        '200': '#ffb24e',
-        '300': '#fda844',
-        '400': '#f39e3a',
-        '500': '#e99430',
-        '600': '#df8a26',
-        '700': '#d5801c',
-        '800': '#cb7612',
-        '900': '#c16c08'
+      secondary: {
+        50: '#ffc662',
+        100: '#ffbc58',
+        200: '#ffb24e',
+        300: '#fda844',
+        400: '#f39e3a',
+        500: '#e99430',
+        600: '#df8a26',
+        700: '#d5801c',
+        800: '#cb7612',
+        900: '#c16c08',
       },
       success: {
         50: '#f6fcf4',
@@ -129,7 +129,7 @@ module.exports = {
       height: {
         '90vh': '90vh',
         '80vh': '80vh',
-        'hero': '40vh'
+        hero: '40vh',
       },
       backgroundImage: {
         // hero: 'url(../assets/landing-background.svg)',
@@ -208,7 +208,7 @@ module.exports = {
     extend: {
       margin: ['first'],
       width: ['hover'],
-      borderRadius: ['first', 'last']
+      borderRadius: ['first', 'last'],
     },
   },
   plugins: [],

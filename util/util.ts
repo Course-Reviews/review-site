@@ -1,0 +1,1 @@
+export const codeToURL = (code: string) => code.replace(' ', '').replace('/', '%2F').toLowerCase()

@@ -1,12 +1,12 @@
 import classNames from 'classnames';
-import React, { ChangeEvent, HTMLAttributes, useEffect, useRef, useState } from 'react';
+import React, { HTMLAttributes, useEffect, useRef, useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
+import { MixpanelConsumer } from 'react-mixpanel';
 import fetchSearchResults from '../functions/fetchSearchResults';
 import Expand from './atom/Expand';
 import Ripple from './atom/Ripple';
 import Loader from './Loader';
-import SearchResult, { CourseSearchResult, Uni } from './SearchResult';
-import { MixpanelConsumer } from 'react-mixpanel';
+import SearchResult, { CourseSearchResult } from './SearchResult';
 
 // This is how long we should wait after each keypress before actually executing the search
 const SEARCH_DELAY = 500;
@@ -84,15 +84,15 @@ const NavSearch: React.FC<HTMLAttributes<HTMLElement>> = ({ className }) => {
               />
             )}
           </MixpanelConsumer>
-          {loading && <Loader className='mx-4' />}
+          {searchValue.length >= SEARCH_LENGTH_THRESHOLD && loading && <Loader className='mx-4' />}
         </div>
 
         <Expand
           expanded={searchValue.length >= SEARCH_LENGTH_THRESHOLD}
-          className='absolute mt-12 px-2 bg-transparent rounded-lg w-full py-1 shadow-lg text-gray-700 transition-height'
+          className='absolute mt-12 px-2 rounded-lg w-full shadow-lg text-gray-700 transition-height bg-white'
         >
-          {focused && searchValue.length > 0 && (
-            <ul className='w-full py-1 shadow-lg  bg-white '>
+          {focused && searchValue.length > SEARCH_LENGTH_THRESHOLD && (
+            <ul className='w-full py-1'>
               {!loading ? (
                 searchResults.length > 0 ? (
                   <MixpanelConsumer>

@@ -5,6 +5,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { FiBook, FiExternalLink, FiInbox, FiMessageSquare, FiStar } from 'react-icons/fi';
+import { MixpanelConsumer } from 'react-mixpanel';
 import Accordian from '../../../components/atom/Accordian';
 import BreadCrumbs from '../../../components/atom/BreadCrumbs';
 import Button from '../../../components/atom/Button';
@@ -17,7 +18,25 @@ import PostReviewModal from '../../../components/PostReviewModal';
 import Review from '../../../components/Review';
 import { ReviewData } from '../../../types/config';
 import courses from '../../../util/courseDetails.json';
-import { MixpanelConsumer } from 'react-mixpanel';
+import { codeToURL } from '../../../util/util';
+
+interface CourseData {
+  id: number;
+  title: string;
+  description: string;
+  code: string;
+  pageId: string;
+  university: string;
+  faculty: string;
+  no_of_reviews: number;
+  url: string;
+  requirements: string;
+  term: string[];
+  assessments: {
+    name: string;
+    percentage: number;
+  }[];
+}
 
 export interface CourseProps {
   id: number;
@@ -106,10 +125,9 @@ const Course: React.FC<CourseProps> = ({
           i = absStrPos;
         }
 
-        const link = `/courses/${university.toLowerCase()}/${`${course}${str.replace(
-          /[^0-9]*/g,
-          ''
-        )}`.toLowerCase()}`;
+        const newCode = `${course}${str.replace(/[^0-9]*/g, '')}`;
+
+        const link = `/courses/${university.toLowerCase()}/${codeToURL(newCode)}`;
 
         res.push(
           <Link href={link} key={i}>
@@ -142,7 +160,7 @@ const Course: React.FC<CourseProps> = ({
             <meta name='robots' content='index,follow' />
             <link rel='icon' href='/favicon.ico' />
           </Head>
-          <Row className={'mb-2 py-2'}>
+          <Row className={'my-2'}>
             <Col>
               <BreadCrumbs>
                 <BreadCrumbs.Home />
@@ -154,13 +172,10 @@ const Course: React.FC<CourseProps> = ({
           </Row>
           <Row>
             <Col>
-              <h1 className={'text-2xl font-bold text-gray-800 py-2'}>
+              <h1 className={'text-2xl font-bold text-gray-800'}>
                 {code} - {title}
               </h1>
-              <h2 className={'text-sm text-gray-400 font-semibold py-2'}>
-                The University of Auckland
-              </h2>
-
+              <h2 className={'text-sm text-gray-400 font-semibold'}>The University of Auckland</h2>
               <div className={'flex items-center my-4'}>
                 <StarRating
                   className={classNames(rating ? 'text-secondary-500' : 'text-gray-500', 'mr-4')}
@@ -192,7 +207,7 @@ const Course: React.FC<CourseProps> = ({
           </Row>
           <Row>
             <Col>
-              <h2 className={'text-xl font-bold text-gray-800 flex items-center my-4'}>
+              <h2 className={'text-xl font-bold text-gray-800 flex items-center my-2'}>
                 <FiBook className={'mr-2'} />
                 Course Info
               </h2>
@@ -217,6 +232,7 @@ const Course: React.FC<CourseProps> = ({
                                   'text-primary-400 text-sm font-semibold hover:text-primary-500 flex p-2 underline'
                                 }
                                 href={url}
+                                target={'uoa_site'}
                               >
                                 <FiExternalLink size={20} className={'mr-1'} />
                                 Official UoA site for {code}

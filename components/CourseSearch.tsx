@@ -61,7 +61,7 @@ const CourseSearch: React.FC<CourseSearchProps> = ({ className }) => {
   }, [searchValue]);
 
   return (
-    <div className={classNames('w-full md:max-w-xl mb-2 mx-auto px-8', className)}>
+    <div className={classNames('w-full md:max-w-xl mb-2 mx-auto px-8 h-16', className)}>
       {/* <h1 className='text-center font-semibold py-4'>Search reviews for your courses</h1> */}
       <section className='container flex flex-col rounded-full relative'>
         <Ripple
@@ -70,7 +70,7 @@ const CourseSearch: React.FC<CourseSearchProps> = ({ className }) => {
           rippleClassName={'bg-primary-200'}
           rippleContainerClassName='rounded-full'
         >
-          <div className='focus-within:ring-4 focus-within:ring-primary-300 pl-6 my-auto flex items-center border rounded-full shadow-lg relative z-10'>
+          <div className='focus-within:ring-4 focus-within:ring-primary-500 pl-6 my-auto flex items-center border rounded-full shadow-lg relative z-10'>
             <FiSearch size={24} className={'text-primary-600'} strokeWidth={3} />
             <MixpanelConsumer>
               {(mixpanel: any) => (

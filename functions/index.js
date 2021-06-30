@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-const SERVER_URL = 'http://localhost:3000';
-
 export const getHeaders = () => {
   const token = localStorage.getItem('token');
 
@@ -36,7 +34,7 @@ export const getData = async (url, data) => {
 
 export const postData = async (url, data = {}) => {
   const response = await axios
-    .post(`${SERVER_URL}/${url}`, data, {
+    .post(`${window.location.origin}/${url}`, data, {
       headers: getHeaders(),
     })
     .then((response) => response)
@@ -52,7 +50,7 @@ export const postData = async (url, data = {}) => {
 
 export const patchData = async (url, data = {}) => {
   const response = await axios
-    .patch(`${SERVER_URL}/${url}`, data, {
+    .patch(`${window.location.origin}/${url}`, data, {
       headers: getHeaders(),
     })
     .then((response) => response)

@@ -2,8 +2,6 @@ import { Modal as ModalType } from 'async-modals';
 import classNames from 'classnames';
 import React from 'react';
 import { FiX } from 'react-icons/fi';
-import Input from './atom/Input';
-import Modal from './atom/Modal';
 import CourseSearch from './CourseSearch';
 
 const SearchModal: React.FC<ModalType<void, void>> = ({ isClosing, cancel }) => (
@@ -19,7 +17,8 @@ const SearchModal: React.FC<ModalType<void, void>> = ({ isClosing, cancel }) => 
         </button>
 
     </div>
-    <CourseSearch />
+    <h1 className={'text-lg font-bold text-gray-700 text-center my-4'}>Search all courses</h1>
+    <CourseSearch/>
   </div>
 );
 
