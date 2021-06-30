@@ -34,7 +34,7 @@ const PostReviewModal: React.FC<ModalType<ModalData, void>> = ({ data, isClosing
   });
 
   return (
-    <Modal isClosing={isClosing} className={'w-full sm:w-1/2 md:w-1/3 m-4'}>
+    <Modal isClosing={isClosing} className={'w-full sm:w-3/4 md:w-2/3 lg:max-w-lg m-4'}>
       <Modal.Title close={cancel}>Review {data.code}</Modal.Title>
       <form>
       <FormGroup label='Taken In' required>
@@ -54,7 +54,7 @@ const PostReviewModal: React.FC<ModalType<ModalData, void>> = ({ data, isClosing
           <RatingInput className={'mt-1'} />
         </FormGroup>
         <FormGroup label='Review'>
-          <Input as='textarea' />
+          <Input as='textarea' className={'h-48'}/>
         </FormGroup>
 
         <div className={'flex flex-col mt-4 first:mt-0'}>

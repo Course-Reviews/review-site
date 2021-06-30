@@ -23,7 +23,7 @@ const Dropdown: React.FC<DropdownProps> = ({ options, children, selectedIndex = 
 
   return (
     <div className={'relative w-full'}>
-        <Ripple disabled={disabled} grow rippleClassName={'bg-primary-100'} rippleContainerClassName='rounded-xl'>
+        <Ripple disabled={disabled} grow rippleClassName={'bg-primary-200'} rippleContainerClassName='rounded-xl'>
       <button
       type='button'
       aria-expanded={focused}
@@ -35,8 +35,8 @@ const Dropdown: React.FC<DropdownProps> = ({ options, children, selectedIndex = 
         </button>
       </Ripple>
       <Expand expanded={focused} className={'bg-white absolute z-10 shadow-lg rounded-lg mt-2 w-full'}>
-        <ul className={'p-2'}>
-        {options.map((v, i) => <li onClick={() => setOption(v)} key={i} className={'p-1 px-3 cursor-pointer hover:bg-gray-100 rounded-lg'}>{v.label}</li>)}
+        <ul className={'p-2 divide-y divide-gray-200'}>
+        {options.map((v, i) => <li onClick={() => setOption(v)} key={i} className={'p-1 px-3 cursor-pointer hover:bg-gray-100 '}>{v.label}</li>)}
         </ul>
       </Expand>
     </div>

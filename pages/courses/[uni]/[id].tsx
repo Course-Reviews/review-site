@@ -54,7 +54,7 @@ const Course: React.FC<CourseProps> = ({
   assessments,
   requirements,
   university,
-  term
+  term,
 }) => {
   const messageModal = useModal(PostReviewModal);
 
@@ -71,9 +71,9 @@ const Course: React.FC<CourseProps> = ({
     await messageModal.show({
       data: {
         terms: term,
-        code
+        code,
       },
-      canClose: false
+      canClose: false,
     });
   };
 
@@ -124,10 +124,10 @@ const Course: React.FC<CourseProps> = ({
   return (
     <Container as={'main'} className={'pb-24 flex-grow'}>
       <Head>
-        <title>{id}</title>
+        <title>{code} Reviews - Discorse</title>
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <Row>
+      <Row className={'mb-2'}>
         <Col>
           <BreadCrumbs>
             <BreadCrumbs.Home />
@@ -142,15 +142,16 @@ const Course: React.FC<CourseProps> = ({
           <h1 className={'text-2xl font-bold text-gray-800'}>
             {code} - {title}
           </h1>
-          <h2 className={'text-sm text-gray-400'}>The University of Auckland</h2>
-          {rating ? (
-            <div className={'flex items-center'}>
-              <StarRating className={'text-secondary-500 my-4 mr-4'} rating={rating} size={30} />{' '}
-              {`3.5/5 (${numRatings} ratings)`}
-            </div>
-          ) : (
-            'No ratings yet'
-          )}
+          <h2 className={'text-sm text-gray-400 font-semibold'}>The University of Auckland</h2>
+
+          <div className={'flex items-center mt-4'}>
+            <StarRating
+              className={classNames(rating ? 'text-secondary-500' : 'text-gray-500', 'mr-4')}
+              rating={rating || 0}
+              size={30}
+            />{' '}
+            <div className={'text-gray-600 max-h-min'}>{rating ? `${rating}/5 (${numRatings} ratings)` : 'No ratings yet'}</div>
+          </div>
         </Col>
         <Col className={'items-end fixed md:static bottom-0 left-0 p-6 md:p-0 z-10'}>
           <Button onClick={showModal}>
@@ -161,7 +162,7 @@ const Course: React.FC<CourseProps> = ({
       </Row>
       <Row>
         <Col>
-          <h2 className={'text-xl font-bold text-gray-800 flex items-center'}>
+          <h2 className={'text-xl font-bold text-gray-800 flex items-center my-4'}>
             <FiBook className={'mr-2'} />
             Course Info
           </h2>
@@ -180,15 +181,17 @@ const Course: React.FC<CourseProps> = ({
                     <Accordian.Body>
                       <p className={'text-gray-700'}>{description}</p>
                       {url && (
-                        <div className={'flex'}><a
-                          className={
-                            'text-primary-400 text-sm font-semibold hover:text-primary-500 flex p-2 underline'
-                          }
-                          href={url}
-                        >
-                          <FiExternalLink size={20} className={'mr-1'} />
-                          Official UoA site for {code}
-                        </a></div>
+                        <div className={'flex'}>
+                          <a
+                            className={
+                              'text-primary-400 text-sm font-semibold hover:text-primary-500 flex p-2 underline'
+                            }
+                            href={url}
+                          >
+                            <FiExternalLink size={20} className={'mr-1'} />
+                            Official UoA site for {code}
+                          </a>
+                        </div>
                       )}
                     </Accordian.Body>
                   </Accordian.Item>
@@ -249,10 +252,9 @@ const Course: React.FC<CourseProps> = ({
       </Row>
       <Row>
         <Col>
-          <h2 className={'text-xl font-bold text-gray-800 flex items-center'}>
+          <h2 className={'text-xl font-bold text-gray-800 flex items-center my-4'}>
             <FiMessageSquare />
             <div className={'mx-2'}>Reviews</div>
-            <div className={'text-secondary-700 font-bold text-sm'}>(13)</div>
           </h2>
         </Col>
       </Row>
@@ -260,10 +262,16 @@ const Course: React.FC<CourseProps> = ({
         reviews.length > 0 ? (
           reviews.map((r, i) => <Review key={i} rating={3} content='' dateTaken='sem 2' />)
         ) : (
-          <div className={'w-2/3 mx-auto text-center flex flex-col items-center text-lg font-semibold text-gray-400 mt-6'}>
-            <FiInbox className={'my-2'} size={30}/>
+          <div
+            className={
+              'w-2/3 mx-auto text-center flex flex-col items-center text-lg font-semibold text-gray-400 mt-6'
+            }
+          >
+            <FiInbox className={'my-2'} size={30} />
             <div>Nobody has written a reivew for this course yet</div>
-            <Button className={'mt-4'}>Be the first</Button>
+            <Button className={'mt-4'} onClick={() => showModal()}>
+              Be the first
+            </Button>
           </div>
         )
       ) : (
