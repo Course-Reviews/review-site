@@ -26,18 +26,18 @@ const Landing: React.FC<LandingProps> = () => (
       <link rel='icon' href='/favicon.ico' />
     </Head>
     <main
-      className='-mt-4 flex-grow mx-auto flex flex-col items-center justify-start'
-      style={{ height: '200vh' }}
+      className='-mt-4 flex flex-grow flex-col items-center justify-start self-stretch'
     >
-      <Parallax className={'h-hero w-screen bg-hero bg-center bg-no-repeat bg-cover'} />
-      <div className={'flex flex-col relative -top-8 items-center'}>
-        {/* <h1 className={'mb-6 text-white font-bold text-2xl shadow-xl text-center'}>Search reviews for 1000+ courses</h1> */}
+      <Parallax className={'h-hero bg-hero bg-center bg-no-repeat bg-cover self-stretch flex flex-col justify-end items-center px-8 pb-4'}>
+      <h1 className={'mb-14 text-white font-bold text-4xl text-center'}>Search Reviews for 1000+ Uni Courses</h1>
+      </Parallax>
+      <div className={'flex flex-col relative -top-8 items-center -mb-8'}>
         <CourseSearch />
       </div>
       <div className={'my-2 font-semibold text-gray-500'}>or</div>
       <Link href='/courses'>
         <a className='text-center pt-4 font-bold'>
-          <Button variant='gray'>Browse all courses</Button>
+          <Button>Browse all courses</Button>
         </a>
       </Link>
     </main>

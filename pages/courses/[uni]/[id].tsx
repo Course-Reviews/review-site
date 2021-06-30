@@ -19,6 +19,24 @@ import { ReviewData } from '../../../types/config';
 import courses from '../../../util/courseDetails.json';
 import { MixpanelConsumer } from 'react-mixpanel';
 
+interface CourseData {
+  id: number;
+  title: string;
+  description: string;
+  code: string;
+  pageId: string;
+  university: string;
+  faculty: string;
+  no_of_reviews: number;
+  url: string;
+  requirements: string;
+  term: string[];
+  assessments: {
+    name: string;
+    percentage: number;
+  }[];
+}
+
 export interface CourseProps {
   id: number;
   pageId: string;
@@ -142,7 +160,7 @@ const Course: React.FC<CourseProps> = ({
             <meta name='robots' content='index,follow' />
             <link rel='icon' href='/favicon.ico' />
           </Head>
-          <Row className={'mb-2 py-2'}>
+          <Row className={'mb-2'}>
             <Col>
               <BreadCrumbs>
                 <BreadCrumbs.Home />
@@ -154,13 +172,12 @@ const Course: React.FC<CourseProps> = ({
           </Row>
           <Row>
             <Col>
-              <h1 className={'text-2xl font-bold text-gray-800 py-2'}>
+              <h1 className={'text-2xl font-bold text-gray-800'}>
                 {code} - {title}
               </h1>
-              <h2 className={'text-sm text-gray-400 font-semibold py-2'}>
+              <h2 className={'text-sm text-gray-400 font-semibold'}>
                 The University of Auckland
               </h2>
-
               <div className={'flex items-center my-4'}>
                 <StarRating
                   className={classNames(rating ? 'text-secondary-500' : 'text-gray-500', 'mr-4')}
@@ -192,7 +209,7 @@ const Course: React.FC<CourseProps> = ({
           </Row>
           <Row>
             <Col>
-              <h2 className={'text-xl font-bold text-gray-800 flex items-center my-4'}>
+              <h2 className={'text-xl font-bold text-gray-800 flex items-center my-2'}>
                 <FiBook className={'mr-2'} />
                 Course Info
               </h2>

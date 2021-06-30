@@ -16,11 +16,11 @@ import { isMobile } from 'react-device-detect';
 import Footer from '../components/Footer';
 import mixpanel from 'mixpanel-browser';
 import { MixpanelProvider, MixpanelConsumer } from 'react-mixpanel';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
-  // Mobile search opens the modal instead
   mixpanel.init('08d4d7028dcc32f1449375dc93c154c7');
-  // console.log(mixpanel);
   return (
     <MixpanelProvider mixpanel={mixpanel}>
       <ModalProvider
@@ -38,7 +38,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
               <Link href='/'>
                 <a className={'flex items-center'}>
                   <FiFeather className={'text-primary-500 mr-4'} size={32} />
-                  Review App
+                  Course Reviews
                 </a>
               </Link>
               <div className={`flex items-center ${isMobile ? 'w-2/3' : 'w-1/3'} justify-end`}>
@@ -51,6 +51,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           <ScrollToTop />
         </div>
       </ModalProvider>
+      <ToastContainer />
     </MixpanelProvider>
   );
 };

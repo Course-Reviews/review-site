@@ -1,4 +1,4 @@
-import React, { ElementType, useState } from 'react';
+import React, { ElementType, useEffect, useState } from 'react';
 
 import classnames from 'classnames';
 import { HTMLAttributes } from 'react';
@@ -8,18 +8,26 @@ import Button from './Button';
 import Expand from './Expand';
 import { FiChevronDown } from 'react-icons/fi';
 
-export interface Option { label: string; value: string | number | boolean }
+export interface Option { label: string; value: any }
 
-interface DropdownProps extends HTMLAttributes<HTMLElement>{
+interface DropdownProps {
+  className?: string;
   options: Option[];
   selectedIndex?: number;
   disabled?: boolean;
+  onChange?: (val: Option) => void;
 }
 
-const Dropdown: React.FC<DropdownProps> = ({ options, children, selectedIndex = 0, disabled, ...rest }) => {
+const Dropdown: React.FC<DropdownProps> = ({ options, children, onChange, selectedIndex = 0, disabled, ...rest }) => {
   selectedIndex = selectedIndex === -1 ? 0 : selectedIndex;
   const [focused, setFocused] = useState<boolean>(false);
   const [option, setOption] = useState<Option>(options[selectedIndex]);
+
+  useEffect(() => {
+    if(onChange){
+      onChange(option)
+    }
+  }, [option])
 
   return (
     <div className={'relative w-full'}>
