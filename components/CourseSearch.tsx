@@ -14,7 +14,7 @@ interface CourseSearchProps {}
 const SEARCH_DELAY = 500;
 
 // Dont search until the user has typed at least this many characters
-const SEARCH_LENGTH_THRESHOLD = 2
+const SEARCH_LENGTH_THRESHOLD = 2;
 
 const CourseSearch: React.FC<CourseSearchProps> = ({}) => {
   // When we do a search cache the results in a map
@@ -38,9 +38,9 @@ const CourseSearch: React.FC<CourseSearchProps> = ({}) => {
   useEffect(() => {
     window.clearTimeout(timer.current);
     // Cancel the search if it is too short
-    if(searchValue.length < SEARCH_LENGTH_THRESHOLD){
+    if (searchValue.length < SEARCH_LENGTH_THRESHOLD) {
       return setLoading(false);
-    };
+    }
     // first attempt to get result from cache to save api calls
     if (cache.current.has(searchValue)) {
       setLoading(false);
@@ -53,7 +53,6 @@ const CourseSearch: React.FC<CourseSearchProps> = ({}) => {
         cache.current.set(searchValue, res);
         setSearchResults(res);
         setLoading(false);
-
       }, SEARCH_DELAY);
     }
   }, [searchValue]);
@@ -83,7 +82,7 @@ const CourseSearch: React.FC<CourseSearchProps> = ({}) => {
               )}
             </MixpanelConsumer>
             <div className={loading ? 'opacity-100' : 'opacity-0'}>
-              <Loader className='mx-4'/>
+              <Loader className='mx-4' />
             </div>
             {/* <button
               onClick={() => setFilter({ ...filter, show: !filter.show })}
@@ -97,34 +96,37 @@ const CourseSearch: React.FC<CourseSearchProps> = ({}) => {
           </div>
         </Ripple>
         <div className='mt-2 text-center inset-x-0 absolute top-12 z-10'>
-        <Expand expanded={searchValue.length >= SEARCH_LENGTH_THRESHOLD} className='w-full mx-auto shadow-xl rounded-lg'>
-          <ul className='w-full bg-white '>
-            {loading ? (
-              <div className={'py-2 px-3'}>loading...</div>
-            ) : searchResults.length > 0 ? (
-              searchResults.map((result) => (
-                <SearchResult
-                  result={result}
-                  key={result.id}
-                  isCondensed={false}
-                  className='bg-white'
-                />
-              ))
-            ) : (
-              <div className='bg-white shadow rounded-lg py-2 '>
-                <span>No results.</span>
-                <div className='flex items-center flex-col my-4 '>
-                  <div className='my-4'>
-                    <FiInfo size='20' />
+          <Expand
+            expanded={searchValue.length >= SEARCH_LENGTH_THRESHOLD}
+            className='w-full mx-auto shadow-xl rounded-lg'
+          >
+            <ul className='w-full bg-white '>
+              {loading ? (
+                <div className={'py-2 px-3'}>loading...</div>
+              ) : searchResults.length > 0 ? (
+                searchResults.map((result) => (
+                  <SearchResult
+                    result={result}
+                    key={result.id}
+                    isCondensed={false}
+                    className='bg-white'
+                  />
+                ))
+              ) : (
+                <div className='bg-white shadow rounded-lg py-2 '>
+                  <span>No results.</span>
+                  <div className='flex items-center flex-col my-4 '>
+                    <div className='my-4'>
+                      <FiInfo size='20' />
+                    </div>
+                    <span>Is your course not here?</span>
+                    <span className='text-info-600 my-2'>Please tell us!</span>
                   </div>
-                  <span>Is your course not here?</span>
-                  <span className='text-info-600 my-2'>Please tell us!</span>
                 </div>
-              </div>
-            )}
-          </ul>
-        </Expand>
-      </div>
+              )}
+            </ul>
+          </Expand>
+        </div>
       </section>
       {/* <Expand expanded={filter.show} className='w-2/3 xl:w-1/4 md:w-2/5  my-4 mx-auto'>
         <div>
@@ -133,7 +135,6 @@ const CourseSearch: React.FC<CourseSearchProps> = ({}) => {
         </div>
       </Expand>
       */}
-
     </div>
   );
 };

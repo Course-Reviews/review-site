@@ -124,10 +124,11 @@ const Course: React.FC<CourseProps> = ({
   return (
     <Container as={'main'} className={'pb-24 flex-grow'}>
       <Head>
-        <title>{code} Reviews - Discorse</title>
+        <title>{code} Course Reviews - Discors</title>
+        <meta name='keywords' content={`${code} review, ${title} review, course review`} />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <Row className={'mb-2'}>
+      <Row className={'mb-2 py-2'}>
         <Col>
           <BreadCrumbs>
             <BreadCrumbs.Home />
@@ -139,18 +140,20 @@ const Course: React.FC<CourseProps> = ({
       </Row>
       <Row>
         <Col>
-          <h1 className={'text-2xl font-bold text-gray-800'}>
+          <h1 className={'text-2xl font-bold text-gray-800 py-2'}>
             {code} - {title}
           </h1>
-          <h2 className={'text-sm text-gray-400 font-semibold'}>The University of Auckland</h2>
+          <h2 className={'text-sm text-gray-400 font-semibold py-2'}>The University of Auckland</h2>
 
-          <div className={'flex items-center mt-4'}>
+          <div className={'flex items-center my-4'}>
             <StarRating
               className={classNames(rating ? 'text-secondary-500' : 'text-gray-500', 'mr-4')}
               rating={rating || 0}
               size={30}
             />{' '}
-            <div className={'text-gray-600 max-h-min'}>{rating ? `${rating}/5 (${numRatings} ratings)` : 'No ratings yet'}</div>
+            <div className={'text-gray-600 max-h-min'}>
+              {rating ? `${rating}/5 (${numRatings} ratings)` : 'No ratings yet'}
+            </div>
           </div>
         </Col>
         <Col className={'items-end fixed md:static bottom-0 left-0 p-6 md:p-0 z-10'}>
