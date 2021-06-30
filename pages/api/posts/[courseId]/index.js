@@ -9,14 +9,14 @@ const handler = async (req, res) => {
   if (req.method === 'POST') {
     const review = new Review({
       ...req.body,
-      owner: mongoose.Types.ObjectId(req.query.postId),
+      owner: mongoose.Types.ObjectId(req.query.courseId),
     });
 
     try {
       await review.save();
       res.status(201).json(review);
     } catch (e) {
-      res.status(400).json(e);
+      res.status(400).json(e.errors.content.properties.message);
     }
   }
 };

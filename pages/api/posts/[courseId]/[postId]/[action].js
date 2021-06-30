@@ -1,6 +1,6 @@
 // needs the review id, easily exploitable
-import Review from '../../../../models/review';
-import connectDB from '../../../../db/mongoose';
+import Review from '../../../../../models/review';
+import connectDB from '../../../../../db/mongoose';
 
 connectDB();
 
@@ -8,10 +8,10 @@ const handler = async (req, res) => {
   if (req.method === 'PATCH') {
     const url = req.url.split('/');
 
-    switch (url[4]) {
+    switch (url[5]) {
       case 'upvote':
         try {
-          const review = await Review.findByIdAndUpdate(url[3], {
+          const review = await Review.findByIdAndUpdate(url[4], {
             $inc: {
               upvote: 1,
             },
@@ -24,7 +24,7 @@ const handler = async (req, res) => {
         break;
       case 'downvote':
         try {
-          const review = await Review.findByIdAndUpdate(url[3], {
+          const review = await Review.findByIdAndUpdate(url[4], {
             $inc: {
               downvote: 1,
             },
