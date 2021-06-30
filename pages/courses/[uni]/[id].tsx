@@ -5,6 +5,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { FiBook, FiExternalLink, FiInbox, FiMessageSquare, FiStar } from 'react-icons/fi';
+import { MixpanelConsumer } from 'react-mixpanel';
 import Accordian from '../../../components/atom/Accordian';
 import BreadCrumbs from '../../../components/atom/BreadCrumbs';
 import Button from '../../../components/atom/Button';
@@ -17,7 +18,6 @@ import PostReviewModal from '../../../components/PostReviewModal';
 import Review from '../../../components/Review';
 import { ReviewData } from '../../../types/config';
 import courses from '../../../util/courseDetails.json';
-import { MixpanelConsumer } from 'react-mixpanel';
 
 interface CourseData {
   id: number;
@@ -160,7 +160,7 @@ const Course: React.FC<CourseProps> = ({
             <meta name='robots' content='index,follow' />
             <link rel='icon' href='/favicon.ico' />
           </Head>
-          <Row className={'mb-2'}>
+          <Row className={'my-2'}>
             <Col>
               <BreadCrumbs>
                 <BreadCrumbs.Home />
@@ -234,6 +234,7 @@ const Course: React.FC<CourseProps> = ({
                                   'text-primary-400 text-sm font-semibold hover:text-primary-500 flex p-2 underline'
                                 }
                                 href={url}
+                                target={'uoa_site'}
                               >
                                 <FiExternalLink size={20} className={'mr-1'} />
                                 Official UoA site for {code}

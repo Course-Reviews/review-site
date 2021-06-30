@@ -1,23 +1,21 @@
-import type { AppProps } from 'next/app';
-import React, { useEffect } from 'react';
-import Container from '../components/atom/Container';
-import Navbar from '../components/atom/Navbar';
-import { ModalProvider, useModal } from 'async-modals';
-import '../styles/index.css';
+import { ModalProvider } from 'async-modals';
 import classNames from 'classnames';
-import { FiFeather, FiSearch } from 'react-icons/fi';
-import Link from 'next/link';
-import IconButton from '../components/atom/IconButton';
-import SearchModal from '../components/SearchModal';
-import SearchButton from '../components/SearchButton';
-import ScrollToTop from '../components/ScrollToTop';
-import NavSearch from '../components/NavSearch';
-import { isMobile } from 'react-device-detect';
-import Footer from '../components/Footer';
 import mixpanel from 'mixpanel-browser';
-import { MixpanelProvider, MixpanelConsumer } from 'react-mixpanel';
+import type { AppProps } from 'next/app';
+import Link from 'next/link';
+import React from 'react';
+import { isMobile } from 'react-device-detect';
+import { FiFeather } from 'react-icons/fi';
+import { MixpanelProvider } from 'react-mixpanel';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Container from '../components/atom/Container';
+import Navbar from '../components/atom/Navbar';
+import Footer from '../components/Footer';
+import NavSearch from '../components/NavSearch';
+import ScrollToTop from '../components/ScrollToTop';
+import SearchButton from '../components/SearchButton';
+import '../styles/index.css';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   mixpanel.init('08d4d7028dcc32f1449375dc93c154c7');
