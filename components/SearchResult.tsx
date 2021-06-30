@@ -2,6 +2,7 @@ import Link from 'next/link';
 import UniTag from './UniTag';
 import { FiSearch } from 'react-icons/fi';
 import classNames from 'classnames';
+import { codeToURL } from '../util/util';
 
 export type CourseSearchResult = {
   id: string;
@@ -19,7 +20,7 @@ export interface SearchResultProps {
 const SearchResult: React.FC<SearchResultProps> = ({ result, className, isCondensed, onClick }) => (
   <Link
     key={result.id}
-    href={`/courses/${result.university}/${result.code.replace(' ', '').toLowerCase()}`}
+    href={`/courses/${result.university}/${codeToURL(result.code)}`}
   >
     <a onClick={onClick}>
       <li

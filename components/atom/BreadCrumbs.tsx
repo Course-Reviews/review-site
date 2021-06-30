@@ -67,7 +67,9 @@ const BreadCrumbItemHome: React.FC<BreadCrumbItemHomeProps> = ({
           router.asPath === '/' ? 'font-semibold text-primary-500' : 'text-gray-700',
           className
         )}
+        aria-label='Home'
         {...rest}
+
       >
         <FiHome className={'inline align-middle relative -top-0.5'}/>
       </a>

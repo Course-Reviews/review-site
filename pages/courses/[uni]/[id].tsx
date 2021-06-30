@@ -18,6 +18,7 @@ import PostReviewModal from '../../../components/PostReviewModal';
 import Review from '../../../components/Review';
 import { ReviewData } from '../../../types/config';
 import courses from '../../../util/courseDetails.json';
+import { codeToURL } from '../../../util/util';
 
 interface CourseData {
   id: number;
@@ -124,10 +125,9 @@ const Course: React.FC<CourseProps> = ({
           i = absStrPos;
         }
 
-        const link = `/courses/${university.toLowerCase()}/${`${course}${str.replace(
-          /[^0-9]*/g,
-          ''
-        )}`.toLowerCase()}`;
+        const newCode = `${course}${str.replace(/[^0-9]*/g, '')}`;
+
+        const link = `/courses/${university.toLowerCase()}/${codeToURL(newCode)}`;
 
         res.push(
           <Link href={link} key={i}>
@@ -175,9 +175,7 @@ const Course: React.FC<CourseProps> = ({
               <h1 className={'text-2xl font-bold text-gray-800'}>
                 {code} - {title}
               </h1>
-              <h2 className={'text-sm text-gray-400 font-semibold'}>
-                The University of Auckland
-              </h2>
+              <h2 className={'text-sm text-gray-400 font-semibold'}>The University of Auckland</h2>
               <div className={'flex items-center my-4'}>
                 <StarRating
                   className={classNames(rating ? 'text-secondary-500' : 'text-gray-500', 'mr-4')}
