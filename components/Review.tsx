@@ -12,19 +12,8 @@ interface ReviewProps {
 }
 
 const Review: React.FC<ReviewProps> = ({ name, rating, content, dateTaken }) => (
-  <Card>
+  <Card className={'my-2'}>
     <Card.Body>
-      <div className={'flex'}>
-        <div className={'flex flex-col -ml-1 mr-4 items-center -my-1 mb-1'}>
-          <IconButton variant='none' >
-            <FiArrowUp size={24} strokeWidth={3} className={'text-gray-300'}/>
-          </IconButton>
-          <div className={'text-center my-0.5 font-bold text-primary-600'}>3</div>
-          <IconButton variant='none' >
-            <FiArrowDown size={24} strokeWidth={3} className={'text-gray-300'}/>
-          </IconButton>
-        </div>
-        <div className={'flex flex-col flex-grow'}>
           <div className={'flex items-center text-sm font-bold '}>
           <StarRating rating={rating} size={20} className={'text-secondary-500 mr-2'}/>
           <div>{rating}/5</div>
@@ -41,8 +30,6 @@ const Review: React.FC<ReviewProps> = ({ name, rating, content, dateTaken }) => 
           <div className={' text-gray-500 italic font-semibold'}>- {name ? name : 'Anonymous'}</div>
           <div> {dateTaken}</div>
           </div>
-        </div>
-      </div>
     </Card.Body>
   </Card>
 );

@@ -29,11 +29,11 @@ const AccordianItem: React.FC<AccordianItemProps> = ({
   const [expanded, setExpanded] = useState<boolean>(e);
 
   return (
-    <div className={classnames('flex flex-col mt-2 first:mt-0', className)} {...rest}>
+    <section className={classnames('flex flex-col mt-2 first:mt-0', className)} {...rest}>
       {React.Children.map(children, (child: any) =>
         React.createElement(child?.type, { ...child.props, expanded, setExpanded })
       )}
-    </div>
+    </section>
   );
 };
 
@@ -79,7 +79,9 @@ const AccordianBody: React.FC<AccordianBodyProps> = ({
   ...rest
 }) => (
   <Expand expanded={expanded} {...rest}>
+    <div className={'flex flex-col pt-4'}>
     {children}
+    </div>
   </Expand>
 );
 

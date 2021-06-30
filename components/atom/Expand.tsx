@@ -26,7 +26,7 @@ const Expand: React.FC<ExpandProps> = ({ children, className, expanded, as: Comp
     <Component
       ref={container}
       className={classnames(
-        'h-0 transition-height overflow-hidden duration-300 flex flex-col',
+        'transition-height overflow-hidden duration-300 flex flex-col',
         className
       )}
       {...rest}

@@ -12,6 +12,7 @@ import CourseCard, { CourseCardProps } from '../../components/CourseCard';
 import courses from '../../util/courseDetails.json';
 
 const stages: Option[] = [
+  { label: 'All', value: '0'},
   { label: '1', value: '1' },
   { label: '2', value: '2' },
   { label: '3', value: '3' },
@@ -61,10 +62,10 @@ const CourseIndex: React.FC = () => {
       </Row>
       {showFilter && (
         <div>
-          <Row className={'border-b pb-4'}>
+          <Row className={'border-b pb-4 pt-2'}>
             <Col className={'w-2/3 md:w-64'}>
               <div className={'flex flex-col'}>
-                <label className={'ml-2 text-sm text-gray-600 font-semibold'}>University</label>
+                <div className={'ml-2 text-sm text-gray-600 font-semibold'} role=''>University</div>
                 <Dropdown
                   options={[
                     { label: 'Summer School', value: 0 },

@@ -5,17 +5,6 @@ export interface CourseSummary {
   rating: number;
 }
 
-export interface ReviewData {
-  id: string;
-  dateCreated: Date;
-  name: string;
-  takenDate: string;
-  upvotes: number;
-  downvotes: number;
-  content?: string;
-  rating: number;
-}
-
 export default class Client {
   static token?: string;
 
