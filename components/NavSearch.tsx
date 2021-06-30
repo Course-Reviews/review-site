@@ -80,10 +80,10 @@ const NavSearch: React.FC<HTMLAttributes<HTMLElement>> = ({ className }) => {
 
         <Expand
           expanded={searchValue.length >= SEARCH_LENGTH_THRESHOLD}
-          className='absolute mt-12 px-2 bg-white rounded-lg w-full py-1 shadow-lg text-gray-700 transition-height'
+          className='absolute mt-12 px-2 bg-transparent rounded-lg w-full py-1 shadow-lg text-gray-700 transition-height'
         >
           {focused && searchValue.length > 0 && (
-            <ul className='w-full py-1 shadow-lg '>
+            <ul className='w-full py-1 shadow-lg  bg-white '>
               {!loading ? (
                 searchResults.length > 0 ? (
                   searchResults.map((result) => (

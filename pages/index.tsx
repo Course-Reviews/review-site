@@ -25,11 +25,14 @@ const Landing: React.FC<LandingProps> = () => (
       <meta name='robots' content='index,follow' />
       <link rel='icon' href='/favicon.ico' />
     </Head>
-    <main className='-mt-4 flex-grow mx-auto flex flex-col items-center justify-start' style={{'height': '200vh'}}>
-      <Parallax className={'h-hero w-screen bg-hero bg-center'}/>
+    <main
+      className='-mt-4 flex-grow mx-auto flex flex-col items-center justify-start'
+      style={{ height: '200vh' }}
+    >
+      <Parallax className={'h-hero w-screen bg-hero bg-center bg-no-repeat bg-cover'} />
       <div className={'flex flex-col relative -top-8 items-center'}>
         {/* <h1 className={'mb-6 text-white font-bold text-2xl shadow-xl text-center'}>Search reviews for 1000+ courses</h1> */}
-      <CourseSearch  />
+        <CourseSearch />
       </div>
       <div className={'my-2 font-semibold text-gray-500'}>or</div>
       <Link href='/courses'>
