@@ -20,7 +20,9 @@ const handler = async (req, res) => {
       const courses = await Course.find({
         code: new RegExp(`.*\\s${match.stage}.*`, 'i'),
         university,
-      });
+      })
+      .sort({'code': 1})
+      .limit(10);
 
       res.status(200).json(courses);
     } catch (e) {
