@@ -42,7 +42,7 @@ const Button: React.FC<ButtonProps> = ({
   <Ripple grow={block} className={classNames(outline && '-m-0.5', className)} disabled={disabled}>
     <button
       className={classNames(
-        'rounded-full font-bold focus:ring transition transform duration-300 ease-in-out focus:outline-none flex items-center relative',
+        'rounded-full font-bold whitespace-nowrap focus:ring transition transform duration-300 ease-in-out focus:outline-none flex items-center relative',
         !disabled && 'shadow',
         block && 'justify-center',
         {

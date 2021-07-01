@@ -3,16 +3,18 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { FiFilter } from 'react-icons/fi';
 import BreadCrumbs from '../../components/atom/BreadCrumbs';
+import Button from '../../components/atom/Button';
 import Col from '../../components/atom/Col';
 import Container from '../../components/atom/Container';
 import Dropdown, { Option } from '../../components/atom/Dropdown';
+import FormGroup from '../../components/atom/FormGroup';
 import IconButton from '../../components/atom/IconButton';
 import Row from '../../components/atom/Row';
 import CourseCard, { CourseCardProps } from '../../components/CourseCard';
 import courses from '../../util/courseDetails.json';
 
 const stages: Option[] = [
-  { label: 'All', value: '0'},
+  { label: 'Any', value: '0' },
   { label: '1', value: '1' },
   { label: '2', value: '2' },
   { label: '3', value: '3' },
@@ -27,7 +29,9 @@ interface Filter {
 }
 
 const CourseIndex: React.FC = () => {
-  const query = (useRouter().query as Filter);
+  const router = useRouter();
+
+  const query = router.query as Filter;
 
   const [showFilter, setShowFilter] = useState<boolean>(true);
   const [filter, setFilter] = useState<Filter>({});
@@ -35,8 +39,36 @@ const CourseIndex: React.FC = () => {
   const [results, setResults] = useState<CourseCardProps[]>([]);
 
   useEffect(() => {
-    setFilter(query);
-  }, [query])
+    console.log(query);
+    if (router.isReady) {
+      setFilter(query);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.isReady]);
+
+  useEffect(() => {
+    console.log('test?');
+
+    const queryString = Object.entries(filter)
+      .filter(([k, v]) => v !== undefined)
+      .map(([k, v]) => `${k}=${v}`)
+      .join('&');
+    if (queryString.length > 0) {
+      router.push(`?${queryString}`, undefined, { shallow: true });
+    } else {
+      router.push('', undefined, { shallow: true });
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filter]);
+
+  const clearFilter = () => {
+    setFilter({});
+  };
+
+  const applyFilter = () => {
+    // fetch results here
+  };
 
   return (
     <Container as={'main'}>
@@ -62,25 +94,57 @@ const CourseIndex: React.FC = () => {
       </Row>
       {showFilter && (
         <div>
-          <Row className={'border-b pb-4 pt-2'}>
-            <Col className={'w-2/3 md:w-64'}>
-              <div className={'flex flex-col'}>
-                <div className={'ml-2 text-sm text-gray-600 font-semibold'} role=''>University</div>
+          <Row className={'border-b pb-4 pt-2 items-end flex-wrap'}>
+            <Col className={'w-full md:w-64'}>
+              <FormGroup label='University'>
                 <Dropdown
                   options={[
+                    { label: 'Any', value: -1 },
                     { label: 'Summer School', value: 0 },
                     { label: 'Semester 1', value: 1 },
                   ]}
+                  onChange={(v) => {
+                    if (v.value !== -1) {
+                      setFilter((f) => ({ ...f, uni: v.value }));
+                    } else {
+                      setFilter((f) => ({ ...f, uni: undefined }));
+                    }
+                  }}
                 >
                   Semester
                 </Dropdown>
-              </div>
+              </FormGroup>
             </Col>
-            <Col className={'w-1/3 md:w-32'}>
-              <div className={'flex flex-col'}>
-                <label className={'ml-2 text-sm'}>Stage</label>
-                <Dropdown options={stages} selectedIndex={stages.findIndex(s => s.value === filter.stage)}>Stage</Dropdown>
-              </div>
+            <Col className={'w-full md:w-32'}>
+              <FormGroup label='Stage'>
+                <Dropdown
+                  options={stages}
+                  selectedIndex={stages.findIndex((s) => s.value === filter.stage)}
+                  onChange={(v) => {
+                    if (v.value !== '0') {
+                      setFilter((f) => ({ ...f, stage: v.value }));
+                    } else {
+                      setFilter((f) => ({ ...f, stage: undefined }));
+                    }
+                  }}
+                >
+                  Stage
+                </Dropdown>
+              </FormGroup>
+            </Col>
+            <Col className={'w-full md:w-auto'}>
+              <FormGroup>
+                <Row>
+                  <Col>
+                    <Button outline onClick={clearFilter} block>
+                      Clear Filters
+                    </Button>
+                  </Col>
+                  <Col>
+                  <Button block>Apply Filter</Button>
+                  </Col>
+                </Row>
+              </FormGroup>
             </Col>
           </Row>
         </div>

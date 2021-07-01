@@ -29,6 +29,13 @@ const Dropdown: React.FC<DropdownProps> = ({ options, children, onChange, select
     }
   }, [option])
 
+  useEffect(() => {
+    if(selectedIndex){
+      setOption(options[selectedIndex])
+    }
+  }, [selectedIndex])
+
+
   return (
     <div className={'relative w-full'}>
         <Ripple disabled={disabled} grow rippleClassName={'bg-primary-200'} rippleContainerClassName='rounded-xl'>
