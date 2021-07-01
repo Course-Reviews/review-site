@@ -36,6 +36,7 @@ const courseSchema = new mongoose.Schema({
   },
   rating: {
     type: Number,
+    default: 0,
   },
   no_of_reviews: {
     type: Number,
