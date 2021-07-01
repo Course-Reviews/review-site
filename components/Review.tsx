@@ -33,7 +33,7 @@ const Review: React.FC<ReviewProps> = ({ name, rating, content, dateTaken }) => 
             <IconButton
               variant='none'
               onClick={() => {
-                mixpanel.track('[REVIEW] report');
+                mixpanel.track('[REVIEW] report', { value: content });
               }}
             >
               <FiFlag size={24} className={'text-gray-300'} />
