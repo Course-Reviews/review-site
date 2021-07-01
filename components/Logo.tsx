@@ -12,6 +12,10 @@ const Logo: React.FC<SVGAttributes<SVGElement>> = ({ className, fill, ...rest })
     className={className}
     {...rest}
   >
+    <title id='Course Review Logo'>Course Review Logo </title>
+    <desc id='logoDesc'>
+      Purple gradient letters C R for course review logos positioned asymmetrically.
+    </desc>
     <path
       fillRule='evenodd'
       clipRule='evenodd'
