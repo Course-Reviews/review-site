@@ -21,40 +21,25 @@ import courses from '../../../util/courseDetails.json';
 import { codeToURL } from '../../../util/util';
 
 interface CourseData {
+  // This is the id in the uni database
   id: number;
+  // This is our database id
+  _id: string;
   title: string;
-  description: string;
+  description?: string;
   code: string;
   pageId: string;
   university: string;
   faculty: string;
+  rating: number;
   no_of_reviews: number;
-  url: string;
-  requirements: string;
-  term: string[];
+  url?: string;
+  requirements?: string;
+  term: number[];
   assessments: {
     name: string;
     percentage: number;
   }[];
-}
-
-export interface CourseProps {
-  id: number;
-  pageId: string;
-  description?: string;
-  term: number[];
-  title: string;
-  code: string;
-  faculty: string;
-  requirements?: string;
-  url?: string;
-  rating?: number;
-  numRatings: number;
-  university: string;
-  assessments?: Array<{
-    name: string;
-    percentage: number;
-  }>;
 }
 
 interface CourseParams {
@@ -63,15 +48,15 @@ interface CourseParams {
   };
 }
 
-const Course: React.FC<CourseProps> = ({
-  id,
+const Course: React.FC<CourseData> = ({
+  _id,
   code,
   title,
   pageId,
   description,
   url,
   rating,
-  numRatings,
+  no_of_reviews,
   assessments,
   requirements,
   university,
@@ -194,7 +179,7 @@ const Course: React.FC<CourseProps> = ({
                       itemProp='aggregateRating'
                     >
                       <span itemProp='ratingValue'>{rating}</span>/ <span>5</span>{' '}
-                      <span itemProp='reviewCount'>({numRatings} ratings)</span>
+                      <span itemProp='reviewCount'>({no_of_reviews} ratings)</span>
                     </div>
                   ) : (
                     'No ratings yet'
@@ -369,6 +354,6 @@ export const getStaticPaths: GetStaticPaths = async () => ({
 
 export const getStaticProps: GetStaticProps = async ({
   params,
-}): Promise<{ props: CourseProps }> => ({
+}): Promise<{ props: CourseData }> => ({
   props: (courses as any).find((c: any) => c.pageId === params?.id),
 });
