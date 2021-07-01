@@ -151,11 +151,15 @@ const Course: React.FC<CourseProps> = ({
           itemType={'https://schema.org/UserReview'}
         >
           <Head>
-            <title>{code} Course Reviews - Discors</title>
+            <title>{code} UoA - Course Review</title>
             <meta name='keywords' content={`${code} review, ${title} review, course review`} />
             <meta
               name='description'
               content={`Check out what other students had to say about ${code} ${title} and related course reviews for The University of Auckland.`}
+            />
+            <meta
+              name='keywords'
+              content={` ${code}, ${code} course reviews, ${code} uoa course, ${title} review`}
             />
             <meta name='robots' content='index,follow' />
             <link rel='icon' href='/favicon.ico' />
