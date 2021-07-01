@@ -38,7 +38,7 @@ const Landing: React.FC<LandingProps> = () => (
       <section className={'flex flex-col relative -top-8 items-center -mb-8'}>
         <CourseSearch />
       </section>
-      <as className={'my-2 font-semibold text-gray-500'}>or</as>
+      <div className={'my-2 font-semibold text-gray-500'}>or</div>
       <Link href='/courses'>
         <a className='text-center pt-4 font-bold'>
           <Button>Browse all courses</Button>
