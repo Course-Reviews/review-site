@@ -21,8 +21,7 @@ const Review: React.FC<ReviewProps> = ({
     rating,
     timeTaken,
     content,
-    upvotes,
-    downvotes,
+    votes,
     contentRating,
     workloadRating,
     deliveryRating,
@@ -98,7 +97,7 @@ const Review: React.FC<ReviewProps> = ({
             </IconButton>
             <div className={'flex-grow'} />
             <IconButton variant='none' icon={FiThumbsDown} />
-            <div className={'mx-4 font-bold text-gray-700'}>{upvotes - downvotes}</div>{' '}
+            <div className={'mx-4 font-bold text-gray-700'}>{votes}</div>{' '}
             <IconButton variant='none' icon={FiThumbsUp} />
           </div>
         </Card.Body>

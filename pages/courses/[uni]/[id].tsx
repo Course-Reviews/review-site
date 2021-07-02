@@ -73,8 +73,7 @@ const Course: React.FC<CourseData> = ({
         content: e.content,
         timeTaken: e.taken_date,
         dateCreated: new Date(e.createdAt),
-        upvotes: e.upvote,
-        downvotes: e.downvote,
+        votes: e.upvote - e.downvote,
         contentRating: e.content_rating,
         workloadRating: e.workload_rating,
         deliveryRating: e.delivery_rating

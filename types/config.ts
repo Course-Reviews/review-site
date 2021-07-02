@@ -15,8 +15,7 @@ export interface ReviewData {
   content: string;
   timeTaken: string;
   dateCreated: Date;
-  upvotes: number;
-  downvotes: number;
+  votes: number;
 }
 
 export const TERMS = [

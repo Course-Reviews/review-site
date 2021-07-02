@@ -39,6 +39,8 @@ const PostReviewModal: React.FC<ModalType<ModalData, fetchReviewsResponse>> = ({
     term: termIndex,
   });
 
+  const [formerrors ,setFormerrors] = useState<Partial<{[k in keyof ReviewData]: string}>>({});
+
   const [submitted, setSubmitted] = useState(false);
 
   const[review, setReview ]= useState<fetchReviewsResponse>();
@@ -46,8 +48,28 @@ const PostReviewModal: React.FC<ModalType<ModalData, fetchReviewsResponse>> = ({
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    const { workloadRating, contentRating, deliveryRating, content, term, year } = formdata;
-    if (!workloadRating || !deliveryRating || !contentRating || !term || !year) return;
+    const { workloadRating, contentRating, deliveryRating, content, term, year } = formdata as any;
+
+    // validation
+    const errors:Partial<{[k in keyof ReviewData]: string}> = {};
+
+    if(!workloadRating){
+      errors.workloadRating = 'Please choose a rating for workload'
+    }
+    if(!contentRating){
+      errors.contentRating = 'Please choose a rating for content'
+    }
+    if(!deliveryRating){
+      errors.deliveryRating = 'Please choose a rating for delivery'
+    }
+    if(content && content.length > 1000){
+      errors.content = `Reviews are limited to 1000 characters (currently ${content.length})`
+    }
+    setFormerrors(errors)
+    if(Object.keys(errors).length > 0){
+      return;
+    }
+
     console.log('Posting!');
     setSubmitted(true);
     const res = await postReview(data.courseId, {
@@ -100,25 +122,25 @@ const PostReviewModal: React.FC<ModalType<ModalData, fetchReviewsResponse>> = ({
               </Col>
             </Row>
           </FormGroup>
-          <FormGroup label='Workload' required>
+          <FormGroup label='Workload' required error={formerrors.workloadRating}>
             <RatingInput
               className={'mt-1'}
               onChange={(v) => setFormdata((d) => ({ ...d, workloadRating: v }))}
             />
           </FormGroup>
-          <FormGroup label='Content Quality' required>
+          <FormGroup label='Content Quality' required error={formerrors.contentRating}>
             <RatingInput
               className={'mt-1'}
               onChange={(v) => setFormdata((d) => ({ ...d, contentRating: v }))}
             />
           </FormGroup>
-          <FormGroup label='Delivery of Content' required>
+          <FormGroup label='Delivery of Content' required error={formerrors.deliveryRating}>
             <RatingInput
               className={'mt-1'}
               onChange={(v) => setFormdata((d) => ({ ...d, deliveryRating: v }))}
             />
           </FormGroup>
-          <FormGroup label='Review'>
+          <FormGroup label='Review' error={formerrors.content}>
             <Input
               as='textarea'
               placeholder='Provide a written review (optional)'
