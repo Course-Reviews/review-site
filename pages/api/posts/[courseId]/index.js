@@ -38,6 +38,20 @@ const handler = async (req, res) => {
       res.status(400).json(e.errors.content.properties.message);
     }
   }
+  if (req.method === 'GET') {
+    // Fetch all reviews for a given course
+
+    console.log(`owner is ${req.query.courseId}`);
+    try {
+      const reviews = await Review.find({
+        owner: req.query.courseId,
+        content: {$exists:true}
+      });
+      res.status(200).json(reviews);
+    } catch (e) {
+      res.status(400).json(e.errors.content.properties.message);
+    }
+  }
 };
 
 export default handler;

@@ -13,10 +13,32 @@ export const getHeaders = () => {
 export const getData = async (url, data) => {
   const response = await axios
     .get(
-      `${window.location.origin}/${url}`,
+      `http://localhost:3000/${url}`,
 
       {
         headers: getHeaders(),
+        ...(data && { params: data }),
+      }
+    )
+    .then((response) => response)
+
+    .catch((error) => {
+      console.log(error.message);
+      if (!error?.response) {
+        // in case the server goes down or something, instead of saying undefined give this error
+        throw new Error('Sorry the server is currently sleeping, come back later');
+      }
+      throw new Error(`${error.response.status}: ${error.response.data.message}`);
+    });
+  return response;
+};
+
+export const getDataServerside = async (url, data) => {
+  const response = await axios
+    .get(
+      `http://localhost:3000/${url}`,
+
+      {
         ...(data && { params: data }),
       }
     )
@@ -31,6 +53,7 @@ export const getData = async (url, data) => {
     });
   return response;
 };
+
 
 export const postData = async (url, data = {}) => {
   const response = await axios

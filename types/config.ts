@@ -7,10 +7,16 @@ export enum Uni {
 
 
 export interface ReviewData {
+  id: string;
   rating: number;
-  message?: string;
-  name?: string;
+  workloadRating: number;
+  contentRating: number;
+  deliveryRating: number;
+  content: string;
   timeTaken: string;
+  dateCreated: Date;
+  upvotes: number;
+  downvotes: number;
 }
 
 export const TERMS = [
@@ -24,5 +30,4 @@ export const TERMS = [
   'Later Year Term',
   'Quarter 4',
   'Doctoral Academic Year'
-
 ]

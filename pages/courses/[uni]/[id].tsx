@@ -16,6 +16,8 @@ import Row from '../../../components/atom/Row';
 import StarRating from '../../../components/atom/StarRating';
 import PostReviewModal from '../../../components/PostReviewModal';
 import Review from '../../../components/Review';
+import fetchCourse from '../../../functions/fetchCourse';
+import fetchReviews from '../../../functions/fetchReviews';
 import { ReviewData } from '../../../types/config';
 import courses from '../../../util/courseDetails.json';
 import { codeToURL } from '../../../util/util';
@@ -42,11 +44,6 @@ interface CourseData {
   }[];
 }
 
-interface CourseParams {
-  params: {
-    id: string;
-  };
-}
 
 const Course: React.FC<CourseData> = ({
   _id,
@@ -67,10 +64,23 @@ const Course: React.FC<CourseData> = ({
   const [reviews, setReviews] = useState<ReviewData[]>();
 
   useEffect(() => {
-    // fetch reviews from the server on load
-    window.setTimeout(() => {
-      setReviews([]);
-    }, 5000);
+    const hydrate = async () => {
+      const data = await fetchReviews(_id);
+      const processed = data.map(e => ({
+        id: e._id,
+        rating: e.course_rating,
+        content: e.content,
+        timeTaken: e.taken_date,
+        dateCreated: new Date(e.createdAt),
+        upvotes: e.upvote,
+        downvotes: e.downvote,
+        contentRating: e.content_rating,
+        workloadRating: e.workload_rating,
+        deliveryRating: e.delivery_rating
+      }))
+      setReviews(processed);
+    }
+    hydrate()
   }, []);
 
   const showModal = async () => {
@@ -78,6 +88,7 @@ const Course: React.FC<CourseData> = ({
       data: {
         terms: term,
         code,
+        courseId: _id
       },
       canClose: false,
     });
@@ -293,10 +304,9 @@ const Course: React.FC<CourseData> = ({
               </h2>
             </Col>
           </Row>
-          <Review contentRating={3} workloadRating={4} deliveryRating={5} rating={3} content='I would not recommend this paper if youre choosing it as a gen ed because it looks easy. Did it as a gen ed in 2019 but i dont think it has changed much since then. It is a very easy paper but just extremely boring and just common sense really. I would recommend picking something else if youre looking for an easy gen ed as you wont get much value from this paper but if you just want something that requires no work and no involvement this could work for you.' dateTaken='Sem 2 2021' />
           {reviews ? (
             reviews.length > 0 ? (
-              reviews.map((r, i) => <Review key={i} rating={3} content='' dateTaken='sem 2' contentRating={3} workloadRating={4} deliveryRating={5}/>)
+              reviews.map((r, i) => <Review key={i} review={r}/>)
             ) : (
               <div
                 className={
@@ -337,24 +347,35 @@ const Course: React.FC<CourseData> = ({
 
 export default Course;
 
-interface data {
-  params: {
-    id: string;
-  };
-}
+/**
+ * Disabling this for now since we dont want to make 3000+ db calls to build our app,
+ * so easiest solution is to just render when the page is requested
+ */
+export const getStaticPaths: GetStaticPaths = async () =>
 
-export const getStaticPaths: GetStaticPaths = async () => ({
-  paths: (courses as any).map((v: any) => ({
-    params: {
-      uni: v.university,
-      id: v.code.replace(' ', '').toLowerCase(),
-    },
-  })),
-  fallback: false,
-});
+   ({paths: [], fallback: 'blocking'})
+
+  // return({
+  // paths: (courses as any).map((v: any) => ({
+  //   params: {
+  //     uni: v.university,
+  //     id: v.code.replace(' ', '').toLowerCase(),
+  //   },
+  // })),
+  // fallback: false,
+  // })
+;
 
 export const getStaticProps: GetStaticProps = async ({
   params,
-}): Promise<{ props: CourseData }> => ({
-  props: (courses as any).find((c: any) => c.pageId === params?.id),
-});
+}) => {
+
+  const {id, uni} = params as {[k: string]: string};
+
+  const data = await fetchCourse(uni, id)
+
+  return({
+  props: data,
+  revalidate: 60,
+})
+};

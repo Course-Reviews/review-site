@@ -1,10 +1,9 @@
-import { getData } from '.';
+import { getData, getDataServerside } from '.';
 
 // this fetches literally every single course in the databse
-const fetchCourses = async () => {
-  const { data } = await getData('api/courses');
-
-  console.log(data);
+const fetchCourse = async (uni: string, code: string) => {
+  const { data } = await getDataServerside(`api/courses?uni=${uni}&code=${code}`);
+  return data;
 
 };
-export default fetchCourses;
+export default fetchCourse;

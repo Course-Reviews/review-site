@@ -1485,6 +1485,11 @@ execa@^5.0.0:
     signal-exit "^3.0.3"
     strip-final-newline "^2.0.0"
 
+express-rate-limit@^5.2.6:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/express-rate-limit/-/express-rate-limit-5.3.0.tgz#e7b9d3c2e09ece6e0406a869b2ce00d03fe48aea"
+  integrity sha512-qJhfEgCnmteSeZAeuOKQ2WEIFTX5ajrzE0xS6gCOBCoRQcU+xEzQmgYQQTpzCcqUAAzTEtu4YEih4pnLfvNtew==
+
 fast-deep-equal@^3.1.1, fast-deep-equal@^3.1.3:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz#3a7d56b559d6cbc3eb512325244e619a65c6c525"
@@ -2391,7 +2396,7 @@ mongodb@3.6.8:
   optionalDependencies:
     saslprep "^1.0.0"
 
-mongodb@^3.6.9:
+"mongodb@>= 3.3.4 < 4.0.0", mongodb@^3.6.9:
   version "3.6.9"
   resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.6.9.tgz#4889cf529724267d393a18275d6cf19d71905b1d"
   integrity sha512-1nSCKgSunzn/CXwgOWgbPHUWOO5OfERcuOWISmqd610jn0s8BU9K4879iJVabqgpPPbA6hO7rG48eq+fGED3Mg==
@@ -3096,6 +3101,15 @@ randomfill@^1.0.3:
   dependencies:
     randombytes "^2.0.5"
     safe-buffer "^5.1.0"
+
+rate-limit-mongo@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/rate-limit-mongo/-/rate-limit-mongo-2.3.1.tgz#e9682e72e12e3ce52d80128c090480a4d90065e4"
+  integrity sha512-sl0T3G6aB6hgawZldDlvDZ8vi2tIxbcpk/N1WdI4jsS1/FqdDF92jKeCQiE8Oq7kDSsU+jFT142GE6HfKWKrUw==
+  dependencies:
+    mongodb ">= 3.3.4 < 4.0.0"
+    twostep "0.4.2"
+    underscore "1.12.1"
 
 raw-body@2.4.1:
   version "2.4.1"
@@ -3862,6 +3876,11 @@ tty-browserify@0.0.1:
   resolved "https://registry.yarnpkg.com/tty-browserify/-/tty-browserify-0.0.1.tgz#3f05251ee17904dfd0677546670db9651682b811"
   integrity sha512-C3TaO7K81YvjCgQH9Q1S3R3P3BtN3RIM8n+OvX4il1K1zgE8ZhI0op7kClgkxtutIE8hQrcrHBXvIheqKUUCxw==
 
+twostep@0.4.2:
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/twostep/-/twostep-0.4.2.tgz#84bc5087a871574d1ebf7be3079e03e122d415b6"
+  integrity sha1-hLxQh6hxV00ev3vjB54D4SLUFbY=
+
 type-check@^0.4.0, type-check@~0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/type-check/-/type-check-0.4.0.tgz#07b8203bfa7056c0657050e3ccd2c37730bab8f1"
@@ -3903,6 +3922,11 @@ unbox-primitive@^1.0.1:
     has-bigints "^1.0.1"
     has-symbols "^1.0.2"
     which-boxed-primitive "^1.0.2"
+
+underscore@1.12.1:
+  version "1.12.1"
+  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.12.1.tgz#7bb8cc9b3d397e201cf8553336d262544ead829e"
+  integrity sha512-hEQt0+ZLDVUMhebKxL4x1BTtDY7bavVofhZ9KZ4aI26X9SRaE+Y3m83XUL1UP2jn8ynjndwCCpEHdUG+9pP1Tw==
 
 universalify@^2.0.0:
   version "2.0.0"
