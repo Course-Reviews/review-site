@@ -11,6 +11,7 @@ import FormGroup from '../../components/atom/FormGroup';
 import IconButton from '../../components/atom/IconButton';
 import Row from '../../components/atom/Row';
 import CourseCard, { CourseCardProps } from '../../components/CourseCard';
+import fetchAllCourses from '../../functions/fetchAllCourses';
 import courses from '../../util/courseDetails.json';
 
 const stages: Option[] = [
@@ -68,6 +69,7 @@ const CourseIndex: React.FC = () => {
 
   const applyFilter = () => {
     // fetch results here
+    fetchAllCourses();
   };
 
   return (
@@ -141,7 +143,7 @@ const CourseIndex: React.FC = () => {
                     </Button>
                   </Col>
                   <Col>
-                  <Button block>Apply Filter</Button>
+                  <Button block onClick={applyFilter}>Apply Filter</Button>
                   </Col>
                 </Row>
               </FormGroup>

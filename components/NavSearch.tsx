@@ -80,7 +80,7 @@ const NavSearch: React.FC<HTMLAttributes<HTMLElement>> = ({ className }) => {
                   setSearchValue(e.target?.value || '');
                   mixpanel.track('[NAV] Search ', { value: e.target?.value });
                 }}
-                onBlur={() => setFocused(false)}
+                onBlur={() => searchValue.length < SEARCH_LENGTH_THRESHOLD && setFocused(false)}
               />
             )}
           </MixpanelConsumer>
@@ -98,14 +98,15 @@ const NavSearch: React.FC<HTMLAttributes<HTMLElement>> = ({ className }) => {
                   <MixpanelConsumer>
                     {(mixpanel: any) =>
                       searchResults.map((result) => (
-                        <SearchResult
-                          result={result}
-                          key={result.id}
-                          isCondensed
-                          onClick={() => {
-                            mixpanel.track('[NAV] Course Clicked', { value: result.code });
-                          }}
-                        />
+                        <div key={result.id} onClick={() => setSearchValue('')}>
+                          <SearchResult
+                            result={result}
+                            isCondensed
+                            onClick={() => {
+                              mixpanel.track('[NAV] Course Clicked', { value: result.code });
+                            }}
+                          />
+                        </div>
                       ))
                     }
                   </MixpanelConsumer>
