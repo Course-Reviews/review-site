@@ -1,5 +1,8 @@
 import Head from 'next/head';
-import { Fragment } from 'react';
+import React, { Fragment } from 'react';
+import Card from '../../components/atom/Card';
+import Container from '../../components/atom/Container';
+import Logo from '../../components/Logo';
 
 const TermsAndConditions: React.FC = () => (
   <Fragment>
@@ -11,9 +14,13 @@ const TermsAndConditions: React.FC = () => (
         content='CourseReview provides a platform for anonymous reviews of the courses. Terms and Conditions apply.'
       />
     </Head>
-    <div className='container w-1/4 mx-auto flex flex-col'>
-      <h1 className='font-bold text-4xl my-4'>Terms and Conditions</h1>
-      <p className='text-lg'>
+    <Container as='main' className={'text-gray-700 max-w-xl'}>
+    <Logo className={'mx-auto h-16'}/>
+      <h1 className='font-bold text-3xl my-4 text-gray-800 text-center'>Terms and Conditions</h1>
+      <Card>
+        <Card.Body>
+
+      <p>
         <strong>CourseReview</strong> provides a platform for anonymous reviews of the courses. We
         do not tolerate hate speech, harassment or any other written abuse. <br />
         <br />
@@ -25,9 +32,11 @@ const TermsAndConditions: React.FC = () => (
         platform for course reviews.
         <br />
         <br />
-        If you have any issues please engage with our support team at coursereview.nz@gmail.com
+        If you have any issues please engage with our support team at <a href='mailto:coursereview.nz@gmail.com' className={'text-primary-500'}>coursereview.nz@gmail.com</a>
       </p>
-    </div>
+      </Card.Body>
+      </Card>
+    </Container>
   </Fragment>
 );
 

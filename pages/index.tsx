@@ -32,7 +32,7 @@ const Landing: React.FC<LandingProps> = () => (
     <main className='-mt-4 flex flex-grow flex-col items-center justify-start self-stretch'>
       <Parallax
         className={
-          'h-hero bg-hero bg-center bg-no-repeat bg-cover self-stretch flex flex-col justify-end items-center px-8 pb-4'
+          'h-hero-mobile md:h-hero bg-hero bg-center bg-no-repeat bg-cover self-stretch flex flex-col justify-end items-center px-8 pb-4'
         }
       >
         <Logo className={'h-32 w-32 mb-12'} fill='white'/>

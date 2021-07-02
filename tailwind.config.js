@@ -130,6 +130,7 @@ module.exports = {
         '90vh': '90vh',
         '80vh': '80vh',
         hero: '40vh',
+        'hero-mobile': '50vh',
       },
       backgroundImage: {
         // hero: 'url(../assets/landing-background.svg)',
