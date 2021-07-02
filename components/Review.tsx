@@ -56,27 +56,27 @@ const Review: React.FC<ReviewProps> = ({
             <div className={'w-1/3'}>
               <div className={'font-bold text-primary-500'}>
                 <span className={'text-2xl'}>{contentRating}</span>
-                <span className={'text-sm'}>/5</span>
+                <span className={'text-sm text-primary-300'}>/5</span>
               </div>
               <div className={'mt-0.5 text-xs font-semibold text-gray-500'}>Content</div>
             </div>
             <div className={'w-1/3'}>
               <div className={'font-bold text-primary-500'}>
                 <span className={'text-2xl'}>{workloadRating}</span>
-                <span className={'text-sm'}>/5</span>
+                <span className={'text-sm text-primary-300'}>/5</span>
               </div>
               <div className={'mt-0.5 text-xs font-semibold text-gray-500'}>Workload</div>
             </div>
             <div className={'w-1/3'}>
               <div className={'font-bold text-primary-500'}>
                 <span className={'text-2xl'}>{deliveryRating}</span>
-                <span className={'text-sm'}>/5</span>
+                <span className={'text-sm text-primary-300'}>/5</span>
               </div>
               <div className={'mt-0.5 text-xs font-semibold text-gray-500'}>Delivery</div>
             </div>
           </div>
           <section className={'flex flex-col'}>
-            <p itemProp='reviewBody' className={'mt-2'}>
+            <p itemProp='reviewBody' className={'mt-2 whitespace-pre-line'}>
               {content}
             </p>
           </section>

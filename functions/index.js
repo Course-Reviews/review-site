@@ -11,10 +11,10 @@ export const getHeaders = () => {
 
 // NOTE: PUT YOUR IP ADDRESS HERE
 export const getData = async (url, data) => {
+  console.log(process.env.NEXT_PUBLIC_HOST);
   const response = await axios
     .get(
-      `http://localhost:3000/${url}`,
-
+      `${process.env.NEXT_PUBLIC_HOST}/${url}`,
       {
         headers: getHeaders(),
         ...(data && { params: data }),
@@ -23,7 +23,7 @@ export const getData = async (url, data) => {
     .then((response) => response)
 
     .catch((error) => {
-      console.log(error.message);
+      console.log(error);
       if (!error?.response) {
         // in case the server goes down or something, instead of saying undefined give this error
         throw new Error('Sorry the server is currently sleeping, come back later');
@@ -34,9 +34,10 @@ export const getData = async (url, data) => {
 };
 
 export const getDataServerside = async (url, data) => {
+  console.log(process.env.NEXT_PUBLIC_HOST);
   const response = await axios
     .get(
-      `http://localhost:3000/${url}`,
+      `${process.env.NEXT_PUBLIC_HOST}/${url}`,
 
       {
         ...(data && { params: data }),
@@ -45,6 +46,7 @@ export const getDataServerside = async (url, data) => {
     .then((response) => response)
 
     .catch((error) => {
+      console.log(error);
       if (!error?.response) {
         // in case the server goes down or something, instead of saying undefined give this error
         throw new Error('Sorry the server is currently sleeping, come back later');

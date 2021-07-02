@@ -35,7 +35,7 @@ const Landing: React.FC<LandingProps> = () => (
           'h-hero-mobile md:h-hero bg-hero bg-center bg-no-repeat bg-cover self-stretch flex flex-col justify-end items-center px-8 pb-4'
         }
       >
-        <Logo className={'h-32 w-32 mb-12'} fill='white'/>
+        <Logo className={'h-24 md:h-32 mb-8 md:mb-12'} fill='white'/>
         <h1 className={'mb-14 text-white font-bold text-4xl text-center'}>
           Search Reviews for 1000+ Uni Courses
         </h1>

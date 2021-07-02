@@ -60,6 +60,11 @@ const Course: React.FC<CourseData> = ({
   term,
 }) => {
 
+  const [reviewData, setReviewData] = useState({
+    rating,
+    no_of_reviews,
+  });
+
   const messageModal = useModal(PostReviewModal);
 
   const [reviews, setReviews] = useState<ReviewData[]>();
@@ -99,13 +104,16 @@ const Course: React.FC<CourseData> = ({
         content: review.content,
         timeTaken: review.taken_date,
         dateCreated: new Date(review.createdAt),
-        upvotes: review.upvote,
-        downvotes: review.downvote,
+        votes: 0,
         contentRating: review.content_rating,
         workloadRating: review.workload_rating,
         deliveryRating: review.delivery_rating
       }
       setReviews(r => [...(r || []), processedReview])
+      setReviewData(d => ({
+        rating: (d.rating * d.no_of_reviews + review.course_rating) / (d.no_of_reviews + 1),
+        no_of_reviews: d.no_of_reviews + 1,
+      }))
     }
   };
 
@@ -204,8 +212,8 @@ const Course: React.FC<CourseData> = ({
                       itemType='https://schema.org/AggregateRating'
                       itemProp='aggregateRating'
                     >
-                      <span itemProp='ratingValue'>{Math.round(rating * 10) / 10}</span>/<span>5</span>{' '}
-                      <span itemProp='reviewCount'>({no_of_reviews} rating{no_of_reviews === 1 ? '' : 's'})</span>
+                      <span itemProp='ratingValue'>{Math.round(reviewData.rating * 10) / 10}</span>/<span>5</span>{' '}
+                      <span itemProp='reviewCount'>({reviewData.no_of_reviews} rating{reviewData.no_of_reviews === 1 ? '' : 's'})</span>
                     </div>
                   ) : (
                     'No ratings yet'
