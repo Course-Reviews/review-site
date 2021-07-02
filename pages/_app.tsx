@@ -18,11 +18,18 @@ import SearchButton from '../components/SearchButton';
 import '../styles/index.css';
 import Image from 'next/image';
 import Logo from '../components/Logo';
+import Head from 'next/head';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   mixpanel.init('08d4d7028dcc32f1449375dc93c154c7');
   return (
     <MixpanelProvider mixpanel={mixpanel}>
+      <Head>
+        <link rel='apple-touch-icon' sizes='180x180' href='/apple-touch-icon.png' />
+        <link rel='icon' type='image/png' sizes='32x32' href='/favicon-32x32.png' />
+        <link rel='icon' type='image/png' sizes='16x16' href='/favicon-16x16.png' />
+        <link rel='manifest' href='/site.webmanifest' />
+      </Head>
       <ModalProvider
         backgroundClassName={(isExiting) =>
           classNames(
@@ -37,7 +44,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
             <Container className={'flex justify-between'}>
               <Link href='/'>
                 <a className={'flex items-center h-8'}>
-                  <Logo className={'h-12 w-12 mx-4'}/>
+                  <Logo className={'h-12 w-12 mx-4'} />
                   <span className={'text-gray-700 font-semibold'}>Course Reviews</span>
                 </a>
               </Link>

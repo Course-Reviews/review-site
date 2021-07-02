@@ -293,10 +293,10 @@ const Course: React.FC<CourseData> = ({
               </h2>
             </Col>
           </Row>
-
+          <Review contentRating={3} workloadRating={4} deliveryRating={5} rating={3} content='I would not recommend this paper if youre choosing it as a gen ed because it looks easy. Did it as a gen ed in 2019 but i dont think it has changed much since then. It is a very easy paper but just extremely boring and just common sense really. I would recommend picking something else if youre looking for an easy gen ed as you wont get much value from this paper but if you just want something that requires no work and no involvement this could work for you.' dateTaken='Sem 2 2021' />
           {reviews ? (
             reviews.length > 0 ? (
-              reviews.map((r, i) => <Review key={i} rating={3} content='' dateTaken='sem 2' />)
+              reviews.map((r, i) => <Review key={i} rating={3} content='' dateTaken='sem 2' contentRating={3} workloadRating={4} deliveryRating={5}/>)
             ) : (
               <div
                 className={
@@ -306,6 +306,7 @@ const Course: React.FC<CourseData> = ({
                 <FiInbox className={'my-2'} size={30} />
                 <div>Nobody has written a reivew for this course yet</div>
                 <Button
+                outline
                   className={'mt-4'}
                   onClick={() => {
                     showModal();
