@@ -201,12 +201,12 @@ const Course: React.FC<CourseData> = ({
               <h2 className={'text-sm text-gray-400 font-semibold'}>The University of Auckland</h2>
               <div className={'flex items-center my-4'}>
                 <StarRating
-                  className={classNames(rating ? 'text-secondary-500' : 'text-gray-500', 'mr-4')}
-                  rating={rating || 0}
+                  className={classNames(reviewData.rating ? 'text-secondary-500' : 'text-gray-500', 'mr-4')}
+                  rating={reviewData.rating || 0}
                   size={30}
                 />{' '}
                 <div className={'text-gray-600 max-h-min'}>
-                  {rating ? (
+                  {reviewData.rating ? (
                     <div
                       itemScope
                       itemType='https://schema.org/AggregateRating'
