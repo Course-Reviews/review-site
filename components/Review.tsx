@@ -17,7 +17,16 @@ interface ReviewProps {
 
 const Review: React.FC<ReviewProps> = ({
   highlight,
-  review: { rating, timeTaken, content, upvotes, downvotes, contentRating, workloadRating, deliveryRating },
+  review: {
+    rating,
+    timeTaken,
+    content,
+    upvotes,
+    downvotes,
+    contentRating,
+    workloadRating,
+    deliveryRating,
+  },
 }) => (
   <MixpanelConsumer>
     {(mixpanel: any) => (
@@ -29,14 +38,20 @@ const Review: React.FC<ReviewProps> = ({
         itemType='https://schema.org/Review'
       >
         <Card.Body>
-          <div className={'flex items-center text-sm font-bold '}>
+          <div className={'flex items-center text-sm font-bold text-gray-500'}>
             <StarRating rating={rating} size={20} className={'text-secondary-500 mr-2'} />
-            <div itemProp='reviewRating' itemScope itemType='https://schema.org/Rating'>
+            <div
+              itemProp='reviewRating'
+              itemScope
+              itemType='https://schema.org/Rating'
+              className={'text-gray-500'}
+            >
               <meta itemProp='worstRating' content='1' />
-              <span itemProp='ratingValue'>{rating}</span>/<span itemProp='bestRating'>5</span>
+              <span itemProp='ratingValue'>{Math.round(rating * 10) / 10}</span>/
+              <span itemProp='bestRating'>5</span>
             </div>
             <div className={'flex-grow'} />
-            <Badge>{timeTaken}</Badge>
+            <div className={'text-gray-500'}>{timeTaken}</div>
           </div>
           <div className={'flex text-center mt-3 mb-1 divide-x'}>
             <div className={'w-1/3'}>
@@ -72,7 +87,7 @@ const Review: React.FC<ReviewProps> = ({
             </div>
             <div> </div>
           </section>
-          <div className={'flex'}>
+          <div className={'flex border-t pt-2'}>
             <IconButton
               variant='none'
               onClick={() => {

@@ -59,6 +59,7 @@ const Course: React.FC<CourseData> = ({
   university,
   term,
 }) => {
+
   const messageModal = useModal(PostReviewModal);
 
   const [reviews, setReviews] = useState<ReviewData[]>();
@@ -147,7 +148,7 @@ const Course: React.FC<CourseData> = ({
           itemType={'https://schema.org/UserReview'}
         >
           <Head>
-            <title>{code} UoA - Course Review</title>
+            <title>{code} {university} - Course Review</title>
             <meta name='keywords' content={`${code} review, ${title} review, course review`} />
             <meta
               name='description'
@@ -189,8 +190,8 @@ const Course: React.FC<CourseData> = ({
                       itemType='https://schema.org/AggregateRating'
                       itemProp='aggregateRating'
                     >
-                      <span itemProp='ratingValue'>{rating}</span>/ <span>5</span>{' '}
-                      <span itemProp='reviewCount'>({no_of_reviews} ratings)</span>
+                      <span itemProp='ratingValue'>{Math.round(rating * 10) / 10}</span>/<span>5</span>{' '}
+                      <span itemProp='reviewCount'>({no_of_reviews} rating{no_of_reviews === 1 ? '' : 's'})</span>
                     </div>
                   ) : (
                     'No ratings yet'

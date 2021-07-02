@@ -41,7 +41,6 @@ const handler = async (req, res) => {
   if (req.method === 'GET') {
     // Fetch all reviews for a given course
 
-    console.log(`owner is ${req.query.courseId}`);
     try {
       const reviews = await Review.find({
         owner: req.query.courseId,

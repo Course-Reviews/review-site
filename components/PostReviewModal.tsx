@@ -20,7 +20,9 @@ interface ModalData {
 }
 
 interface ReviewData {
-  rating: number;
+  workloadRating: number;
+  contentRating: number;
+  deliveryRating: number;
   content?: string;
   term: number;
   year: string;
@@ -40,17 +42,17 @@ const PostReviewModal: React.FC<ModalType<ModalData, void>> = ({ data, isClosing
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    const { rating, content, term, year } = formdata;
-    if (!rating || !term || !year) return;
+    const { workloadRating, contentRating, deliveryRating, content, term, year } = formdata;
+    if (!workloadRating || !deliveryRating || !contentRating || !term || !year) return;
     console.log('Posting!');
 
     await postReview(data.courseId, {
-      course_rating: rating,
+      course_rating: (workloadRating + deliveryRating + contentRating) / 3,
       content,
       taken_date: `${TERMS[term]} ${year}`,
-      workload_rating: 5,
-      content_rating: 5,
-      delivery_rating: 5,
+      workload_rating: workloadRating,
+      content_rating: contentRating,
+      delivery_rating: deliveryRating,
     });
 
     setSubmitted(true);
@@ -94,10 +96,22 @@ const PostReviewModal: React.FC<ModalType<ModalData, void>> = ({ data, isClosing
               </Col>
             </Row>
           </FormGroup>
-          <FormGroup label='Rating' required>
+          <FormGroup label='Workload' required>
             <RatingInput
               className={'mt-1'}
-              onChange={(v) => setFormdata((d) => ({ ...d, rating: v }))}
+              onChange={(v) => setFormdata((d) => ({ ...d, workloadRating: v }))}
+            />
+          </FormGroup>
+          <FormGroup label='Content Quality' required>
+            <RatingInput
+              className={'mt-1'}
+              onChange={(v) => setFormdata((d) => ({ ...d, contentRating: v }))}
+            />
+          </FormGroup>
+          <FormGroup label='Delivery of Content' required>
+            <RatingInput
+              className={'mt-1'}
+              onChange={(v) => setFormdata((d) => ({ ...d, deliveryRating: v }))}
             />
           </FormGroup>
           <FormGroup label='Review'>
