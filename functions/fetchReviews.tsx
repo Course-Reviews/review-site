@@ -1,6 +1,6 @@
 import { getData } from '.';
 
-interface fetchReviewsResponse {
+export interface fetchReviewsResponse {
   _id: string;
   content: string;
   course_rating: number;

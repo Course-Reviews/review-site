@@ -85,7 +85,7 @@ const Course: React.FC<CourseData> = ({
   }, []);
 
   const showModal = async () => {
-    await messageModal.show({
+    const review = await messageModal.show({
       data: {
         terms: term,
         code,
@@ -93,6 +93,21 @@ const Course: React.FC<CourseData> = ({
       },
       canClose: false,
     });
+    if(review){
+      const processedReview = {
+        id: review._id,
+        rating: review.course_rating,
+        content: review.content,
+        timeTaken: review.taken_date,
+        dateCreated: new Date(review.createdAt),
+        upvotes: review.upvote,
+        downvotes: review.downvote,
+        contentRating: review.content_rating,
+        workloadRating: review.workload_rating,
+        deliveryRating: review.delivery_rating
+      }
+      setReviews(r => [...(r || []), processedReview])
+    }
   };
 
   // Detects course codes in text and replaces them with links
@@ -307,7 +322,7 @@ const Course: React.FC<CourseData> = ({
           </Row>
           {reviews ? (
             reviews.length > 0 ? (
-              reviews.map((r, i) => <Review key={i} review={r}/>)
+              reviews.sort((a, b) =>  b.dateCreated.getTime() - a.dateCreated.getTime()).map((r, i) => <Review key={i} review={r}/>)
             ) : (
               <div
                 className={

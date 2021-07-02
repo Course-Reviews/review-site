@@ -1,8 +1,9 @@
 import { Modal as ModalType } from 'async-modals';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { FiArrowRight } from 'react-icons/fi';
 import UseAnimations from 'react-useanimations';
 import radioButton from 'react-useanimations/lib/radioButton';
+import { fetchReviewsResponse } from '../functions/fetchReviews';
 import postReview from '../functions/postReview';
 import { TERMS } from '../types/config';
 import Button from './atom/Button';
@@ -30,7 +31,7 @@ interface ReviewData {
 
 const YEARS = ['2020', '2021'];
 
-const PostReviewModal: React.FC<ModalType<ModalData, void>> = ({ data, isClosing, cancel }) => {
+const PostReviewModal: React.FC<ModalType<ModalData, fetchReviewsResponse>> = ({ data, isClosing, cancel, submit }) => {
   let termIndex = data.terms.findIndex((v) => v === 3 || v === 5);
   if (termIndex === -1) termIndex = 0;
 
@@ -40,13 +41,16 @@ const PostReviewModal: React.FC<ModalType<ModalData, void>> = ({ data, isClosing
 
   const [submitted, setSubmitted] = useState(false);
 
+  const[review, setReview ]= useState<fetchReviewsResponse>();
+  // const review = useRef<fetchReviewsResponse>();
+
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     const { workloadRating, contentRating, deliveryRating, content, term, year } = formdata;
     if (!workloadRating || !deliveryRating || !contentRating || !term || !year) return;
     console.log('Posting!');
-
-    await postReview(data.courseId, {
+    setSubmitted(true);
+    const res = await postReview(data.courseId, {
       course_rating: (workloadRating + deliveryRating + contentRating) / 3,
       content,
       taken_date: `${TERMS[term]} ${year}`,
@@ -54,14 +58,14 @@ const PostReviewModal: React.FC<ModalType<ModalData, void>> = ({ data, isClosing
       content_rating: contentRating,
       delivery_rating: deliveryRating,
     });
+    setReview(res);
 
-    setSubmitted(true);
   };
 
   return (
     <Modal isClosing={isClosing} className={'w-full sm:w-3/4 md:w-2/3 lg:max-w-lg m-4'}>
       <Modal.Title close={cancel}>Review {data.code}</Modal.Title>
-      {submitted ? (
+      {review ? (
         <div className={'flex flex-col items-center text-primary-500 my-8'}>
           <UseAnimations
             reverse
@@ -71,7 +75,7 @@ const PostReviewModal: React.FC<ModalType<ModalData, void>> = ({ data, isClosing
             speed={0.75}
           />
           <div className={'text-lg font-bold my-8'}>Thanks for leaving a review!</div>
-          <Button onClick={cancel}>
+          <Button onClick={() => review ? submit(review) : cancel()}>
             Back to {data.code}
             <FiArrowRight size={24} className={'ml-2 -m-2'} />
           </Button>
@@ -129,8 +133,9 @@ const PostReviewModal: React.FC<ModalType<ModalData, void>> = ({ data, isClosing
               onClick={() => {
                 // mixpanel.track('[REVIEW MODAL] Post');
               }}
+              disabled={submitted}
             >
-              Post Anonymous Review
+              {submitted ? 'Posting...' : 'Post Anonymous Review'}
             </Button>
           </div>
         </form>

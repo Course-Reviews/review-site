@@ -15,26 +15,28 @@ const TermsAndConditions: React.FC = () => (
       />
     </Head>
     <Container as='main' className={'text-gray-700 max-w-xl'}>
-    <Logo className={'mx-auto h-16'}/>
+      <Logo className={'mx-auto h-16'} />
       <h1 className='font-bold text-3xl my-4 text-gray-800 text-center'>Terms and Conditions</h1>
       <Card>
         <Card.Body>
-
-      <p>
-        <strong>CourseReview</strong> provides a platform for anonymous reviews of the courses. We
-        do not tolerate hate speech, harassment or any other written abuse. <br />
-        <br />
-        Please view the content at your discretion. If you encounter an offensive review, we urge
-        you to report it for the content moderation team to investigate.
-        <br />
-        <br />
-        We are a private entity and are not a part of any university organization that we provide
-        platform for course reviews.
-        <br />
-        <br />
-        If you have any issues please engage with our support team at <a href='mailto:coursereview.nz@gmail.com' className={'text-primary-500'}>coursereview.nz@gmail.com</a>
-      </p>
-      </Card.Body>
+          <p>
+            <strong>CourseReview</strong> provides a platform for anonymous reviews of the courses.
+            We do not tolerate hate speech, harassment or any other written abuse. <br />
+            <br />
+            Please view the content at your discretion. If you encounter an offensive review, we
+            urge you to report it for the content moderation team to investigate.
+            <br />
+            <br />
+            We are a private entity and are not a part of any university organization that we
+            provide platform for course reviews.
+            <br />
+            <br />
+            If you have any issues please engage with our support team at{' '}
+            <a href='mailto:coursereview.nz@gmail.com' className={'text-primary-500'}>
+              coursereview.nz@gmail.com
+            </a>
+          </p>
+        </Card.Body>
       </Card>
     </Container>
   </Fragment>
