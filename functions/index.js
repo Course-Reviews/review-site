@@ -59,12 +59,11 @@ export const getDataServerside = async (url, data) => {
 
 export const postData = async (url, data = {}) => {
   const response = await axios
-    .post(`${window.location.origin}/${url}`, data, {
+    .post(`${process.env.NEXT_PUBLIC_HOST}/${url}`, data, {
       headers: getHeaders(),
     })
     .then((response) => response)
     .catch((error) => {
-      // console.log(error);
       if (!error?.response) {
         throw new Error('Sorry the server is currently sleeping, come back later');
       }
@@ -74,12 +73,14 @@ export const postData = async (url, data = {}) => {
 };
 
 export const patchData = async (url, data = {}) => {
+  console.log(`${process.env.NEXT_PUBLIC_HOST}/${url}`);
   const response = await axios
-    .patch(`${window.location.origin}/${url}`, data, {
+    .patch(`${process.env.NEXT_PUBLIC_HOST}/${url}`, data, {
       headers: getHeaders(),
     })
     .then((response) => response)
     .catch((error) => {
+      console.log(error);
       if (!error?.response) {
         throw new Error('Sorry the server is currently sleeping, come back later');
       }

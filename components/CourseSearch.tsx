@@ -114,13 +114,13 @@ const CourseSearch: React.FC<CourseSearchProps> = ({ className }) => {
               searchResults.length > 0 ? (
                 <MixpanelConsumer>
                   {(mixpanel: any) =>
-                    searchResults.map((result) => (
+                    searchResults.map((result, i) => (
                       <SearchResult
                         onClick={() => {
                           mixpanel.track('[LANDING] Course Clicked', { value: result.code });
                         }}
                         result={result}
-                        key={result.id}
+                        key={i}
                         isCondensed={false}
                         className='bg-white'
                       />

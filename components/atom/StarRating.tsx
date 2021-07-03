@@ -11,12 +11,11 @@ const StarRating: React.FC<StarRatingProps> = ({ rating, size = 24, className, .
   <div className={classnames('flex', className)} {...rest}>
     {[0, 1, 2, 3, 4].map((e, i) => {
       if (rating > e && rating < e + 1) {
-        console.log(rating % 1);
         return (
-          <div className={'relative mx-0.5'}>
+          <div className={'relative mx-0.5'} key={i}>
             <FiStar size={size} />
             <div className={'absolute top-0 overflow-x-hidden'} style={{width: `${(0.6 *(rating % 1) + 0.2) * 100}%`}}>
-            <FiStar size={size} fill={'currentColor'}/>
+            <FiStar  size={size} fill={'currentColor'}/>
             </div>
 
           </div>

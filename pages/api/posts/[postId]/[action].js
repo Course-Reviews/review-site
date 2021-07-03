@@ -23,15 +23,12 @@ connectDB();
 
 const handler = async (req, res) => {
   if (req.method === 'PATCH') {
-
     await limiter(req, res);
 
-    const url = req.url.split('/');
-
-    switch (url[4]) {
+    switch (req.query.action) {
       case 'upvote':
         try {
-          const review = await Review.findByIdAndUpdate(url[3], {
+          const review = await Review.findByIdAndUpdate(req.query.postId, {
             $inc: {
               upvote: 1,
             },
@@ -44,7 +41,7 @@ const handler = async (req, res) => {
         break;
       case 'downvote':
         try {
-          const review = await Review.findByIdAndUpdate(url[3], {
+          const review = await Review.findByIdAndUpdate(req.query.postId, {
             $inc: {
               downvote: 1,
             },

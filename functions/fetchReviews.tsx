@@ -16,7 +16,7 @@ export interface fetchReviewsResponse {
 }
 
 const fetchReviews = async (courseId: string): Promise<fetchReviewsResponse[]> => {
-  const { data } = await getData(`api/posts/${courseId}`);
+  const { data } = await getData(`api/posts/bycourse/${courseId}`);
   return data;
 };
 export default fetchReviews;
