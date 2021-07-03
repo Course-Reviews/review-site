@@ -18,7 +18,7 @@ import PostReviewModal from '../../../components/PostReviewModal';
 import Review from '../../../components/Review';
 import fetchCourse from '../../../functions/fetchCourse';
 import fetchReviews from '../../../functions/fetchReviews';
-import { CourseDetails, ReviewData } from '../../../types/config';
+import { CourseDetails, ReviewData, TERMS, UNI_NAMES } from '../../../types/config';
 import { codeToURL } from '../../../util/util';
 import courseList from '../../../util/courseList.json';
 
@@ -33,6 +33,7 @@ const Course: React.FC<CourseDetails> = ({
   assessments,
   requirements,
   university,
+  faculty,
   term,
 }) => {
   const [reviewData, setReviewData] = useState({
@@ -146,16 +147,20 @@ const Course: React.FC<CourseDetails> = ({
         >
           <Head>
             <title>
-              {code} {university} - Course Review
+              {code} {university.toUpperCase()} - Course info and reviews
             </title>
             <meta name='keywords' content={`${code} review, ${title} review, course review`} />
             <meta
               name='description'
-              content={`Check out what other students had to say about ${code} ${title} and related course reviews for The University of Auckland.`}
+              content={`Check out what other students have to say about ${code} ${title} and related course reviews for The University of Auckland.`}
             />
             <meta
               name='keywords'
-              content={` ${code}, ${code} course reviews, ${code} uoa course, ${title} review`}
+              content={`${
+                UNI_NAMES[university]
+              }, ${university}, ${faculty} courses, ${code}, ${code} course reviews, ${code} assignment, ${code} exam, ${code} ${university} course, ${title} review, ${term
+                .map((t) => TERMS[t])
+                .join(', ')}`}
             />
             <meta name='robots' content='index,follow' />
             <link rel='icon' href='/favicon.ico' />
@@ -165,7 +170,7 @@ const Course: React.FC<CourseDetails> = ({
               <BreadCrumbs>
                 <BreadCrumbs.Home />
                 <BreadCrumbs.Item href='/courses'>Courses</BreadCrumbs.Item>
-                <BreadCrumbs.Item href={'/courses/uoa'}>UoA</BreadCrumbs.Item>
+                <BreadCrumbs.Item href={'/courses'}>{university.toUpperCase()}</BreadCrumbs.Item>
                 <BreadCrumbs.Item href={`/courses/uoa/${codeToURL(code)}`}>{code}</BreadCrumbs.Item>
               </BreadCrumbs>
             </Col>
@@ -175,7 +180,7 @@ const Course: React.FC<CourseDetails> = ({
               <h1 className={'text-2xl font-bold text-gray-800'}>
                 {code} - {title}
               </h1>
-              <h2 className={'text-sm text-gray-400 font-semibold'}>The University of Auckland</h2>
+              <h2 className={'text-sm text-gray-400 font-semibold'}>{UNI_NAMES[university]}</h2>
               <div className={'flex items-center my-4'}>
                 <StarRating
                   className={classNames(
@@ -241,7 +246,7 @@ const Course: React.FC<CourseDetails> = ({
                                 target={'uoa_site'}
                               >
                                 <FiExternalLink size={20} className={'mr-1'} />
-                                Official UoA site for {code}
+                                Official site for {code}
                               </a>
                             </div>
                           )}
