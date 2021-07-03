@@ -13,10 +13,10 @@ import SearchResult, { CourseSearchResult } from './SearchResult';
 interface CourseSearchProps extends HTMLAttributes<HTMLElement> {}
 
 // This is how long we should wait after each keypress before actually executing the search
-const SEARCH_DELAY = 500;
+const SEARCH_DELAY = 0;
 
 // Dont search until the user has typed at least this many characters
-const SEARCH_LENGTH_THRESHOLD = 2;
+const SEARCH_LENGTH_THRESHOLD = 1;
 
 const CourseSearch: React.FC<CourseSearchProps> = ({ className }) => {
   // When we do a search cache the results in a map
@@ -107,9 +107,11 @@ const CourseSearch: React.FC<CourseSearchProps> = ({ className }) => {
             className='w-full mx-auto shadow-xl rounded-lg'
           >
             <ul className='w-full bg-white '>
-              {loading ? (
-                <div className={'py-2 px-3'}>loading...</div>
-              ) : searchResults.length > 0 ? (
+              {
+              // loading ? (
+              //   <div className={'py-2 px-3'}>loading...</div>
+              // ) :
+              searchResults.length > 0 ? (
                 <MixpanelConsumer>
                   {(mixpanel: any) =>
                     searchResults.map((result) => (

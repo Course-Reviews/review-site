@@ -7,7 +7,8 @@ export const URLToCode = (url: string) => {
 
   const res = {
     university: uni,
-    code: `${courseCode.slice(0, index)  } ${courseCode.slice(index)}`
+    code: `${courseCode.slice(0, index)  } ${courseCode.slice(index)}`,
+    id: '0',
   }
   return res;
 }
