@@ -5,6 +5,11 @@
 @layer utilities {
   * {
     -webkit-tap-highlight-color: transparent;
+
+  }
+  ::selection {
+    background: #6B5EFA;
+    color: white;
   }
 }
 #__next,

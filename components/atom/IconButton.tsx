@@ -27,6 +27,7 @@ const IconButton: React.FC<ButtonProps> = ({
   className,
   innerClassName,
   disabled,
+  onClick,
   icon: Icon,
   ...rest
 }) => (
@@ -35,7 +36,7 @@ const IconButton: React.FC<ButtonProps> = ({
       className={classNames(
         'rounded-full font-bold transition transform duration-200 ease-in-out focus:outline-none items-center ',
         !disabled && variant !== 'none' && 'shadow',
-        variant !== 'none' ? 'text-white p-3' : 'text-gray-800 hover:text-primary-500',
+        variant !== 'none' ? 'text-white p-3' : disabled ? 'text-gray-300' : 'text-gray-800 hover:text-primary-500',
         [
           `ring-${variant}-200`,
           disabled ? `bg-${variant}-400` : `bg-${variant}-500`,
@@ -43,6 +44,7 @@ const IconButton: React.FC<ButtonProps> = ({
         innerClassName
       )}
       disabled={disabled}
+      onClick={disabled ? undefined : onClick}
        {...rest}
     >
       {Icon ? <Icon size={size === 'sm' ? 16 : size === 'md' ? 24 : 32} className={'relative z-10'}/> : children}

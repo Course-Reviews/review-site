@@ -36,7 +36,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         }
         exitDelay={200}
       >
-        <div className='bg-gray-50 min-h-screen select-none flex flex-col justify-between'>
+        <div className='bg-gray-50 min-h-screen flex flex-col justify-between'>
           <Navbar>
             <Container className={'flex justify-between'}>
               <Link href='/'>

@@ -1,11 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import connectDB from '../../../../db/mongoose';
 import Course from '../../../../models/course';
-import { CourseSummary, Pagination } from '../../../../types/config';
+import { CourseSummary, FACULTYS, Pagination } from '../../../../types/config';
 
 connectDB();
 
-const PAGE_SIZE = 25;
+const PAGE_SIZE = 10;
 
 export interface fetchCoursesResponse {
   courses: CourseSummary[];
@@ -15,7 +15,7 @@ export interface fetchCoursesResponse {
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<fetchCoursesResponse>) => {
   if (req.method === 'GET') {
-    const { uni, stage } = req.query;
+    const { uni, stage, term, faculty } = req.query;
 
     const page = parseInt(`${req.query.page || 0}`);
 
@@ -27,6 +27,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<fetchCoursesRes
     if (uni) {
       matchCriteria.university = uni;
     }
+    if (term){
+      matchCriteria.term = { $all: [parseInt(`${term}`)] }
+    }
+    if (faculty){
+      matchCriteria.faculty = FACULTYS[parseInt(`${faculty}`)]
+    }
+
     try {
       const query = await Course.aggregate([
         {
@@ -63,7 +70,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<fetchCoursesRes
               { $skip: PAGE_SIZE * page },
               { $limit: PAGE_SIZE },
             ],
-            totalCount: [{ $count: 'count' }],
+            totalCount: [{ $match: matchCriteria }, { $count: 'count' }],
           },
         },
       ]);
@@ -79,7 +86,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<fetchCoursesRes
           title: c.title
         })),
         pagination: {
-          totalCount: query[0].totalCount[0].count,
+          totalCount: query[0].totalCount[0]?.count || 0,
           pageSize: PAGE_SIZE,
           page,
         }

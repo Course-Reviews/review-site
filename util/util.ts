@@ -2,7 +2,7 @@ export const codeToURL = (code: string) => code.replace(' ', '').replace('/', '%
 
 export const URLToCode = (url: string) => {
   const [uni, code] = url.split('/');
-  const courseCode = (code || '').replace('%2F', '/').toUpperCase()
+  const courseCode = (code || '').toUpperCase().replace('%2F', '/')
   const index = courseCode.indexOf((courseCode.match(/([A-Z])[0-9]/) as any)[0]) + 1
 
   const res = {

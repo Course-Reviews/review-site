@@ -5,7 +5,6 @@ export enum Uni {
   OTAGO = 'otago'
 }
 
-
 export interface ReviewData {
   id: string;
   rating: number;
@@ -29,6 +28,17 @@ export const TERMS = [
   'Later Year Term',
   'Quarter 4',
   'Doctoral Academic Year'
+]
+
+export const FACULTYS  = [
+  'Arts',
+  'Business and Economics',
+  'Creative Arts and Industries',
+  'Education and Social Work',
+  'Engineering',
+  'Law',
+  'Medical and Health Sciences',
+  'Science'
 ]
 
 export interface CourseSummary {

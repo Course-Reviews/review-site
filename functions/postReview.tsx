@@ -11,7 +11,7 @@ interface reviewData {
 
 const postReview = async (courseId: string, data: reviewData) => {
   try {
-    const res = await postData(`api/posts/${courseId}/`, data);
+    const res = await postData(`api/posts/bycourse/${courseId}`, data);
     return res.data;
   } catch (e) {
     console.log(e);
