@@ -20,6 +20,7 @@ import fetchCourse from '../../../functions/fetchCourse';
 import fetchReviews from '../../../functions/fetchReviews';
 import { CourseDetails, ReviewData } from '../../../types/config';
 import { codeToURL } from '../../../util/util';
+import courseList from '../../../util/courseList.json';
 
 const Course: React.FC<CourseDetails> = ({
   id,
@@ -34,7 +35,6 @@ const Course: React.FC<CourseDetails> = ({
   university,
   term,
 }) => {
-
   const [reviewData, setReviewData] = useState({
     rating,
     numRatings,
@@ -47,7 +47,7 @@ const Course: React.FC<CourseDetails> = ({
   useEffect(() => {
     const hydrate = async () => {
       const data = await fetchReviews(id);
-      const processed = data.map(e => ({
+      const processed = data.map((e) => ({
         id: e._id,
         rating: e.course_rating,
         content: e.content,
@@ -56,11 +56,11 @@ const Course: React.FC<CourseDetails> = ({
         votes: e.upvote - e.downvote,
         contentRating: e.content_rating,
         workloadRating: e.workload_rating,
-        deliveryRating: e.delivery_rating
-      }))
+        deliveryRating: e.delivery_rating,
+      }));
       setReviews(processed);
-    }
-    hydrate()
+    };
+    hydrate();
   }, []);
 
   const showModal = async () => {
@@ -68,11 +68,11 @@ const Course: React.FC<CourseDetails> = ({
       data: {
         terms: term,
         code,
-        courseId: id
+        courseId: id,
       },
       canClose: false,
     });
-    if(review){
+    if (review) {
       const processedReview = {
         id: review._id,
         rating: review.course_rating,
@@ -82,13 +82,13 @@ const Course: React.FC<CourseDetails> = ({
         votes: 0,
         contentRating: review.content_rating,
         workloadRating: review.workload_rating,
-        deliveryRating: review.delivery_rating
-      }
-      setReviews(r => [...(r || []), processedReview])
-      setReviewData(d => ({
+        deliveryRating: review.delivery_rating,
+      };
+      setReviews((r) => [...(r || []), processedReview]);
+      setReviewData((d) => ({
         rating: (d.rating * d.numRatings + review.course_rating) / (d.numRatings + 1),
         numRatings: d.numRatings + 1,
-      }))
+      }));
     }
   };
 
@@ -145,7 +145,9 @@ const Course: React.FC<CourseDetails> = ({
           itemType={'https://schema.org/UserReview'}
         >
           <Head>
-            <title>{code} {university} - Course Review</title>
+            <title>
+              {code} {university} - Course Review
+            </title>
             <meta name='keywords' content={`${code} review, ${title} review, course review`} />
             <meta
               name='description'
@@ -176,7 +178,10 @@ const Course: React.FC<CourseDetails> = ({
               <h2 className={'text-sm text-gray-400 font-semibold'}>The University of Auckland</h2>
               <div className={'flex items-center my-4'}>
                 <StarRating
-                  className={classNames(reviewData.rating ? 'text-secondary-500' : 'text-gray-500', 'mr-4')}
+                  className={classNames(
+                    reviewData.rating ? 'text-secondary-500' : 'text-gray-500',
+                    'mr-4'
+                  )}
                   rating={reviewData.rating || 0}
                   size={30}
                 />{' '}
@@ -187,8 +192,11 @@ const Course: React.FC<CourseDetails> = ({
                       itemType='https://schema.org/AggregateRating'
                       itemProp='aggregateRating'
                     >
-                      <span itemProp='ratingValue'>{Math.round(reviewData.rating * 10) / 10}</span>/<span>5</span>{' '}
-                      <span itemProp='reviewCount'>({reviewData.numRatings} rating{reviewData.numRatings === 1 ? '' : 's'})</span>
+                      <span itemProp='ratingValue'>{Math.round(reviewData.rating * 10) / 10}</span>/
+                      <span>5</span>{' '}
+                      <span itemProp='reviewCount'>
+                        ({reviewData.numRatings} rating{reviewData.numRatings === 1 ? '' : 's'})
+                      </span>
                     </div>
                   ) : (
                     'No ratings yet'
@@ -304,7 +312,9 @@ const Course: React.FC<CourseDetails> = ({
           </Row>
           {reviews ? (
             reviews.length > 0 ? (
-              reviews.sort((a, b) =>  b.dateCreated.getTime() - a.dateCreated.getTime()).map((r, i) => <Review key={i} review={r}/>)
+              reviews
+                .sort((a, b) => b.dateCreated.getTime() - a.dateCreated.getTime())
+                .map((r, i) => <Review key={i} review={r} />)
             ) : (
               <div
                 className={
@@ -314,7 +324,7 @@ const Course: React.FC<CourseDetails> = ({
                 <FiInbox className={'my-2'} size={30} />
                 <div>Nobody has written a reivew for this course yet</div>
                 <Button
-                outline
+                  outline
                   className={'mt-4'}
                   onClick={() => {
                     showModal();
@@ -349,31 +359,33 @@ export default Course;
  * Disabling this for now since we dont want to make 3000+ db calls to build our app,
  * so easiest solution is to just render when the page is requested
  */
-export const getStaticPaths: GetStaticPaths = async () =>
+export const getStaticPaths: GetStaticPaths = async () => ({ paths: [], fallback: 'blocking' });
 
-   ({paths: [], fallback: 'blocking'})
+// return({
+// paths: (courses as any).map((v: any) => ({
+//   params: {
+//     uni: v.university,
+//     id: v.code.replace(' ', '').toLowerCase(),
+//   },
+// })),
+// fallback: false,
+// })
 
-  // return({
-  // paths: (courses as any).map((v: any) => ({
-  //   params: {
-  //     uni: v.university,
-  //     id: v.code.replace(' ', '').toLowerCase(),
-  //   },
-  // })),
-  // fallback: false,
-  // })
-;
+export const getStaticProps: GetStaticProps = async ({ params }) => {
 
-export const getStaticProps: GetStaticProps = async ({
-  params,
-}) => {
+  const { id, uni } = params as { [k: string]: string };
+  // check if exists
 
-  const {id, uni} = params as {[k: string]: string};
+  if(courseList.indexOf(`${uni}/${id}`) === -1){
+    return {
+      notFound: true
+    }
+  }
 
-  const data = await fetchCourse(uni, id)
+  const data = await fetchCourse(uni, id);
 
-  return({
-  props: data,
-  revalidate: 60,
-})
+  return {
+    props: data,
+    revalidate: 60,
+  };
 };
