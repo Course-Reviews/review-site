@@ -28,7 +28,7 @@ const handler = async (req, res) => {
 
     const review = new Review({
       ...req.body,
-      owner: mongoose.Types.ObjectId(req.query.courseId),
+      owner: mongoose.Types.ObjectId(req.query.Id),
     });
 
     try {
@@ -43,7 +43,7 @@ const handler = async (req, res) => {
 
     try {
       const reviews = await Review.find({
-        owner: req.query.courseId,
+        owner: req.query.Id,
         content: {$exists:true}
       });
       res.status(200).json(reviews);
@@ -51,6 +51,7 @@ const handler = async (req, res) => {
       res.status(400).json(e.errors.content.properties.message);
     }
   }
+
 };
 
 export default handler;
