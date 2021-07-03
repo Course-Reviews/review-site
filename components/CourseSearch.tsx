@@ -135,7 +135,12 @@ const CourseSearch: React.FC<CourseSearchProps> = ({ className }) => {
                     <span>Is your course not here?</span>
                     <MixpanelConsumer>
                       {(mixpanel: any) => (
-                        <span className='text-info-600 my-2' onClick={() => {}}>
+                        <span
+                          className='text-info-600 my-2'
+                          onClick={() => {
+                            mixpanel.track('[LANDING] course not found', { value: searchValue });
+                          }}
+                        >
                           Please tell us!
                         </span>
                       )}
