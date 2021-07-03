@@ -9,6 +9,7 @@ import Row from './atom/Row';
 import classNames from 'classnames';
 import Badge from './atom/Badge';
 import { ReviewData } from '../types/config';
+import { patchData } from '../functions';
 
 interface ReviewProps {
   review: ReviewData;
@@ -17,15 +18,7 @@ interface ReviewProps {
 
 const Review: React.FC<ReviewProps> = ({
   highlight,
-  review: {
-    rating,
-    timeTaken,
-    content,
-    votes,
-    contentRating,
-    workloadRating,
-    deliveryRating,
-  },
+  review: { id, rating, timeTaken, content, votes, contentRating, workloadRating, deliveryRating },
 }) => (
   <MixpanelConsumer>
     {(mixpanel: any) => (
@@ -96,9 +89,17 @@ const Review: React.FC<ReviewProps> = ({
               <FiFlag size={24} className={'text-gray-700'} />
             </IconButton>
             <div className={'flex-grow'} />
-            <IconButton variant='none' icon={FiThumbsDown} />
+            <IconButton
+              variant='none'
+              icon={FiThumbsDown}
+              onClick={() => patchData(`api/post/${id}/upvote`)}
+            />
             <div className={'mx-4 font-bold text-gray-700'}>{votes}</div>{' '}
-            <IconButton variant='none' icon={FiThumbsUp} />
+            <IconButton
+              variant='none'
+              icon={FiThumbsUp}
+              onClick={() => patchData(`api/post/${id}/downvote`)}
+            />
           </div>
         </Card.Body>
       </Card>
