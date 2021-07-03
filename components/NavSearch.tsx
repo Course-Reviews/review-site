@@ -93,7 +93,8 @@ const NavSearch: React.FC<HTMLAttributes<HTMLElement>> = ({ className }) => {
         >
           {focused && searchValue.length > SEARCH_LENGTH_THRESHOLD && (
             <ul className='w-full py-1'>
-              {!loading ? (
+              {
+              // !loading ? (
                 searchResults.length > 0 ? (
                   <MixpanelConsumer>
                     {(mixpanel: any) =>
@@ -113,9 +114,10 @@ const NavSearch: React.FC<HTMLAttributes<HTMLElement>> = ({ className }) => {
                 ) : (
                   <div className={'py-2 my-2 px-4'}>No Results</div>
                 )
-              ) : (
-                <div className={'py-2 my-2 px-4'}>Loading...</div>
-              )}
+              // ) : (
+              //   <div className={'py-2 my-2 px-4'}>Loading...</div>
+              // )
+              }
             </ul>
           )}
         </Expand>

@@ -16,7 +16,7 @@ const Landing: React.FC<LandingProps> = () => (
   // Todo Add more word content to the landing page AND add the logo icon for favicon
   <Fragment>
     <Head>
-      <title>Search or Post University Course Reviews - Discors</title>
+      <title>Search or Post University Course Reviews</title>
       <meta
         name='description'
         content='Search or post a review for your university courses to reflect or prepare in NZ including UoA, AUT, Otago, Massey, and Vic '
@@ -37,7 +37,7 @@ const Landing: React.FC<LandingProps> = () => (
       >
         <Logo className={'h-24 md:h-32 mb-8 md:mb-12'} fill='white'/>
         <h1 className={'mb-14 text-white font-bold text-4xl text-center'}>
-          Search Reviews for 1000+ Uni Courses
+          Search Reviews for 3000+ Uni Courses
         </h1>
       </Parallax>
       <section className={'flex flex-col relative -top-8 items-center -mb-8'}>
