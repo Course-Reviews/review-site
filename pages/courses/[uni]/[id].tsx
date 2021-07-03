@@ -372,14 +372,13 @@ export const getStaticPaths: GetStaticPaths = async () => ({ paths: [], fallback
 // })
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-
   const { id, uni } = params as { [k: string]: string };
   // check if exists
 
-  if(courseList.indexOf(`${uni}/${id}`) === -1){
+  if (courseList.indexOf(`${uni}/${id}`) === -1) {
     return {
-      notFound: true
-    }
+      notFound: true,
+    };
   }
 
   const data = await fetchCourse(uni, id);
