@@ -361,16 +361,6 @@ export default Course;
  */
 export const getStaticPaths: GetStaticPaths = async () => ({ paths: [], fallback: 'blocking' });
 
-// return({
-// paths: (courses as any).map((v: any) => ({
-//   params: {
-//     uni: v.university,
-//     id: v.code.replace(' ', '').toLowerCase(),
-//   },
-// })),
-// fallback: false,
-// })
-
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { id, uni } = params as { [k: string]: string };
   // check if exists

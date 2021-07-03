@@ -18,7 +18,7 @@ const SearchModal: React.FC<ModalType<void, void>> = ({ isClosing, cancel }) => 
 
     </div>
     <h1 className={'text-lg font-bold text-gray-700 text-center my-4'}>Search all courses</h1>
-    <CourseSearch/>
+    <CourseSearch onClick={() => cancel()}/>
   </div>
 );
 
