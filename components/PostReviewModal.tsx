@@ -70,7 +70,7 @@ const PostReviewModal: React.FC<ModalType<ModalData, fetchReviewsResponse>> = ({
       return;
     }
 
-    console.log('Posting!');
+    // console.log('Posting!');
     setSubmitted(true);
     const res = await postReview(data.courseId, {
       course_rating: (workloadRating + deliveryRating + contentRating) / 3,

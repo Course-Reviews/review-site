@@ -4,7 +4,7 @@ import { getData } from '.';
 const fetchAllCourses = async () => {
   const { data } = await getData('api/courses');
 
-  console.log(data);
+  // console.log(data);
 
 };
 export default fetchAllCourses;

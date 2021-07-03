@@ -20,6 +20,7 @@ import fetchCourse from '../../../functions/fetchCourse';
 import fetchReviews from '../../../functions/fetchReviews';
 import { CourseDetails, ReviewData } from '../../../types/config';
 import { codeToURL } from '../../../util/util';
+import courseList from '../../../util/courseList.json';
 
 const Course: React.FC<CourseDetails> = ({
   id,
@@ -372,6 +373,13 @@ export const getStaticPaths: GetStaticPaths = async () => ({ paths: [], fallback
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { id, uni } = params as { [k: string]: string };
+  // check if exists
+
+  if (courseList.indexOf(`${uni}/${id}`) === -1) {
+    return {
+      notFound: true,
+    };
+  }
 
   const data = await fetchCourse(uni, id);
 
