@@ -12,6 +12,8 @@ import IconButton from '../../components/atom/IconButton';
 import Row from '../../components/atom/Row';
 import CourseCard, { CourseCardProps } from '../../components/CourseCard';
 import fetchAllCourses from '../../functions/fetchAllCourses';
+import fetchCourses from '../../functions/fetchCourses';
+import { CourseSummary, Pagination } from '../../types/config';
 import courses from '../../util/courseDetails.json';
 
 const stages: Option[] = [
@@ -35,45 +37,69 @@ const CourseIndex: React.FC = () => {
   const query = router.query as Filter;
 
   const [showFilter, setShowFilter] = useState<boolean>(true);
+
   const [filter, setFilter] = useState<Filter>({});
+  const [pagination, setPagination] = useState<Pagination>({
+    page: 0,
+    totalCount: 0,
+    pageSize: 0,
+  });
 
-  const [results, setResults] = useState<CourseCardProps[]>([]);
+  const [results, setResults] = useState<CourseSummary[]>([]);
+  const [loading, setLoading] = useState(true);
 
+  // Wait for the page to be ready
   useEffect(() => {
-    console.log(query);
-    if (router.isReady) {
-      setFilter(query);
+    const fetch = async () => {
+      const res = await fetchCourses({});
+      setResults(res.courses);
+      setPagination(res.pagination);
+      setLoading(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (router.isReady) {
+      fetch();
+    }
   }, [router.isReady]);
 
+  // useEffect(() => {
+  //   console.log('test?');
+
+  //   const queryString = Object.entries(filter)
+  //     .filter(([k, v]) => v !== undefined)
+  //     .map(([k, v]) => `${k}=${v}`)
+  //     .join('&');
+  //   if (queryString.length > 0) {
+  //     router.push(`?${queryString}`, undefined, { shallow: true });
+  //   } else {
+  //     router.push('', undefined, { shallow: true });
+  //   }
+
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [filter]);
+
+  // const clearFilter = () => {
+  //   setFilter({});
+  // };
+
   useEffect(() => {
-    console.log('test?');
+    const getCourses = async () => {
+      // fetch results here
+      const res = await fetchCourses({});
+      setResults(res.courses);
+      setPagination(res.pagination);
+    };
+    getCourses();
+  }, []);
 
-    const queryString = Object.entries(filter)
-      .filter(([k, v]) => v !== undefined)
-      .map(([k, v]) => `${k}=${v}`)
-      .join('&');
-    if (queryString.length > 0) {
-      router.push(`?${queryString}`, undefined, { shallow: true });
-    } else {
-      router.push('', undefined, { shallow: true });
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter]);
-
-  const clearFilter = () => {
-    setFilter({});
-  };
-
-  const applyFilter = () => {
+  const getCourses = async () => {
     // fetch results here
-    fetchAllCourses();
+    const res = await fetchCourses({});
+    setResults(res.courses);
+    setPagination(res.pagination);
   };
 
   return (
-    <Container as={'main'}>
+    <Container as={'main'} className={'flex-grow'}>
       <Head>
         <title>Browse Courses</title>
         <link rel='icon' href='/favicon.ico' />
@@ -94,7 +120,7 @@ const CourseIndex: React.FC = () => {
           <IconButton icon={FiFilter} variant='none' onClick={() => setShowFilter((v) => !v)} />
         </Col>
       </Row>
-      {showFilter && (
+      {/* {showFilter && (
         <div>
           <Row className={'border-b pb-4 pt-2 items-end flex-wrap'}>
             <Col className={'w-full md:w-64'}>
@@ -150,19 +176,17 @@ const CourseIndex: React.FC = () => {
             </Col>
           </Row>
         </div>
-      )}
-      {(courses as any[]).slice(0, 10).map((c, i) => (
-        <CourseCard
-          key={i}
-          course={{
-            link: `/courses/${c.university}/${c.code.replace(' ', '').toLowerCase()}`,
-            name: c.code,
-            uni: c.university,
-            rating: 3,
-            ratingCount: 5,
-            stage: 1,
-          }}
-        />
+      )} */}
+      <div className={'my-2 text-gray-600 h-5'}>
+      {loading ? <div className={'rounded-full animate-pulse mt-1 h-4 w-48 bg-gray-200'}/> : <>Showing results{' '}
+        <span className={'font-semibold'}>
+          {pagination.page * pagination.pageSize + 1} -{' '}
+          {(pagination.page + 1) * pagination.pageSize}
+        </span>{' '}
+        of <span className={'font-semibold'}>{pagination.totalCount}</span></>}
+      </div>
+      {results.map((c, i) => (
+        <CourseCard key={i} course={c} />
       ))}
     </Container>
   );

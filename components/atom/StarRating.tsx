@@ -10,8 +10,6 @@ interface StarRatingProps extends HTMLAttributes<HTMLElement> {
 const StarRating: React.FC<StarRatingProps> = ({ rating, size = 24, className, ...rest }) => (
   <div className={classnames('flex', className)} {...rest}>
     {[0, 1, 2, 3, 4].map((e, i) => {
-      // if last full star
-      // if rating = 3.5, then e = 3
       if (rating > e && rating < e + 1) {
         console.log(rating % 1);
         return (

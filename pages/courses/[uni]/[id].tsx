@@ -18,42 +18,21 @@ import PostReviewModal from '../../../components/PostReviewModal';
 import Review from '../../../components/Review';
 import fetchCourse from '../../../functions/fetchCourse';
 import fetchReviews from '../../../functions/fetchReviews';
-import { ReviewData } from '../../../types/config';
+import { CourseDetails, ReviewData } from '../../../types/config';
 import courses from '../../../util/courseDetails.json';
 import { codeToURL } from '../../../util/util';
 
-interface CourseData {
-  // This is the id in the uni database
-  id: number;
-  // This is our database id
-  _id: string;
-  title: string;
-  description?: string;
-  code: string;
-  pageId: string;
-  university: string;
-  faculty: string;
-  rating: number;
-  no_of_reviews: number;
-  url?: string;
-  requirements?: string;
-  term: number[];
-  assessments: {
-    name: string;
-    percentage: number;
-  }[];
-}
 
 
-const Course: React.FC<CourseData> = ({
-  _id,
+
+const Course: React.FC<CourseDetails> = ({
+  id,
   code,
   title,
-  pageId,
-  description,
+  overview,
   url,
   rating,
-  no_of_reviews,
+  numRatings,
   assessments,
   requirements,
   university,
@@ -62,7 +41,7 @@ const Course: React.FC<CourseData> = ({
 
   const [reviewData, setReviewData] = useState({
     rating,
-    no_of_reviews,
+    numRatings,
   });
 
   const messageModal = useModal(PostReviewModal);
@@ -71,7 +50,7 @@ const Course: React.FC<CourseData> = ({
 
   useEffect(() => {
     const hydrate = async () => {
-      const data = await fetchReviews(_id);
+      const data = await fetchReviews(id);
       const processed = data.map(e => ({
         id: e._id,
         rating: e.course_rating,
@@ -93,7 +72,7 @@ const Course: React.FC<CourseData> = ({
       data: {
         terms: term,
         code,
-        courseId: _id
+        courseId: id
       },
       canClose: false,
     });
@@ -111,8 +90,8 @@ const Course: React.FC<CourseData> = ({
       }
       setReviews(r => [...(r || []), processedReview])
       setReviewData(d => ({
-        rating: (d.rating * d.no_of_reviews + review.course_rating) / (d.no_of_reviews + 1),
-        no_of_reviews: d.no_of_reviews + 1,
+        rating: (d.rating * d.numRatings + review.course_rating) / (d.numRatings + 1),
+        numRatings: d.numRatings + 1,
       }))
     }
   };
@@ -189,7 +168,7 @@ const Course: React.FC<CourseData> = ({
                 <BreadCrumbs.Home />
                 <BreadCrumbs.Item href='/courses'>Courses</BreadCrumbs.Item>
                 <BreadCrumbs.Item href={'/courses/uoa'}>UoA</BreadCrumbs.Item>
-                <BreadCrumbs.Item href={`/courses/uoa/${pageId}`}>{code}</BreadCrumbs.Item>
+                <BreadCrumbs.Item href={`/courses/uoa/${codeToURL(code)}`}>{code}</BreadCrumbs.Item>
               </BreadCrumbs>
             </Col>
           </Row>
@@ -213,7 +192,7 @@ const Course: React.FC<CourseData> = ({
                       itemProp='aggregateRating'
                     >
                       <span itemProp='ratingValue'>{Math.round(reviewData.rating * 10) / 10}</span>/<span>5</span>{' '}
-                      <span itemProp='reviewCount'>({reviewData.no_of_reviews} rating{reviewData.no_of_reviews === 1 ? '' : 's'})</span>
+                      <span itemProp='reviewCount'>({reviewData.numRatings} rating{reviewData.numRatings === 1 ? '' : 's'})</span>
                     </div>
                   ) : (
                     'No ratings yet'
@@ -241,13 +220,13 @@ const Course: React.FC<CourseData> = ({
               <Card>
                 <Card.Body>
                   <Accordian>
-                    {(url || description) && (
+                    {(url || overview) && (
                       <Accordian.Item expanded>
                         <Accordian.Header>
                           <h3 className={'text-lg font-semibold text-gray-700'}>Course Overview</h3>
                         </Accordian.Header>
                         <Accordian.Body>
-                          <p className={'text-gray-700'}>{description}</p>
+                          <p className={'text-gray-700'}>{overview}</p>
                           {url && (
                             <div className={'flex'}>
                               <a

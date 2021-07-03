@@ -34,14 +34,6 @@ const courseSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-  rating: {
-    type: Number,
-    default: 0,
-  },
-  no_of_reviews: {
-    type: Number,
-    default: 0,
-  },
   url: {
     type: String,
   },
