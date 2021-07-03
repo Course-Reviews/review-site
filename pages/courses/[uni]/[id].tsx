@@ -19,11 +19,7 @@ import Review from '../../../components/Review';
 import fetchCourse from '../../../functions/fetchCourse';
 import fetchReviews from '../../../functions/fetchReviews';
 import { CourseDetails, ReviewData } from '../../../types/config';
-import courses from '../../../util/courseDetails.json';
 import { codeToURL } from '../../../util/util';
-
-
-
 
 const Course: React.FC<CourseDetails> = ({
   id,

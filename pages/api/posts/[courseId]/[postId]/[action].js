@@ -3,7 +3,7 @@ import Review from '../../../../../models/review';
 import connectDB from '../../../../../db/mongoose';
 import RateLimit from 'express-rate-limit';
 import MongoStore from 'rate-limit-mongo';
-import initMiddleware from '../../../../middleware/initMiddleware';
+import initMiddleware from '../../../../../middleware/initMiddleware';
 
 const limiter = initMiddleware(
   new RateLimit({

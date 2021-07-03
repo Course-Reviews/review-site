@@ -3,18 +3,14 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { FiFilter } from 'react-icons/fi';
 import BreadCrumbs from '../../components/atom/BreadCrumbs';
-import Button from '../../components/atom/Button';
 import Col from '../../components/atom/Col';
 import Container from '../../components/atom/Container';
-import Dropdown, { Option } from '../../components/atom/Dropdown';
-import FormGroup from '../../components/atom/FormGroup';
+import { Option } from '../../components/atom/Dropdown';
 import IconButton from '../../components/atom/IconButton';
 import Row from '../../components/atom/Row';
-import CourseCard, { CourseCardProps } from '../../components/CourseCard';
-import fetchAllCourses from '../../functions/fetchAllCourses';
+import CourseCard from '../../components/CourseCard';
 import fetchCourses from '../../functions/fetchCourses';
 import { CourseSummary, Pagination } from '../../types/config';
-import courses from '../../util/courseDetails.json';
 
 const stages: Option[] = [
   { label: 'Any', value: '0' },
