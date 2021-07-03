@@ -1,9 +1,9 @@
 // needs the review id, easily exploitable
-import Review from '../../../../../models/review';
-import connectDB from '../../../../../db/mongoose';
+import Review from '../../../../models/review';
+import connectDB from '../../../../db/mongoose';
 import RateLimit from 'express-rate-limit';
 import MongoStore from 'rate-limit-mongo';
-import initMiddleware from '../../../../../middleware/initMiddleware';
+import initMiddleware from '../../../../middleware/initMiddleware';
 
 const limiter = initMiddleware(
   new RateLimit({
@@ -28,10 +28,10 @@ const handler = async (req, res) => {
 
     const url = req.url.split('/');
 
-    switch (url[5]) {
+    switch (url[4]) {
       case 'upvote':
         try {
-          const review = await Review.findByIdAndUpdate(url[4], {
+          const review = await Review.findByIdAndUpdate(url[3], {
             $inc: {
               upvote: 1,
             },
@@ -44,7 +44,7 @@ const handler = async (req, res) => {
         break;
       case 'downvote':
         try {
-          const review = await Review.findByIdAndUpdate(url[4], {
+          const review = await Review.findByIdAndUpdate(url[3], {
             $inc: {
               downvote: 1,
             },
