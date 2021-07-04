@@ -26,6 +26,5 @@ deploy:
   app: "courseReview"
   env: "Coursereview-env"
   bucket_name: "elasticbeanstalk-ap-southeast-2-230008172240"
-  edge: true
   on:
     branch: main
