@@ -152,7 +152,7 @@ const Course: React.FC<CourseDetails> = ({
             <meta name='keywords' content={`${code} review, ${title} review, course review`} />
             <meta
               name='description'
-              content={`Check out what other students have to say about ${code} ${title} and related course reviews for The University of Auckland.`}
+              content={`Check out what other students have to say about ${code} ${title} and related course reviews for ${UNI_NAMES[university]}.`}
             />
             <meta
               name='keywords'
@@ -163,7 +163,13 @@ const Course: React.FC<CourseDetails> = ({
                 .join(', ')}`}
             />
             <meta name='robots' content='index,follow' />
-            <link rel='icon' href='/favicon.ico' />
+            {/* og tags */}
+            <meta property='og:title' content={`${code} ${university.toUpperCase()} - Course info and reviews`} />
+            <meta property='og:description' content={`Check out what students have to say about ${code} ${title} and related courses at ${UNI_NAMES[university]}.`} />
+            <meta property='og:type' content='website'/>
+            <meta property='og:url' content={`https://coursereview.co.nz/courses/${university}/${codeToURL(code)}`} />
+            <meta property='og:image' content='https://coursereview.co.nz/course_cover.jpg' />
+            <meta property='og:site_name' content='CourseReview' />
           </Head>
           <Row className={'my-2'}>
             <Col>
@@ -171,7 +177,7 @@ const Course: React.FC<CourseDetails> = ({
                 <BreadCrumbs.Home />
                 <BreadCrumbs.Item href='/courses'>Courses</BreadCrumbs.Item>
                 <BreadCrumbs.Item href={'/courses'}>{university.toUpperCase()}</BreadCrumbs.Item>
-                <BreadCrumbs.Item href={`/courses/uoa/${codeToURL(code)}`}>{code}</BreadCrumbs.Item>
+                <BreadCrumbs.Item href={`/courses/${university}/${codeToURL(code)}`}>{code}</BreadCrumbs.Item>
               </BreadCrumbs>
             </Col>
           </Row>

@@ -99,8 +99,8 @@ const CourseIndex: React.FC = () => {
   const setQueryString = (page: number) => {
     const filterQuery = Object.entries(filter)
       .filter(([k, v]) => v !== undefined)
-      .map(([k, v]) => `${k}=${v}`)
-    const paginationQuery = page === 0 ? [] : [`page=${page}`]
+      .map(([k, v]) => `${k}=${v}`);
+    const paginationQuery = page === 0 ? [] : [`page=${page}`];
 
     const queryString = [...filterQuery, ...paginationQuery].join('&');
 
@@ -109,7 +109,7 @@ const CourseIndex: React.FC = () => {
     } else {
       router.push('', undefined, { shallow: true });
     }
-  }
+  };
 
   // Fetches results for the filter and also updates the query string to match
   const applyFilter = async () => {
@@ -124,14 +124,22 @@ const CourseIndex: React.FC = () => {
 
   const fetchPage = async (p: number) => {
     await fetch(filter, p);
-    window.scrollTo({top: 0})
-  }
+    window.scrollTo({ top: 0 });
+  };
 
   return (
     <Container as={'main'} className={'flex-grow'}>
       <Head>
         <title>Browse Courses</title>
         <link rel='icon' href='/favicon.ico' />
+        <meta
+          name='description'
+          content={'Browse over 3000 courses from New Zealand Universities'}
+        />
+        <meta
+          name='keywords'
+          content={'University courses, search courses, list of university courses'}
+        />
       </Head>
       <Row>
         <Col>
@@ -218,10 +226,24 @@ const CourseIndex: React.FC = () => {
           </>
         )}
       </div>
-      {loading ? <p>loading...</p> : results.length > 0 ? results.map((c, i) => (
-        <CourseCard key={i} course={c} />
-      )) : <div className={'text-xl text-center my-16 font-semibold text-gray-700'}>No courses found</div>}
-      {!loading && <PaginationControls className={'justify-center'} pagination={pagination} setPage={fetchPage}/>}
+      <section>
+        {loading ? (
+          <p>loading...</p>
+        ) : results.length > 0 ? (
+          results.map((c, i) => <CourseCard key={i} course={c} />)
+        ) : (
+          <div className={'text-xl text-center my-16 font-semibold text-gray-700'}>
+            No courses found
+          </div>
+        )}
+      </section>
+      {!loading && (
+        <PaginationControls
+          className={'justify-center'}
+          pagination={pagination}
+          setPage={fetchPage}
+        />
+      )}
     </Container>
   );
 };
