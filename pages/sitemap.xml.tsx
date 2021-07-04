@@ -1,8 +1,9 @@
+import { GetServerSideProps } from 'next';
 import courseList from '../util/courseList.json';
 
 const Sitemap: React.FC = () => <></>;
 
-export const getServerSideProps = ({ res }) => {
+export const getServerSideProps: GetServerSideProps  = async ({ res }) => {
   const baseUrl = 'https://coursereview.co.nz/courses';
   const staticPages = courseList.map((staticPagePath) => `${baseUrl}/${staticPagePath}`);
 
