@@ -1,0 +1,26 @@
+language: node_js
+node_js:
+    - "stable"
+cache:
+  directories:
+    - node_modules
+branches:
+  only:
+  - release
+install:
+    - npm i
+script:
+
+    # Build app
+    - npm run build
+
+after_success:
+    # Zip for publishing to github releases
+    - zip -r build.zip .next public package.json next.config.js
+deploy:
+  provider: elasticbeanstalk
+  access_key_id: "$ACCESS_KEY_ID"
+  secret_access_key: "$SECRET_ACCESS_KEY"
+  zip: "build.zip"
+  bucket: "elasticbeanstalk-ap-southeast-2-230008172240"
+  edge: true
