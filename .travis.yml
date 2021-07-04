@@ -21,6 +21,9 @@ deploy:
   provider: elasticbeanstalk
   access_key_id: "$ACCESS_KEY_ID"
   secret_access_key: "$SECRET_ACCESS_KEY"
-  zip: "build.zip"
-  bucket: "elasticbeanstalk-ap-southeast-2-230008172240"
+  zip_file: "build.zip"
+  region: "ap-southeast-2"
+  app: "courseReview"
+  env: "Coursereview-env"
+  bucket_name: "elasticbeanstalk-ap-southeast-2-230008172240"
   edge: true
