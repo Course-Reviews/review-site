@@ -1,6 +1,6 @@
 import courseList from '../util/courseList.json';
 
-const Sitemap: React.FC = () => {};
+const Sitemap: React.FC = () => <></>;
 
 export const getServerSideProps = ({ res }) => {
   const baseUrl = 'https://coursereview.co.nz/courses';
