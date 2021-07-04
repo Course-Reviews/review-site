@@ -24,3 +24,7 @@ deploy:
   zip: "build.zip"
   bucket: "elasticbeanstalk-ap-southeast-2-230008172240"
   edge: true
+  on:
+    branches:
+      only:
+        - release
