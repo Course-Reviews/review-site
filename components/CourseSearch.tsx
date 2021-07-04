@@ -18,7 +18,7 @@ const SEARCH_DELAY = 0;
 // Dont search until the user has typed at least this many characters
 const SEARCH_LENGTH_THRESHOLD = 1;
 
-const CourseSearch: React.FC<CourseSearchProps> = ({ className }) => {
+const CourseSearch: React.FC<CourseSearchProps> = ({ className, onClick }) => {
   // When we do a search cache the results in a map
   // * We might want to think abt making sure the cache doesnt exceed a certain number of entries but it should be fine
   const cache = useRef(new Map());
@@ -116,8 +116,9 @@ const CourseSearch: React.FC<CourseSearchProps> = ({ className }) => {
                   {(mixpanel: any) =>
                     searchResults.map((result, i) => (
                       <SearchResult
-                        onClick={() => {
+                        onClick={(e:any) => {
                           mixpanel.track('[LANDING] Course Clicked', { value: result.code });
+                          onClick && onClick(e)
                         }}
                         result={result}
                         key={i}

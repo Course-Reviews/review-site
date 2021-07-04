@@ -41,6 +41,10 @@ export const FACULTYS  = [
   'Science'
 ]
 
+export const UNI_NAMES: {[key: string]: string} = {
+  'uoa': 'The University of Auckland'
+}
+
 export interface CourseSummary {
     rating: number;
     code: string;
