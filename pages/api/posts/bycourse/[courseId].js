@@ -12,7 +12,7 @@ const limiter = initMiddleware(
       uri: process.env.MONGO_URI,
       // should match windowMs
       expireTimeMs: 60 * 60 * 1000,
-      errorHandler: console.error.bind(null, 'rate-limit-mongo')
+      errorHandler: console.error.bind(null, 'rate-limit-mongo'),
       // see Configuration section for more options and details
     }),
     windowMs: 60 * 60 * 1000,
@@ -41,35 +41,33 @@ const handler = async (req, res) => {
   if (req.method === 'GET') {
     // Fetch all reviews for a given course
 
-    let number = 0;
-    let overall = 0;
-
     try {
       const reviews = await Review.find({
         owner: req.query.courseId,
-        content: {$exists:true}
-      }, (err, results) => {
-          if(results) {
-            for(var i = 0; i < results.length; i++) {
-              overall += results[i].course_rating;
-            }
-            number = results.length;
-          }
       });
 
-      if(number > 0) {
-        overall /= number;
-      }
+      const overallRating = reviews.reduce((p, c) => p + c.course_rating, 0) / reviews.length;
+      const overallContentRating =
+        reviews.reduce((p, c) => p + c.content_rating, 0) / reviews.length;
+      const overallWorkloadRating =
+        reviews.reduce((p, c) => p + c.workload_rating, 0) / reviews.length;
+      const overallDeliveryRating =
+        reviews.reduce((p, c) => p + c.delivery_rating, 0) / reviews.length;
 
-      const data ={ no_of_ratings: number, overall_rating: overall, reviews}
+      const data = {
+        num_ratings: reviews.length,
+        overall_rating: overallRating,
+        content_rating: overallContentRating,
+        workload_rating: overallWorkloadRating,
+        delivery_rating: overallDeliveryRating,
+        reviews: reviews.filter((r) => r.content !== undefined),
+      };
 
       res.status(200).json(data);
     } catch (e) {
-
       res.status(400).json(e.errors.content.properties.message);
     }
   }
-
 };
 
 export default handler;

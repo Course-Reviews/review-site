@@ -109,7 +109,7 @@ const Review: React.FC<ReviewProps> = ({
                 onClick={async () => {
                   if(hasVoted)return;
                   setHasVoted(true);
-                  await patchData(`api/posts/${id}/upvote`);
+                  await patchData(`api/posts/${id}/downvote`);
                   setVotes((v) => (v -= 1));
                 }}
               />
@@ -120,7 +120,7 @@ const Review: React.FC<ReviewProps> = ({
                 onClick={async () => {
                   if(hasVoted)return;
                   setHasVoted(true);
-                  await patchData(`api/posts/${id}/downvote`);
+                  await patchData(`api/posts/${id}/upvote`);
                   setVotes((v) => v + 1);
 
                 }}

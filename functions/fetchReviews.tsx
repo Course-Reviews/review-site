@@ -1,6 +1,5 @@
 import { getData } from '.';
 
-
 export interface reviewResponse {
   _id: string;
   content: string;
@@ -16,10 +15,12 @@ export interface reviewResponse {
   upvote: number;
 }
 export interface fetchReviewsResponse {
-  no_of_ratings: number
-   overall_rating: number,
-   reviews: reviewResponse[]
-
+  num_ratings: number;
+  overall_rating: number;
+  content_rating: number;
+  workload_rating: number;
+  delivery_rating: number;
+  reviews: reviewResponse[];
 }
 
 const fetchReviews = async (courseId: string): Promise<fetchReviewsResponse> => {

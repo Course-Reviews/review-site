@@ -15,7 +15,7 @@ export interface fetchCoursesResponse {
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<fetchCoursesResponse>) => {
   if (req.method === 'GET') {
-    const { uni, stage, term, faculty } = req.query;
+    const { uni, stage, term, faculty, query } = req.query;
 
     const page = parseInt(`${req.query.page || 0}`);
 
@@ -32,6 +32,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<fetchCoursesRes
     }
     if (faculty){
       matchCriteria.faculty = FACULTYS[parseInt(`${faculty}`)]
+    }
+    if (query) {
+      matchCriteria.title = new RegExp(`${query}`, 'i')
     }
 
     try {

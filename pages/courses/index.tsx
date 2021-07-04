@@ -9,6 +9,7 @@ import Container from '../../components/atom/Container';
 import Dropdown, { Option } from '../../components/atom/Dropdown';
 import FormGroup from '../../components/atom/FormGroup';
 import IconButton from '../../components/atom/IconButton';
+import Input from '../../components/atom/Input';
 import PaginationControls from '../../components/atom/PaginationControls';
 import Row from '../../components/atom/Row';
 import CourseCard from '../../components/CourseCard';
@@ -43,6 +44,7 @@ const faculties: Option[] = [
 ];
 
 interface Filter {
+  query?: string;
   stage?: number;
   term?: number;
   faculty?: number;
@@ -50,8 +52,6 @@ interface Filter {
 
 const CourseIndex: React.FC = () => {
   const router = useRouter();
-
-  const query = router.query as Filter;
 
   const [showFilter, setShowFilter] = useState<boolean>(true);
 
@@ -79,20 +79,23 @@ const CourseIndex: React.FC = () => {
   // Wait for the page to be ready
   useEffect(() => {
     if (router.isReady) {
-      const parsed: { [key: string]: number } = {};
+      const parsed: { [key: string]: number | string } = {};
 
       for (const key in router.query) {
-        parsed[key] = parseInt(router.query[key] as string);
+        parsed[key] = parseInt(router.query[key] as string)
+          ? parseInt(router.query[key] as string)
+          : (router.query[key] as string);
       }
 
       const f: Filter = {
-        stage: parsed.stage,
-        term: parsed.term,
-        faculty: parsed.faculty,
+        query: parsed.query as string,
+        stage: parsed.stage as number,
+        term: parsed.term as number,
+        faculty: parsed.faculty as number,
       };
 
       const page = parsed.page || 0;
-      fetch(f, page);
+      fetch(f, page as number);
     }
   }, [router.isReady]);
 
@@ -191,6 +194,17 @@ const CourseIndex: React.FC = () => {
                 >
                   Term
                 </Dropdown>
+              </FormGroup>
+            </Col>
+            <Col className={'w-full md:w-64'}>
+              <FormGroup label='Search'>
+                <Input
+                  value={filter.query}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setFilter((f) => ({ ...f, query: val === '' ? undefined : val }));
+                  }}
+                />
               </FormGroup>
             </Col>
             <Col className={'w-full md:w-auto'}>

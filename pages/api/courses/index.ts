@@ -33,7 +33,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<CourseDetails>)
                 // Get the number of reviews + the average review score
                 $addFields: {
                   reviewCount: { $size: '$reviews' },
-                  rating: { $ifNull: [{$avg: '$reviews.course_rating'}, 0]}
+                  rating: { $ifNull: [{$avg: '$reviews.course_rating'}, 0]},
+                  contentRating: { $ifNull: [{$avg: '$reviews.content_rating'}, 0]},
+                  workloadRating: { $ifNull: [{$avg: '$reviews.workload_rating'}, 0]},
+                  deliveryRating: { $ifNull: [{$avg: '$reviews.delivery_rating'}, 0]},
                 },
               },
               {
@@ -73,6 +76,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<CourseDetails>)
         url: course.url,
         requirements: course.requirements,
         assessments: course.assessments,
+        deliveryRating: course.deliveryRating,
+        contentRating: course.contentRating,
+        workloadRating: course.workloadRating,
       }
 
       res.status(200).json(data);

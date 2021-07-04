@@ -18,7 +18,7 @@ import PostReviewModal from '../../../components/PostReviewModal';
 import Review from '../../../components/Review';
 import fetchCourse from '../../../functions/fetchCourse';
 import fetchReviews from '../../../functions/fetchReviews';
-import { CourseDetails, ReviewData, TERMS, UNI_NAMES } from '../../../types/config';
+import { CourseDetails, ReviewData, TERMS, UNI_NAMES, UNI_NAMES_SHORT } from '../../../types/config';
 import { codeToURL } from '../../../util/util';
 import courseList from '../../../util/courseList.json';
 
@@ -29,6 +29,9 @@ const Course: React.FC<CourseDetails> = ({
   overview,
   url,
   rating,
+  contentRating,
+  workloadRating,
+  deliveryRating,
   numRatings,
   assessments,
   requirements,
@@ -39,6 +42,9 @@ const Course: React.FC<CourseDetails> = ({
   const [reviewData, setReviewData] = useState({
     rating,
     numRatings,
+    contentRating,
+    workloadRating,
+    deliveryRating
   });
 
   const messageModal = useModal(PostReviewModal);
@@ -60,6 +66,13 @@ const Course: React.FC<CourseDetails> = ({
         deliveryRating: e.delivery_rating,
       }));
       setReviews(processed);
+      setReviewData({
+        rating: data.overall_rating,
+        numRatings: data.num_ratings,
+        contentRating: data.content_rating,
+        workloadRating: data.workload_rating,
+        deliveryRating: data.delivery_rating,
+      })
     };
     hydrate();
   }, []);
@@ -88,6 +101,9 @@ const Course: React.FC<CourseDetails> = ({
       setReviews((r) => [...(r || []), processedReview]);
       setReviewData((d) => ({
         rating: (d.rating * d.numRatings + review.course_rating) / (d.numRatings + 1),
+        contentRating: (d.contentRating * d.numRatings + review.content_rating) / (d.numRatings + 1),
+        workloadRating: (d.workloadRating * d.numRatings + review.workload_rating) / (d.numRatings + 1),
+        deliveryRating: (d.deliveryRating * d.numRatings + review.delivery_rating) / (d.numRatings + 1),
         numRatings: d.numRatings + 1,
       }));
     }
@@ -147,25 +163,24 @@ const Course: React.FC<CourseDetails> = ({
         >
           <Head>
             <title>
-              {code} {university.toUpperCase()} - Course info and reviews
+              {code} at {UNI_NAMES_SHORT[university]} - Course info and reviews
             </title>
-            <meta name='keywords' content={`${code} review, ${title} review, course review`} />
             <meta
               name='description'
-              content={`Check out what other students have to say about ${code} ${title} and related course reviews for ${UNI_NAMES[university]}.`}
+              content={`Check out what other students have to say about ${code} - ${title} and related course reviews for ${UNI_NAMES[university]}.`}
             />
             <meta
               name='keywords'
               content={`${
                 UNI_NAMES[university]
-              }, ${university}, ${faculty} courses, ${code}, ${code} course reviews, ${code} assignment, ${code} exam, ${code} ${university} course, ${title} review, ${term
+              }, ${university}, ${faculty} courses, ${code}, ${code} review, ${title} review, course review, ${code} course reviews, ${code} assignment, ${code} exam, ${code} - ${university} course, ${title} review, ${term
                 .map((t) => TERMS[t])
                 .join(', ')}`}
             />
             <meta name='robots' content='index,follow' />
             {/* og tags */}
-            <meta property='og:title' content={`${code} ${university.toUpperCase()} - Course info and reviews`} />
-            <meta property='og:description' content={`Check out what students have to say about ${code} ${title} and related courses at ${UNI_NAMES[university]}.`} />
+            <meta property='og:title' content={`${code} at ${UNI_NAMES_SHORT[university]} - Course info and reviews`} />
+            <meta property='og:description' content={`Check out what students have to say about ${code} - ${title}, and related courses at ${UNI_NAMES[university]}.`} />
             <meta property='og:type' content='website'/>
             <meta property='og:url' content={`https://coursereview.co.nz/courses/${university}/${codeToURL(code)}`} />
             <meta property='og:image' content='https://coursereview.co.nz/course_cover.jpg' />

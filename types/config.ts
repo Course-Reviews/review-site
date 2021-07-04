@@ -45,6 +45,11 @@ export const UNI_NAMES: {[key: string]: string} = {
   'uoa': 'The University of Auckland'
 }
 
+export const UNI_NAMES_SHORT: {[key: string]: string} = {
+  'uoa': 'UoA'
+}
+
+
 export interface CourseSummary {
     rating: number;
     code: string;
@@ -61,6 +66,9 @@ export interface CourseDetails {
   university: string;
   faculty: string;
   rating: number;
+  deliveryRating: number;
+  contentRating: number;
+  workloadRating: number;
   numRatings: number;
   term: number[];
   // optional stuff

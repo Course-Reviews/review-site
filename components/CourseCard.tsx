@@ -34,9 +34,8 @@ const CourseCard: React.FC<CourseCardProps> = ({
             <div className={'flex flex-wrap'}>
               <StarRating rating={rating} className={numRatings > 0 ? 'text-secondary-500' : 'text-gray-500'} />
               {numRatings > 0 ? <div className={'ml-2 font-semibold'}>
-                {rating}/5 ({numRatings} review{numRatings === 1 ? '' : 's'})
+                {Math.round(rating * 10) / 10}/5 ({numRatings} review{numRatings === 1 ? '' : 's'})
               </div> : <div className={'ml-2 font-semibold'}>No ratings</div> }
-
             </div>
           </Card.Body>
         </Card>
