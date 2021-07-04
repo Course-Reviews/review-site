@@ -61,8 +61,11 @@ const handler = async (req, res) => {
         overall /= number;
       }
 
-      res.status(200).json({ no_of_ratings: number, overall_rating: overall, reviews});
+      const data ={ no_of_ratings: number, overall_rating: overall, reviews}
+
+      res.status(200).json(data);
     } catch (e) {
+
       res.status(400).json(e.errors.content.properties.message);
     }
   }

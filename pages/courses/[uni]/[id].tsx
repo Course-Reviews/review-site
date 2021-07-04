@@ -48,7 +48,7 @@ const Course: React.FC<CourseDetails> = ({
   useEffect(() => {
     const hydrate = async () => {
       const data = await fetchReviews(id);
-      const processed = data.map((e) => ({
+      const processed = data.reviews.map((e) => ({
         id: e._id,
         rating: e.course_rating,
         content: e.content,

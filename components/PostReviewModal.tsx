@@ -3,7 +3,7 @@ import React, { useRef, useState } from 'react';
 import { FiArrowRight } from 'react-icons/fi';
 import UseAnimations from 'react-useanimations';
 import radioButton from 'react-useanimations/lib/radioButton';
-import { fetchReviewsResponse } from '../functions/fetchReviews';
+import { fetchReviewsResponse, reviewResponse } from '../functions/fetchReviews';
 import postReview from '../functions/postReview';
 import { TERMS } from '../types/config';
 import Button from './atom/Button';
@@ -31,7 +31,7 @@ interface ReviewData {
 
 const YEARS = ['2020', '2021'];
 
-const PostReviewModal: React.FC<ModalType<ModalData, fetchReviewsResponse>> = ({ data, isClosing, cancel, submit }) => {
+const PostReviewModal: React.FC<ModalType<ModalData, reviewResponse>> = ({ data, isClosing, cancel, submit }) => {
   let termIndex = data.terms.findIndex((v) => v === 3 || v === 5);
   if (termIndex === -1) termIndex = 0;
 
@@ -43,7 +43,7 @@ const PostReviewModal: React.FC<ModalType<ModalData, fetchReviewsResponse>> = ({
 
   const [submitted, setSubmitted] = useState(false);
 
-  const[review, setReview ]= useState<fetchReviewsResponse>();
+  const[review, setReview]= useState<reviewResponse>();
   // const review = useRef<fetchReviewsResponse>();
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
