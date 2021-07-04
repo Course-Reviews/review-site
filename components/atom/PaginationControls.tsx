@@ -42,9 +42,6 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
     // This is how many next page buttons to render
     const aheadBudget = Math.min(pagesAhead, Math.max(MAX_BUTTONS, MAX_BUTTONS * 2 - pagesBehind))
 
-    console.log(`behind: ${behindBudget}`);
-    console.log(`ahead: ${aheadBudget}`);
-
     const buttons: JSX.Element[] = [];
 
     // back buttons

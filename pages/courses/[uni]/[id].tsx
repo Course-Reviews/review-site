@@ -4,7 +4,14 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import { FiBook, FiExternalLink, FiInbox, FiMessageSquare, FiStar } from 'react-icons/fi';
+import {
+  FiBook,
+  FiExternalLink,
+  FiFileText,
+  FiInbox,
+  FiMessageSquare,
+  FiStar,
+} from 'react-icons/fi';
 import { MixpanelConsumer } from 'react-mixpanel';
 import Accordian from '../../../components/atom/Accordian';
 import BreadCrumbs from '../../../components/atom/BreadCrumbs';
@@ -18,9 +25,17 @@ import PostReviewModal from '../../../components/PostReviewModal';
 import Review from '../../../components/Review';
 import fetchCourse from '../../../functions/fetchCourse';
 import fetchReviews from '../../../functions/fetchReviews';
-import { CourseDetails, ReviewData, TERMS, UNI_NAMES, UNI_NAMES_SHORT } from '../../../types/config';
+import {
+  CourseDetails,
+  ReviewData,
+  TERMS,
+  UNI_NAMES,
+  UNI_NAMES_SHORT,
+} from '../../../types/config';
 import { codeToURL } from '../../../util/util';
 import courseList from '../../../util/courseList.json';
+import Badge from '../../../components/atom/Badge';
+import Progress from '../../../components/atom/Progress';
 
 const Course: React.FC<CourseDetails> = ({
   id,
@@ -44,7 +59,7 @@ const Course: React.FC<CourseDetails> = ({
     numRatings,
     contentRating,
     workloadRating,
-    deliveryRating
+    deliveryRating,
   });
 
   const messageModal = useModal(PostReviewModal);
@@ -72,7 +87,7 @@ const Course: React.FC<CourseDetails> = ({
         contentRating: data.content_rating,
         workloadRating: data.workload_rating,
         deliveryRating: data.delivery_rating,
-      })
+      });
     };
     hydrate();
   }, []);
@@ -101,9 +116,12 @@ const Course: React.FC<CourseDetails> = ({
       setReviews((r) => [...(r || []), processedReview]);
       setReviewData((d) => ({
         rating: (d.rating * d.numRatings + review.course_rating) / (d.numRatings + 1),
-        contentRating: (d.contentRating * d.numRatings + review.content_rating) / (d.numRatings + 1),
-        workloadRating: (d.workloadRating * d.numRatings + review.workload_rating) / (d.numRatings + 1),
-        deliveryRating: (d.deliveryRating * d.numRatings + review.delivery_rating) / (d.numRatings + 1),
+        contentRating:
+          (d.contentRating * d.numRatings + review.content_rating) / (d.numRatings + 1),
+        workloadRating:
+          (d.workloadRating * d.numRatings + review.workload_rating) / (d.numRatings + 1),
+        deliveryRating:
+          (d.deliveryRating * d.numRatings + review.delivery_rating) / (d.numRatings + 1),
         numRatings: d.numRatings + 1,
       }));
     }
@@ -179,10 +197,19 @@ const Course: React.FC<CourseDetails> = ({
             />
             <meta name='robots' content='index,follow' />
             {/* og tags */}
-            <meta property='og:title' content={`${code} at ${UNI_NAMES_SHORT[university]} - Course info and reviews`} />
-            <meta property='og:description' content={`Check out what students have to say about ${code} - ${title}, and related courses at ${UNI_NAMES[university]}.`} />
-            <meta property='og:type' content='website'/>
-            <meta property='og:url' content={`https://coursereview.co.nz/courses/${university}/${codeToURL(code)}`} />
+            <meta
+              property='og:title'
+              content={`${code} at ${UNI_NAMES_SHORT[university]} - Course info and reviews`}
+            />
+            <meta
+              property='og:description'
+              content={`Check out what students have to say about ${code} - ${title}, and related courses at ${UNI_NAMES[university]}.`}
+            />
+            <meta property='og:type' content='website' />
+            <meta
+              property='og:url'
+              content={`https://coursereview.co.nz/courses/${university}/${codeToURL(code)}`}
+            />
             <meta property='og:image' content='https://coursereview.co.nz/course_cover.jpg' />
             <meta property='og:site_name' content='CourseReview' />
           </Head>
@@ -192,7 +219,9 @@ const Course: React.FC<CourseDetails> = ({
                 <BreadCrumbs.Home />
                 <BreadCrumbs.Item href='/courses'>Courses</BreadCrumbs.Item>
                 <BreadCrumbs.Item href={'/courses'}>{university.toUpperCase()}</BreadCrumbs.Item>
-                <BreadCrumbs.Item href={`/courses/${university}/${codeToURL(code)}`}>{code}</BreadCrumbs.Item>
+                <BreadCrumbs.Item href={`/courses/${university}/${codeToURL(code)}`}>
+                  {code}
+                </BreadCrumbs.Item>
               </BreadCrumbs>
             </Col>
           </Row>
@@ -201,7 +230,9 @@ const Course: React.FC<CourseDetails> = ({
               <h1 className={'text-2xl font-bold text-gray-800'}>
                 {code} - {title}
               </h1>
-              <h2 className={'text-sm text-gray-400 font-semibold'}>{UNI_NAMES[university]}</h2>
+              <h2 className={'text-sm text-gray-400 font-semibold'}>
+                Faculty of {faculty} • {UNI_NAMES[university]}
+              </h2>
               <div className={'flex items-center my-4'}>
                 <StarRating
                   className={classNames(
@@ -237,97 +268,157 @@ const Course: React.FC<CourseDetails> = ({
               </Button>
             </Col>
           </Row>
-          <Row>
-            <Col>
-              <h2 className={'text-xl font-bold text-gray-800 flex items-center my-2'}>
-                <FiBook className={'mr-2'} />
-                Course Info
-              </h2>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <Card>
-                <Card.Body>
-                  <Accordian>
-                    {(url || overview) && (
-                      <Accordian.Item expanded>
-                        <Accordian.Header>
-                          <h3 className={'text-lg font-semibold text-gray-700'}>Course Overview</h3>
-                        </Accordian.Header>
-                        <Accordian.Body>
-                          <p className={'text-gray-700'}>{overview}</p>
-                          {url && (
-                            <div className={'flex'}>
-                              <a
-                                className={
-                                  'text-primary-400 text-sm font-semibold hover:text-primary-500 flex p-2 underline'
-                                }
-                                href={url}
-                                target={'uoa_site'}
-                              >
-                                <FiExternalLink size={20} className={'mr-1'} />
-                                Official site for {code}
-                              </a>
+          <div className={'md:flex'}>
+            {numRatings > 0 && (
+              <div className={'md:w-1/3 md:pr-4'}>
+                <Row>
+                  <Col>
+                    <h2 className={'text-xl font-bold text-gray-800 flex items-center my-2'}>
+                      <FiFileText className={'mr-2'} />
+                      Summary
+                    </h2>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Card>
+                      <Card.Body>
+                        <div className={'flex text-center mb-1 divide-x'}>
+                          <div className={'w-1/3'}>
+                            <div className={'font-bold text-primary-500'}>
+                              <span className={'text-2xl'}>
+                                {Math.round(contentRating * 10) / 10}
+                              </span>
                             </div>
-                          )}
-                        </Accordian.Body>
-                      </Accordian.Item>
-                    )}
-                    {requirements && (
-                      <Accordian.Item>
-                        <Accordian.Header>
-                          <h3 className={'text-lg font-semibold text-gray-700'}>Prerequisites</h3>
-                        </Accordian.Header>
-                        <Accordian.Body>
-                          <p className={'text-gray-700'}>{renderLinkedCourses(requirements)}</p>
-                        </Accordian.Body>
-                      </Accordian.Item>
-                    )}
-                    {assessments && (
-                      <Accordian.Item>
-                        <Accordian.Header>
-                          <h3 className={'text-lg font-semibold text-gray-700'}>Assessments</h3>
-                        </Accordian.Header>
-                        <Accordian.Body>
-                          <table className={'text-gray-600 mx-auto w-full md:w-1/2'}>
-                            <thead>
-                              <tr>
-                                <th className={'text-left'}>Assessment</th>
-                                <th>Weighting</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {assessments.map((v, i) => (
-                                <tr key={i} className={classNames(i % 2 && ' rounded-xl')}>
-                                  <td
-                                    className={classNames(
-                                      i % 2 && 'rounded-l-xl bg-gray-100',
-                                      'px-4 py-2 '
-                                    )}
+                            <div className={'mt-0.5 text-xs font-semibold text-gray-500'}>
+                              Content
+                            </div>
+                          </div>
+                          <div className={'w-1/3'}>
+                            <div className={'font-bold text-primary-500'}>
+                              <span className={'text-2xl'}>
+                                {Math.round(workloadRating * 10) / 10}
+                              </span>
+                            </div>
+                            <div className={'mt-0.5 text-xs font-semibold text-gray-500'}>
+                              Workload
+                            </div>
+                          </div>
+                          <div className={'w-1/3'}>
+                            <div className={'font-bold text-primary-500'}>
+                              <span className={'text-2xl'}>
+                                {Math.round(deliveryRating * 10) / 10}
+                              </span>
+                            </div>
+                            <div className={'mt-0.5 text-xs font-semibold text-gray-500'}>
+                              Delivery
+                            </div>
+                          </div>
+                        </div>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                </Row>
+              </div>
+            )}
+            <div className={'md:w-2/3'}>
+              <Row>
+                <Col>
+                  <h2 className={'text-xl font-bold text-gray-800 flex items-center my-2'}>
+                    <FiBook className={'mr-2'} />
+                    Course Info
+                  </h2>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Card>
+                    <Card.Body>
+                      <Accordian>
+                        {(url || overview) && (
+                          <Accordian.Item expanded>
+                            <Accordian.Header>
+                              <h3 className={'text-lg font-semibold text-gray-700'}>
+                                Course Overview
+                              </h3>
+                            </Accordian.Header>
+                            <Accordian.Body>
+                              <p className={'text-gray-700'}>{overview}</p>
+                              {url && (
+                                <div className={'flex'}>
+                                  <a
+                                    className={
+                                      'text-primary-400 text-sm font-semibold hover:text-primary-500 flex p-2 underline'
+                                    }
+                                    href={url}
+                                    target={'uoa_site'}
                                   >
-                                    {v.name}
-                                  </td>
-                                  <td
-                                    className={classNames(
-                                      i % 2 && 'rounded-r-xl bg-gray-100',
-                                      'px-4 py-2 text-center '
-                                    )}
-                                  >
-                                    {v.percentage}%
-                                  </td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        </Accordian.Body>
-                      </Accordian.Item>
-                    )}
-                  </Accordian>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
+                                    <FiExternalLink size={20} className={'mr-1'} />
+                                    Official site for {code}
+                                  </a>
+                                </div>
+                              )}
+                            </Accordian.Body>
+                          </Accordian.Item>
+                        )}
+                        {requirements && (
+                          <Accordian.Item>
+                            <Accordian.Header>
+                              <h3 className={'text-lg font-semibold text-gray-700'}>
+                                Prerequisites
+                              </h3>
+                            </Accordian.Header>
+                            <Accordian.Body>
+                              <p className={'text-gray-700'}>{renderLinkedCourses(requirements)}</p>
+                            </Accordian.Body>
+                          </Accordian.Item>
+                        )}
+                        {assessments && (
+                          <Accordian.Item>
+                            <Accordian.Header>
+                              <h3 className={'text-lg font-semibold text-gray-700'}>Assessments</h3>
+                            </Accordian.Header>
+                            <Accordian.Body>
+                              <table className={'text-gray-600 mx-auto w-full md:w-1/2'}>
+                                <thead>
+                                  <tr>
+                                    <th className={'text-left'}>Assessment</th>
+                                    <th>Weighting</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {assessments.map((v, i) => (
+                                    <tr key={i} className={classNames(i % 2 && ' rounded-xl')}>
+                                      <td
+                                        className={classNames(
+                                          i % 2 && 'rounded-l-xl bg-gray-100',
+                                          'px-4 py-2 '
+                                        )}
+                                      >
+                                        {v.name}
+                                      </td>
+                                      <td
+                                        className={classNames(
+                                          i % 2 && 'rounded-r-xl bg-gray-100',
+                                          'px-4 py-2 text-center '
+                                        )}
+                                      >
+                                        {v.percentage}%
+                                      </td>
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </Accordian.Body>
+                          </Accordian.Item>
+                        )}
+                      </Accordian>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              </Row>
+            </div>
+          </div>
           <Row>
             <Col>
               <h2 className={'text-xl font-bold text-gray-800 flex items-center my-4'}>
