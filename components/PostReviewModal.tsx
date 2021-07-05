@@ -62,8 +62,8 @@ const PostReviewModal: React.FC<ModalType<ModalData, reviewResponse>> = ({ data,
     if(!deliveryRating){
       errors.deliveryRating = 'Please choose a rating for delivery'
     }
-    if(content && content.length > 1000){
-      errors.content = `Reviews are limited to 1000 characters (currently ${content.length})`
+    if(content && content.length > 5000){
+      errors.content = `Reviews are limited to 5000 characters (currently ${content.length})`
     }
     setFormerrors(errors)
     if(Object.keys(errors).length > 0){

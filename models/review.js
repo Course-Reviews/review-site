@@ -9,8 +9,8 @@ const reviewSchema = new mongoose.Schema(
     content: {
       type: String,
       validate(value) {
-        if (value.length > 1000) {
-          throw new Error('The word limit is 200');
+        if (value.length > 5000) {
+          throw new Error('The character limit is 5000');
         }
       },
     },
