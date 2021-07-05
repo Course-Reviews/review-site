@@ -7,14 +7,17 @@ import Button from './atom/Button';
 import FormGroup from './atom/FormGroup';
 import Input from './atom/Input';
 import Modal from './atom/Modal';
+import { MixpanelConsumer } from 'react-mixpanel';
 
 interface ModalData {
   prefilled?: string;
 }
 
-const PostReviewModal: React.FC<ModalType<ModalData, void>> = ({ data = {}, isClosing, cancel }) => {
-
-
+const PostReviewModal: React.FC<ModalType<ModalData, void>> = ({
+  data = {},
+  isClosing,
+  cancel,
+}) => {
   const [message, setMessage] = useState<string | undefined>(data.prefilled);
 
   const [submitted, setSubmitted] = useState(false);
@@ -25,6 +28,8 @@ const PostReviewModal: React.FC<ModalType<ModalData, void>> = ({ data = {}, isCl
   };
 
   return (
+    <MixpanelConsumer>
+      {(mixpanel: any) => (
         <Modal isClosing={isClosing} className={'w-full sm:w-3/4 md:w-2/3 lg:max-w-lg m-4'}>
           <Modal.Title close={cancel}>Give us Feedback</Modal.Title>
           {submitted ? (
@@ -37,8 +42,11 @@ const PostReviewModal: React.FC<ModalType<ModalData, void>> = ({ data = {}, isCl
                 speed={0.75}
               />
               <div className={'text-lg font-bold my-8'}>Thanks for the feedback!</div>
-              <Button onClick={cancel}>Continue browsing Courses<FiArrowRight size={24} className={'ml-2 -m-2'}/></Button>
-          </div>
+              <Button onClick={cancel}>
+                Continue browsing Courses
+                <FiArrowRight size={24} className={'ml-2 -m-2'} />
+              </Button>
+            </div>
           ) : (
             <form onSubmit={handleSubmit}>
               <FormGroup label='Message'>
@@ -54,7 +62,7 @@ const PostReviewModal: React.FC<ModalType<ModalData, void>> = ({ data = {}, isCl
                 <Button
                   block
                   onClick={() => {
-                    // mixpanel.track('[REVIEW MODAL] Post');
+                    mixpanel.track('[FEEDBACK]', { value: message });
                   }}
                 >
                   Send Feedback
@@ -63,6 +71,8 @@ const PostReviewModal: React.FC<ModalType<ModalData, void>> = ({ data = {}, isCl
             </form>
           )}
         </Modal>
+      )}
+    </MixpanelConsumer>
   );
 };
 
