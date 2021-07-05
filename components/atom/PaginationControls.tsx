@@ -11,7 +11,7 @@ interface PaginationControlsProps {
 }
 
 // the maximum number of page switch buttons
-const MAX_BUTTONS = 3;
+const MAX_BUTTONS = 4;
 
 interface PaginationControlProps {
   pageNum: number;
@@ -20,7 +20,7 @@ interface PaginationControlProps {
 }
 
 const PaginationControl: React.FC<PaginationControlProps> = ({ pageNum, setPage, active }) => (
-  <button onClick={() => setPage(pageNum - 1)} className={classNames('mx-1 rounded w-9 h-9 shadow-lg', active ? 'bg-primary-500 text-white font-bold' : 'bg-white text-gray-700 font-semibold')} >{pageNum}</button>
+  <button onClick={() => setPage(pageNum - 1)} className={classNames('mx-1 rounded min-w-min px-2 h-7 shadow-lg', active ? 'bg-primary-500 text-white font-bold' : 'bg-white text-gray-700 font-semibold')} >{pageNum}</button>
 );
 
 const PaginationDots: React.FC = () => <div className={'mx-1 text-gray-700 font-semibold'}>...</div>;
