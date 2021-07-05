@@ -60,7 +60,7 @@ const handler = async (req, res) => {
         content_rating: overallContentRating,
         workload_rating: overallWorkloadRating,
         delivery_rating: overallDeliveryRating,
-        reviews: reviews.filter((r) => r.content !== undefined),
+        reviews: reviews.filter((r) => r.content !== undefined && r.content !== ''),
       };
 
       res.status(200).json(data);

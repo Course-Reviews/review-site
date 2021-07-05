@@ -34,7 +34,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<fetchCoursesRes
       matchCriteria.faculty = FACULTYS[parseInt(`${faculty}`)]
     }
     if (query) {
-      matchCriteria.title = new RegExp(`${query}`, 'i')
+      matchCriteria['$or'] = [{code: new RegExp(`${query}`, 'i')}, {title: new RegExp(`${query}`, 'i')}]
     }
 
     try {
