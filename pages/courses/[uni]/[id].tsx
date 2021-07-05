@@ -90,7 +90,7 @@ const Course: React.FC<CourseDetails> = ({
       });
     };
     hydrate();
-  }, []);
+  }, [id]);
 
   const showModal = async () => {
     const review = await messageModal.show({
