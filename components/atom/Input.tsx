@@ -10,7 +10,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   invalid?: boolean;
 }
 
-const Input: React.FC<InputProps> = ({ className, as: Component = 'input', invalid, disabled, ...rest }) => (
+const Input: React.ForwardRefExoticComponent<InputProps & React.RefAttributes<unknown>> = React.forwardRef(({ className, as: Component = 'input', invalid, disabled, ...rest }, ref) => (
   <Ripple
     grow
     rippleClassName='bg-primary-200'
@@ -19,6 +19,7 @@ const Input: React.FC<InputProps> = ({ className, as: Component = 'input', inval
   >
     <Component
       disabled={disabled}
+      ref={ref}
       className={classnames(
         disabled ? 'bg-gray-200 text-gray-400' :
         invalid ? '' : '',
@@ -28,6 +29,8 @@ const Input: React.FC<InputProps> = ({ className, as: Component = 'input', inval
       {...rest}
     />
   </Ripple>
-);
+));
+
+Input.displayName = 'Input';
 
 export default Input;

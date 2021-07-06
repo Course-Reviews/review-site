@@ -56,7 +56,7 @@ const Landing: React.FC<LandingProps> = () => (
           <p className='text-lg'>
             Do you have something to say about your university courses? Or are you trying to
             prepare/decide what to do next? CourseReviews is a platform for you to search, read and
-            post reviews for a university course in NZ. <br/><br/>
+            post reviews for university courses in NZ. <br/><br/>
             <span className={'text-sm'}>By using our platform you agree to our{' '}
             <Link href='/terms-and-conditions'>
               <a className={'text-primary-500'} >

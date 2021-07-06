@@ -13,35 +13,9 @@ import Input from '../../components/atom/Input';
 import PaginationControls from '../../components/atom/PaginationControls';
 import Row from '../../components/atom/Row';
 import CourseCard from '../../components/CourseCard';
+import CourseFilter from '../../components/CourseFilter';
 import fetchCourses from '../../functions/fetchCourses';
 import { CourseSummary, FACULTYS, Pagination, TERMS } from '../../types/config';
-
-const stages: Option[] = [
-  { label: 'Any', value: undefined },
-  { label: '1', value: 1 },
-  { label: '2', value: 2 },
-  { label: '3', value: 3 },
-  { label: '4', value: 4 },
-  { label: '5', value: 5 },
-  { label: '6', value: 6 },
-  { label: '7', value: 7 },
-];
-
-const terms: Option[] = [
-  { label: 'Any', value: undefined },
-  ...TERMS.map((t, i) => ({
-    label: t,
-    value: i,
-  })).sort((a, b) => `${a.label}`.localeCompare(b.label)),
-];
-
-const faculties: Option[] = [
-  { label: 'Any', value: undefined },
-  ...FACULTYS.map((f, i) => ({
-    label: f,
-    value: i,
-  })),
-];
 
 interface Filter {
   query?: string;
@@ -54,8 +28,6 @@ const CourseIndex: React.FC = () => {
   const router = useRouter();
 
   const [showFilter, setShowFilter] = useState<boolean>(true);
-
-  const [filter, setFilter] = useState<Filter>({});
 
   const [pagination, setPagination] = useState<Pagination>({
     page: 0,
@@ -73,33 +45,39 @@ const CourseIndex: React.FC = () => {
     setResults(res.courses);
     setPagination(res.pagination);
     setLoading(false);
-    setQueryString(res.pagination.page);
+    setQueryString(f, res.pagination.page);
   };
+
+  const getFilterFromQuery = (): {filter: Filter, page: number} => {
+    const parsed: { [key: string]: number | string } = {};
+
+    for (const key in router.query) {
+      parsed[key] = parseInt(router.query[key] as string)
+        ? parseInt(router.query[key] as string)
+        : (router.query[key] as string);
+    }
+
+    const f: Filter = {
+      query: parsed.query as string,
+      stage: parsed.stage as number,
+      term: parsed.term as number,
+      faculty: parsed.faculty as number,
+    };
+
+    return {filter: f, page: parsed.page as number || 0};
+  }
 
   // Wait for the page to be ready
   useEffect(() => {
     if (router.isReady) {
-      const parsed: { [key: string]: number | string } = {};
 
-      for (const key in router.query) {
-        parsed[key] = parseInt(router.query[key] as string)
-          ? parseInt(router.query[key] as string)
-          : (router.query[key] as string);
-      }
+      const {filter, page} = getFilterFromQuery();
 
-      const f: Filter = {
-        query: parsed.query as string,
-        stage: parsed.stage as number,
-        term: parsed.term as number,
-        faculty: parsed.faculty as number,
-      };
-
-      const page = parsed.page || 0;
-      fetch(f, page as number);
+      fetch(filter, page as number);
     }
   }, [router.isReady]);
 
-  const setQueryString = (page: number) => {
+  const setQueryString = (filter: Filter ,page: number) => {
     const filterQuery = Object.entries(filter)
       .filter(([k, v]) => v !== undefined)
       .map(([k, v]) => `${k}=${v}`);
@@ -115,17 +93,13 @@ const CourseIndex: React.FC = () => {
   };
 
   // Fetches results for the filter and also updates the query string to match
-  const applyFilter = async () => {
+  const applyFilter = async (filter: Filter) => {
     fetch(filter, 0);
   };
 
-  const clearFilter = () => {
-    setFilter({});
-    router.push('', undefined, { shallow: true });
-    fetch({}, 0);
-  };
-
   const fetchPage = async (p: number) => {
+    const {filter} = getFilterFromQuery();
+
     await fetch(filter, p);
     window.scrollTo({ top: 0 });
   };
@@ -161,70 +135,7 @@ const CourseIndex: React.FC = () => {
         </Col>
       </Row>
       {showFilter && (
-        <div>
-          <Row className={'border-b pb-4 pt-2 items-end flex-wrap'}>
-            <Col className={'w-full md:w-32'}>
-              <FormGroup label='Stage'>
-                <Dropdown
-                  options={stages}
-                  selectedIndex={stages.findIndex((s) => s.value === filter.stage)}
-                  onChange={(v) => setFilter((f) => ({ ...f, stage: v.value }))}
-                >
-                  Stage
-                </Dropdown>
-              </FormGroup>
-            </Col>
-            <Col className={'w-full md:w-56'}>
-              <FormGroup label='Term'>
-                <Dropdown
-                  options={terms}
-                  selectedIndex={terms.findIndex((s) => s.value === filter.term)}
-                  onChange={(v) => setFilter((f) => ({ ...f, term: v.value }))}
-                >
-                  Term
-                </Dropdown>
-              </FormGroup>
-            </Col>
-            <Col className={'w-full md:w-64'}>
-              <FormGroup label='Faculty'>
-                <Dropdown
-                  options={faculties}
-                  selectedIndex={faculties.findIndex((s) => s.value === filter.faculty)}
-                  onChange={(v) => setFilter((f) => ({ ...f, faculty: v.value }))}
-                >
-                  Term
-                </Dropdown>
-              </FormGroup>
-            </Col>
-            <Col className={'w-full md:w-64'}>
-              <FormGroup label='Search'>
-                <Input
-                  value={filter.query}
-                  onChange={(e) => {
-                    const val = e.target.value;
-                    setFilter((f) => ({ ...f, query: val === '' ? undefined : val }));
-                  }}
-                />
-              </FormGroup>
-            </Col>
-            <Col className={'w-full md:w-auto'}>
-              <FormGroup>
-                <Row>
-                  <Col>
-                    <Button outline block onClick={clearFilter}>
-                      Clear Filters
-                    </Button>
-                  </Col>
-                  <Col>
-                    <Button block onClick={applyFilter}>
-                      Apply Filter
-                    </Button>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Col>
-          </Row>
-        </div>
+        <CourseFilter onSubmit={applyFilter}/>
       )}
       <div className={'my-2 text-gray-600 h-5'}>
         {loading ? (
