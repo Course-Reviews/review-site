@@ -90,15 +90,6 @@ const PostReviewModal: React.FC<ModalType<ModalData, reviewResponse>> = ({
 
     setSubmitted(true);
 
-    console.log({
-      course_rating: (workloadRating + deliveryRating + contentRating) / 3,
-      content,
-      taken_date: `${TERMS[term]} ${year}`,
-      workload_rating: workloadRating,
-      content_rating: contentRating,
-      delivery_rating: deliveryRating,
-    });
-
     const res = await postReview(data.courseId, {
       course_rating: (workloadRating + deliveryRating + contentRating) / 3,
       content,
