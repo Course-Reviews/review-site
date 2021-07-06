@@ -10,6 +10,7 @@
     "clean": "rm -rf node_modules && yarn"
   },
   "dependencies": {
+    "@hookform/resolvers": "^2.6.0",
     "async-modals": "^0.3.14",
     "axios": "^0.21.1",
     "classnames": "^2.3.1",
@@ -26,7 +27,8 @@
     "react-icons": "^4.2.0",
     "react-mixpanel": "^1.0.5",
     "react-toastify": "^7.0.4",
-    "react-useanimations": "^2.0.6"
+    "react-useanimations": "^2.0.6",
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "@types/mixpanel-browser": "^2.35.6",

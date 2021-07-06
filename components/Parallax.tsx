@@ -12,7 +12,6 @@ const Parallax: React.FC<ParallaxProps> = ({...rest}) => {
 
     const listener = () => {
       const scrollY = window.scrollY;
-      // console.log(scrollY);
       setOffset(scrollY/2 )
     }
     document.addEventListener('scroll', listener)

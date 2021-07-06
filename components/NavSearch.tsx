@@ -9,10 +9,10 @@ import Loader from './Loader';
 import SearchResult, { CourseSearchResult } from './SearchResult';
 
 // This is how long we should wait after each keypress before actually executing the search
-const SEARCH_DELAY = 0;
+const SEARCH_DELAY = 50;
 
 // Dont search until the user has typed at least this many characters
-const SEARCH_LENGTH_THRESHOLD = 0;
+const SEARCH_LENGTH_THRESHOLD = 1;
 
 const NavSearch: React.FC<HTMLAttributes<HTMLElement>> = ({ className }) => {
   const [searchResults, setSearchResults] = useState<CourseSearchResult[]>([]);
