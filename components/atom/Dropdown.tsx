@@ -1,13 +1,8 @@
-import React, { ElementType, useEffect, useState } from 'react';
-
-import classnames from 'classnames';
-import { HTMLAttributes } from 'react';
-import { InputHTMLAttributes } from 'react';
-import Ripple from './Ripple';
-import Button from './Button';
-import Expand from './Expand';
-import { FiChevronDown } from 'react-icons/fi';
+import React, { useState } from 'react';
 import { Control, Controller } from 'react-hook-form';
+import { FiChevronDown } from 'react-icons/fi';
+import Expand from './Expand';
+import Ripple from './Ripple';
 
 export interface Option {
   label: string;
@@ -18,32 +13,18 @@ interface DropdownProps {
   className?: string;
   options: Option[];
   name: string;
-  control?: Control;
+  control?: Control<any>;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({ options, children, name, control, ...rest }) => {
   const [focused, setFocused] = useState<boolean>(false);
-
-  // useEffect(() => {
-  //   if (onChange) {
-  //     onChange(option);
-  //   }
-  // }, [option]);
-
-  // useEffect(() => {
-  //   if (selectedIndex) {
-  //     setOption(options[selectedIndex]);
-  //   }
-  // }, [selectedIndex]);
 
   return (
     <Controller
       control={control}
       name={name}
       render={({
-        field: { onChange, onBlur, value, name, ref },
-        fieldState: { invalid, isTouched, isDirty, error },
-        formState,
+        field: { onChange, value },
       }) => (
         <div className={'relative w-full'}>
           <Ripple grow rippleClassName={'bg-primary-200'} rippleContainerClassName='rounded-xl'>
@@ -57,7 +38,7 @@ const Dropdown: React.FC<DropdownProps> = ({ options, children, name, control, .
               onBlur={() => setFocused(false)}
               {...rest}
             >
-              {options.find(o => o.value === value)?.label}
+              {options.find((o) => o.value === value)?.label}
               <FiChevronDown className={'ml-2 absolute right-3'} size={20} />
             </button>
           </Ripple>

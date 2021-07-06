@@ -1,9 +1,13 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import { Modal as ModalType } from 'async-modals';
-import React, { useRef, useState } from 'react';
+import mixpanel from 'mixpanel-browser';
+import React, { useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { FiArrowRight } from 'react-icons/fi';
 import UseAnimations from 'react-useanimations';
 import radioButton from 'react-useanimations/lib/radioButton';
-import { fetchReviewsResponse, reviewResponse } from '../functions/fetchReviews';
+import { number, object, SchemaOf, string } from 'yup';
+import { reviewResponse } from '../functions/fetchReviews';
 import postReview from '../functions/postReview';
 import { TERMS } from '../types/config';
 import Button from './atom/Button';
@@ -14,13 +18,14 @@ import Input from './atom/Input';
 import Modal from './atom/Modal';
 import RatingInput from './atom/RatingInput';
 import Row from './atom/Row';
+
 interface ModalData {
   terms: number[];
   code: string;
   courseId: string;
 }
 
-interface ReviewData {
+interface FormFields {
   workloadRating: number;
   contentRating: number;
   deliveryRating: number;
@@ -29,49 +34,71 @@ interface ReviewData {
   year: string;
 }
 
+const formFields = {
+  workloadRating: 'workloadRating',
+  contentRating: 'contentRating',
+  deliveryRating: 'deliveryRating',
+  content: 'content',
+  term: 'term',
+  year: 'year',
+} as const;
+
 const YEARS = ['2020', '2021'];
 
-const PostReviewModal: React.FC<ModalType<ModalData, reviewResponse>> = ({ data, isClosing, cancel, submit }) => {
-  let termIndex = data.terms.findIndex((v) => v === 3 || v === 5);
-  if (termIndex === -1) termIndex = 0;
+const schema: SchemaOf<FormFields> = object().shape({
+  workloadRating: number().required('Please choose a workload rating between 1 and 5'),
+  contentRating: number().required('Please choose a content rating between 1 and 5'),
+  deliveryRating: number().required('Please choose a delivery rating between 1 and 5'),
+  content: string().max(5000, 'Please keep your review to a maximum of 5000 characters'),
+  term: number().required(),
+  year: string().required(),
+});
 
-  const [formdata, setFormdata] = useState<Partial<ReviewData>>({
-    term: termIndex,
-  });
-
-  const [formerrors ,setFormerrors] = useState<Partial<{[k in keyof ReviewData]: string}>>({});
+const PostReviewModal: React.FC<ModalType<ModalData, reviewResponse>> = ({
+  data,
+  isClosing,
+  cancel,
+  submit,
+}) => {
+  const terms = data.terms.filter((t, i) => data.terms.indexOf(t) === i).sort();
 
   const [submitted, setSubmitted] = useState(false);
 
-  const[review, setReview]= useState<reviewResponse>();
-  // const review = useRef<fetchReviewsResponse>();
+  const [review, setReview] = useState<reviewResponse>();
 
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
-    e.preventDefault();
-    const { workloadRating, contentRating, deliveryRating, content, term, year } = formdata as any;
+  const {
+    handleSubmit,
+    control,
+    register,
+    formState: { errors },
+  } = useForm<FormFields>({
+    defaultValues: {
+      year: '2021',
+      term: terms[0],
+    },
+    resolver: yupResolver(schema),
+  });
 
-    // validation
-    const errors:Partial<{[k in keyof ReviewData]: string}> = {};
+  const handleValidSubmit: SubmitHandler<FormFields> = async ({
+    workloadRating,
+    deliveryRating,
+    contentRating,
+    content,
+    term,
+    year,
+  }) => {
 
-    if(!workloadRating){
-      errors.workloadRating = 'Please choose a rating for workload'
-    }
-    if(!contentRating){
-      errors.contentRating = 'Please choose a rating for content'
-    }
-    if(!deliveryRating){
-      errors.deliveryRating = 'Please choose a rating for delivery'
-    }
-    if(content && content.length > 5000){
-      errors.content = `Reviews are limited to 5000 characters (currently ${content.length})`
-    }
-    setFormerrors(errors)
-    if(Object.keys(errors).length > 0){
-      return;
-    }
-
-    // console.log('Posting!');
     setSubmitted(true);
+
+    console.log({
+      course_rating: (workloadRating + deliveryRating + contentRating) / 3,
+      content,
+      taken_date: `${TERMS[term]} ${year}`,
+      workload_rating: workloadRating,
+      content_rating: contentRating,
+      delivery_rating: deliveryRating,
+    });
+
     const res = await postReview(data.courseId, {
       course_rating: (workloadRating + deliveryRating + contentRating) / 3,
       content,
@@ -81,7 +108,6 @@ const PostReviewModal: React.FC<ModalType<ModalData, reviewResponse>> = ({ data,
       delivery_rating: deliveryRating,
     });
     setReview(res);
-
   };
 
   return (
@@ -97,55 +123,46 @@ const PostReviewModal: React.FC<ModalType<ModalData, reviewResponse>> = ({ data,
             speed={0.75}
           />
           <div className={'text-lg font-bold my-8'}>Thanks for leaving a review!</div>
-          <Button onClick={() => review ? submit(review) : cancel()}>
+          <Button onClick={() => (review ? submit(review) : cancel())}>
             Back to {data.code}
             <FiArrowRight size={24} className={'ml-2 -m-2'} />
           </Button>
         </div>
       ) : (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(handleValidSubmit)}>
           <FormGroup label='Taken In' required>
             <Row>
               <Col className={'w-2/3 md:w-1/2'}>
                 <Dropdown
-                  options={data.terms.map((t) => ({ label: TERMS[t], value: t }))}
-                  selectedIndex={termIndex}
-                  onChange={(v) => setFormdata((d) => ({ ...d, term: v.value }))}
+                  options={terms.map((t) => ({ label: TERMS[t], value: t }))}
+                  control={control}
+                  name={formFields.term}
                 />
               </Col>
               <Col className={'w-1/3 md:w-1/2'}>
                 <Dropdown
                   options={YEARS.map((v) => ({ label: v, value: v }))}
-                  selectedIndex={1}
-                  onChange={(v) => setFormdata((d) => ({ ...d, year: v.value }))}
+                  control={control}
+                  name={formFields.year}
                 />
               </Col>
             </Row>
           </FormGroup>
-          <FormGroup label='Workload' required error={formerrors.workloadRating}>
-            <RatingInput
-              className={'mt-1'}
-              onChange={(v) => setFormdata((d) => ({ ...d, workloadRating: v }))}
-            />
+          <FormGroup label='Workload' required error={errors.workloadRating}>
+            <RatingInput className={'mt-1'} name={formFields.workloadRating} control={control} />
           </FormGroup>
-          <FormGroup label='Content Quality' required error={formerrors.contentRating}>
-            <RatingInput
-              className={'mt-1'}
-              onChange={(v) => setFormdata((d) => ({ ...d, contentRating: v }))}
-            />
+          <FormGroup label='Content Quality' required error={errors.contentRating}>
+            <RatingInput className={'mt-1'} name={formFields.contentRating} control={control} />
           </FormGroup>
-          <FormGroup label='Delivery of Content' required error={formerrors.deliveryRating}>
-            <RatingInput
-              className={'mt-1'}
-              onChange={(v) => setFormdata((d) => ({ ...d, deliveryRating: v }))}
-            />
+          <FormGroup label='Delivery of Content' required error={errors.deliveryRating}>
+            <RatingInput className={'mt-1'} name={formFields.deliveryRating} control={control} />
           </FormGroup>
-          <FormGroup label='Review' error={formerrors.content}>
+          <FormGroup label='Review' error={errors.content}>
             <Input
               as='textarea'
               placeholder='Provide a written review (optional)'
               className={'h-48'}
-              onChange={(e) => setFormdata((d) => ({ ...d, content: e.target.value }))}
+              {...register(formFields.content)}
             />
           </FormGroup>
 
@@ -153,7 +170,7 @@ const PostReviewModal: React.FC<ModalType<ModalData, reviewResponse>> = ({ data,
             <Button
               block
               onClick={() => {
-                // mixpanel.track('[REVIEW MODAL] Post');
+                mixpanel.track('[REVIEW MODAL] Post');
               }}
               disabled={submitted}
             >
