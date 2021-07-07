@@ -17,9 +17,8 @@ interface props {
 
 const ReviewInstagramStory: React.FC<props> = ({ code, uni, content, rating }) => (
   <div
-    style={{ width: '1080px', height: '1920px' }}
     id={'story'}
-    className={'bg-insta-story mx-auto flex flex-col items-center'}
+    className={'bg-insta-story mx-auto flex flex-col items-center z-50 fixed inset-0 bg-cover'}
   >
     <Logo fill={'white'} className={'mx-auto my-24 h-64'} />
     <p className={'text-5xl font-semibold text-white text-opacity-80'}>Reviews for</p>
@@ -33,10 +32,8 @@ const ReviewInstagramStory: React.FC<props> = ({ code, uni, content, rating }) =
       </span>
       <StarRating rating={rating} size={64} className={'mb-8 text-secondary-500'} />
       <span>
-        {/* <span className={'text-6xl font-bold'}>{'"'}</span> */}
         {content.substring(0, 250).trim()}
         {content.length > 250 && '...'}
-        {/* <span className={'text-5xl font-bold'}>{'"'}</span> */}
       </span>
     </Card>
     <div className={'flex w-9/12 pl-16'}>
