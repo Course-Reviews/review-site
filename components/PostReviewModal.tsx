@@ -35,8 +35,8 @@ interface FormFields {
 }
 
 const formFields = {
-  relaxedRating: 'workloadRating',
-  enjoymentRating: 'contentRating',
+  relaxedRating: 'relaxedRating',
+  enjoymentRating: 'enjoymentRating',
   deliveryRating: 'deliveryRating',
   content: 'content',
   term: 'term',
