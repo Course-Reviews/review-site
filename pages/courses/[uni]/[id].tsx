@@ -10,7 +10,7 @@ import {
   FiFileText,
   FiInbox,
   FiMessageSquare,
-  FiStar,
+  FiStar
 } from 'react-icons/fi';
 import { MixpanelConsumer } from 'react-mixpanel';
 import Accordian from '../../../components/atom/Accordian';
@@ -30,12 +30,10 @@ import {
   ReviewData,
   TERMS,
   UNI_NAMES,
-  UNI_NAMES_SHORT,
+  UNI_NAMES_SHORT
 } from '../../../types/config';
-import { codeToURL } from '../../../util/util';
 import courseList from '../../../util/courseList.json';
-import Badge from '../../../components/atom/Badge';
-import Progress from '../../../components/atom/Progress';
+import { codeToURL } from '../../../util/util';
 
 const Course: React.FC<CourseDetails> = ({
   id,
@@ -44,8 +42,8 @@ const Course: React.FC<CourseDetails> = ({
   overview,
   url,
   rating,
-  contentRating,
-  workloadRating,
+  relaxedRating,
+  enjoymentRating,
   deliveryRating,
   numRatings,
   assessments,
@@ -57,8 +55,8 @@ const Course: React.FC<CourseDetails> = ({
   const [reviewData, setReviewData] = useState({
     rating,
     numRatings,
-    contentRating,
-    workloadRating,
+    enjoymentRating,
+    relaxedRating,
     deliveryRating,
   });
 
@@ -69,6 +67,7 @@ const Course: React.FC<CourseDetails> = ({
   useEffect(() => {
     const hydrate = async () => {
       const data = await fetchReviews(id);
+      console.log(data);
       const processed = data.reviews.map((e) => ({
         id: e._id,
         rating: e.course_rating,
@@ -76,16 +75,17 @@ const Course: React.FC<CourseDetails> = ({
         timeTaken: e.taken_date,
         dateCreated: new Date(e.createdAt),
         votes: e.upvote - e.downvote,
-        contentRating: e.content_rating,
-        workloadRating: e.workload_rating,
         deliveryRating: e.delivery_rating,
+        enjoymentRating: e.enjoyment_rating,
+        relaxedRating: e.relaxed_rating,
+
       }));
       setReviews(processed);
       setReviewData({
         rating: data.overall_rating,
         numRatings: data.num_ratings,
-        contentRating: data.content_rating,
-        workloadRating: data.workload_rating,
+        enjoymentRating: data.enjoyment_rating,
+        relaxedRating: data.relaxed_rating,
         deliveryRating: data.delivery_rating,
       });
     };
@@ -109,17 +109,17 @@ const Course: React.FC<CourseDetails> = ({
         timeTaken: review.taken_date,
         dateCreated: new Date(review.createdAt),
         votes: 0,
-        contentRating: review.content_rating,
-        workloadRating: review.workload_rating,
+        enjoymentRating: review.enjoyment_rating,
+        relaxedRating: review.relaxed_rating,
         deliveryRating: review.delivery_rating,
       };
       setReviews((r) => [...(r || []), processedReview]);
       setReviewData((d) => ({
         rating: (d.rating * d.numRatings + review.course_rating) / (d.numRatings + 1),
-        contentRating:
-          (d.contentRating * d.numRatings + review.content_rating) / (d.numRatings + 1),
-        workloadRating:
-          (d.workloadRating * d.numRatings + review.workload_rating) / (d.numRatings + 1),
+        relaxedRating:
+          (d.relaxedRating * d.numRatings + (review.relaxed_rating as number)) / (d.numRatings + 1),
+        enjoymentRating:
+          (d.enjoymentRating * d.numRatings + (review.enjoyment_rating as number)) / (d.numRatings + 1),
         deliveryRating:
           (d.deliveryRating * d.numRatings + review.delivery_rating) / (d.numRatings + 1),
         numRatings: d.numRatings + 1,
@@ -287,27 +287,27 @@ const Course: React.FC<CourseDetails> = ({
                         <div className={'w-1/3'}>
                           <div className={'font-bold text-primary-500'}>
                             <span className={'text-2xl'}>
-                              {Math.round(contentRating * 10) / 10}
+                              {Math.round((reviewData.relaxedRating) * 10) / 10}
                             </span>
                           </div>
                           <div className={'mt-0.5 text-xs font-semibold text-gray-500'}>
-                            Content
+                            Relaxed
                           </div>
                         </div>
                         <div className={'w-1/3'}>
                           <div className={'font-bold text-primary-500'}>
                             <span className={'text-2xl'}>
-                              {Math.round(workloadRating * 10) / 10}
+                              {Math.round((reviewData.enjoymentRating) * 10) / 10}
                             </span>
                           </div>
                           <div className={'mt-0.5 text-xs font-semibold text-gray-500'}>
-                            Workload
+                            Enjoyment
                           </div>
                         </div>
                         <div className={'w-1/3'}>
                           <div className={'font-bold text-primary-500'}>
                             <span className={'text-2xl'}>
-                              {Math.round(deliveryRating * 10) / 10}
+                              {Math.round(reviewData.deliveryRating * 10) / 10}
                             </span>
                           </div>
                           <div className={'mt-0.5 text-xs font-semibold text-gray-500'}>

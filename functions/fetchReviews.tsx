@@ -5,8 +5,8 @@ export interface reviewResponse {
   content: string;
   course_rating: number;
   delivery_rating: number;
-  workload_rating: number;
-  content_rating: number;
+  relaxed_rating: number;
+  enjoyment_rating: number;
   createdAt: string;
   downvote: number;
   owner: string;
@@ -17,14 +17,21 @@ export interface reviewResponse {
 export interface fetchReviewsResponse {
   num_ratings: number;
   overall_rating: number;
-  content_rating: number;
-  workload_rating: number;
+  relaxed_rating: number;
+  enjoyment_rating: number;
   delivery_rating: number;
   reviews: reviewResponse[];
 }
 
 const fetchReviews = async (courseId: string): Promise<fetchReviewsResponse> => {
   const { data } = await getData(`api/posts/bycourse/${courseId}`);
-  return data;
+
+  const reviews = (data).reviews.map((r: any) => ({
+    enjoyment_rating: Math.max(r.content_rating - 1, 1),
+    relaxed_rating:(5 - r.workload_rating) + 2,
+    ...r
+  }))
+
+  return {...data, reviews};
 };
 export default fetchReviews;

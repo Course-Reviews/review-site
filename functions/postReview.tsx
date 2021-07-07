@@ -2,8 +2,8 @@ import { postData } from '.';
 
 interface reviewData {
   course_rating: number;
-  content_rating: number;
-  workload_rating: number;
+  relaxed_rating: number;
+  enjoyment_rating: number;
   delivery_rating: number;
   content?: string;
   taken_date: string;

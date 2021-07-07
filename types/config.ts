@@ -8,8 +8,8 @@ export enum Uni {
 export interface ReviewData {
   id: string;
   rating: number;
-  workloadRating: number;
-  contentRating: number;
+  relaxedRating: number;
+  enjoymentRating: number;
   deliveryRating: number;
   content: string;
   timeTaken: string;
@@ -66,9 +66,9 @@ export interface CourseDetails {
   university: string;
   faculty: string;
   rating: number;
+  relaxedRating: number;
+  enjoymentRating: number;
   deliveryRating: number;
-  contentRating: number;
-  workloadRating: number;
   numRatings: number;
   term: number[];
   // optional stuff

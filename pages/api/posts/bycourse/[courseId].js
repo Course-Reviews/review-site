@@ -44,24 +44,26 @@ const handler = async (req, res) => {
     try {
       const reviews = await Review.find({
         owner: req.query.courseId,
-      });
+      }).lean()
 
       const overallRating = reviews.reduce((p, c) => p + c.course_rating, 0) / reviews.length;
-      const overallContentRating =
-        reviews.reduce((p, c) => p + c.content_rating, 0) / reviews.length;
-      const overallWorkloadRating =
-        reviews.reduce((p, c) => p + c.workload_rating, 0) / reviews.length;
+      const overallRelaxedRating =
+        reviews.reduce((p, c) => p + (c.relaxed_rating || (5 - c.workload_rating) + 2), 0) / reviews.length;
+      const overallEnjoymentRating =
+        reviews.reduce((p, c) => p + (c.enjoyment_rating || Math.max(c.content_rating - 1, 1)), 0) / reviews.length;
       const overallDeliveryRating =
         reviews.reduce((p, c) => p + c.delivery_rating, 0) / reviews.length;
 
       const data = {
         num_ratings: reviews.length,
         overall_rating: overallRating,
-        content_rating: overallContentRating,
-        workload_rating: overallWorkloadRating,
+        enjoyment_rating: overallEnjoymentRating,
+        relaxed_rating: overallRelaxedRating,
         delivery_rating: overallDeliveryRating,
-        reviews: reviews.filter((r) => r.content !== undefined && r.content !== ''),
+        reviews: reviews.filter((r) => r?.content !== undefined && r?.content !== ''),
       };
+
+      console.log(data);
 
       res.status(200).json(data);
     } catch (e) {
