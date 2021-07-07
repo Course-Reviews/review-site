@@ -136,6 +136,7 @@ module.exports = {
       backgroundImage: {
         // hero: 'url(../assets/landing-background.svg)',
         hero: 'url(../assets/bg_3.svg)',
+        'insta-story': 'url(../assets/insta_story_bg.jpg)',
       },
       transitionProperty: {
         width: 'width',
