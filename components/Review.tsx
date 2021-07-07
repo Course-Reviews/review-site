@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { FiArrowDown, FiArrowUp, FiFlag, FiThumbsDown, FiThumbsUp } from 'react-icons/fi';
+import classNames from 'classnames';
+import React, { useState } from 'react';
+import { FiFlag, FiThumbsDown, FiThumbsUp } from 'react-icons/fi';
+import { MixpanelConsumer } from 'react-mixpanel';
+import { patchData } from '../functions';
+import { ReviewData } from '../types/config';
 import Card from './atom/Card';
 import IconButton from './atom/IconButton';
 import StarRating from './atom/StarRating';
-import { MixpanelConsumer } from 'react-mixpanel';
-import Col from './atom/Col';
-import Row from './atom/Row';
-import classNames from 'classnames';
-import Badge from './atom/Badge';
-import { ReviewData } from '../types/config';
-import { patchData } from '../functions';
 
 interface ReviewProps {
   review: ReviewData;
@@ -24,14 +21,13 @@ const Review: React.FC<ReviewProps> = ({
     timeTaken,
     content,
     votes: v,
-    contentRating,
-    workloadRating,
     deliveryRating,
+    relaxedRating,
+    enjoymentRating,
   },
 }) => {
   const [votes, setVotes] = useState(v);
   const [hasVoted, setHasVoted] = useState(false);
-
 
   return (
     <MixpanelConsumer>
@@ -62,17 +58,17 @@ const Review: React.FC<ReviewProps> = ({
             <div className={'flex text-center mt-3 mb-1 divide-x'}>
               <div className={'w-1/3'}>
                 <div className={'font-bold text-primary-500'}>
-                  <span className={'text-2xl'}>{contentRating}</span>
+                  <span className={'text-2xl'}>{relaxedRating}</span>
                   <span className={'text-sm text-primary-300'}>/5</span>
                 </div>
-                <div className={'mt-0.5 text-xs font-semibold text-gray-500'}>Content</div>
+                <div className={'mt-0.5 text-xs font-semibold text-gray-500'}>Relaxed</div>
               </div>
               <div className={'w-1/3'}>
                 <div className={'font-bold text-primary-500'}>
-                  <span className={'text-2xl'}>{workloadRating}</span>
+                  <span className={'text-2xl'}>{enjoymentRating}</span>
                   <span className={'text-sm text-primary-300'}>/5</span>
                 </div>
-                <div className={'mt-0.5 text-xs font-semibold text-gray-500'}>Workload</div>
+                <div className={'mt-0.5 text-xs font-semibold text-gray-500'}>Enjoyment</div>
               </div>
               <div className={'w-1/3'}>
                 <div className={'font-bold text-primary-500'}>
@@ -107,7 +103,7 @@ const Review: React.FC<ReviewProps> = ({
                 variant='none'
                 icon={FiThumbsDown}
                 onClick={async () => {
-                  if(hasVoted)return;
+                  if (hasVoted) return;
                   setHasVoted(true);
                   await patchData(`api/posts/${id}/downvote`);
                   setVotes((v) => (v -= 1));
@@ -118,11 +114,10 @@ const Review: React.FC<ReviewProps> = ({
                 variant='none'
                 icon={FiThumbsUp}
                 onClick={async () => {
-                  if(hasVoted)return;
+                  if (hasVoted) return;
                   setHasVoted(true);
                   await patchData(`api/posts/${id}/upvote`);
                   setVotes((v) => v + 1);
-
                 }}
               />
             </div>

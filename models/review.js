@@ -18,15 +18,15 @@ const reviewSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    content_rating: {
-      type: Number,
-      required: true,
-    },
-    workload_rating: {
-      type: Number,
-      required: true,
-    },
     delivery_rating: {
+      type: Number,
+      required: true,
+    },
+    relaxed_rating: {
+      type: Number,
+      required: true,
+    },
+    enjoyment_rating: {
       type: Number,
       required: true,
     },

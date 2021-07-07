@@ -26,8 +26,8 @@ interface ModalData {
 }
 
 interface FormFields {
-  workloadRating: number;
-  contentRating: number;
+  relaxedRating: number;
+  enjoymentRating: number;
   deliveryRating: number;
   content?: string;
   term: number;
@@ -35,8 +35,8 @@ interface FormFields {
 }
 
 const formFields = {
-  workloadRating: 'workloadRating',
-  contentRating: 'contentRating',
+  relaxedRating: 'workloadRating',
+  enjoymentRating: 'contentRating',
   deliveryRating: 'deliveryRating',
   content: 'content',
   term: 'term',
@@ -46,8 +46,8 @@ const formFields = {
 const YEARS = ['2020', '2021'];
 
 const schema: SchemaOf<FormFields> = object().shape({
-  workloadRating: number().required('Please choose a workload rating between 1 and 5'),
-  contentRating: number().required('Please choose a content rating between 1 and 5'),
+  relaxedRating: number().required('Please choose a relaxed rating between 1 and 5'),
+  enjoymentRating: number().required('Please choose an enjoyment rating between 1 and 5'),
   deliveryRating: number().required('Please choose a delivery rating between 1 and 5'),
   content: string().max(5000, 'Please keep your review to a maximum of 5000 characters'),
   term: number().required(),
@@ -80,9 +80,9 @@ const PostReviewModal: React.FC<ModalType<ModalData, reviewResponse>> = ({
   });
 
   const handleValidSubmit: SubmitHandler<FormFields> = async ({
-    workloadRating,
+    enjoymentRating,
     deliveryRating,
-    contentRating,
+    relaxedRating,
     content,
     term,
     year,
@@ -91,11 +91,11 @@ const PostReviewModal: React.FC<ModalType<ModalData, reviewResponse>> = ({
     setSubmitted(true);
 
     const res = await postReview(data.courseId, {
-      course_rating: (workloadRating + deliveryRating + contentRating) / 3,
+      course_rating: (relaxedRating + deliveryRating + enjoymentRating) / 3,
       content,
       taken_date: `${TERMS[term]} ${year}`,
-      workload_rating: workloadRating,
-      content_rating: contentRating,
+      enjoyment_rating: enjoymentRating,
+      relaxed_rating: relaxedRating,
       delivery_rating: deliveryRating,
     });
     setReview(res);
@@ -139,13 +139,13 @@ const PostReviewModal: React.FC<ModalType<ModalData, reviewResponse>> = ({
               </Col>
             </Row>
           </FormGroup>
-          <FormGroup label='Workload' required error={errors.workloadRating}>
-            <RatingInput className={'mt-1'} name={formFields.workloadRating} control={control} />
+          <FormGroup label='How relaxed was the course?' required error={errors.relaxedRating}>
+            <RatingInput className={'mt-1'} name={formFields.relaxedRating} control={control} />
           </FormGroup>
-          <FormGroup label='Content Quality' required error={errors.contentRating}>
-            <RatingInput className={'mt-1'} name={formFields.contentRating} control={control} />
+          <FormGroup label='How much did you enjoy the course?' required error={errors.enjoymentRating}>
+            <RatingInput className={'mt-1'} name={formFields.enjoymentRating} control={control} />
           </FormGroup>
-          <FormGroup label='Delivery of Content' required error={errors.deliveryRating}>
+          <FormGroup label='How well was the content delivered?' required error={errors.deliveryRating}>
             <RatingInput className={'mt-1'} name={formFields.deliveryRating} control={control} />
           </FormGroup>
           <FormGroup label='Review' error={errors.content}>

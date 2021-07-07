@@ -34,9 +34,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<CourseDetails>)
                 $addFields: {
                   reviewCount: { $size: '$reviews' },
                   rating: { $ifNull: [{$avg: '$reviews.course_rating'}, 0]},
-                  contentRating: { $ifNull: [{$avg: '$reviews.content_rating'}, 0]},
-                  workloadRating: { $ifNull: [{$avg: '$reviews.workload_rating'}, 0]},
                   deliveryRating: { $ifNull: [{$avg: '$reviews.delivery_rating'}, 0]},
+                  enjoymentRating: { $ifNull: [{$avg: '$reviews.content_rating'}, 0]},
+                  relaxedRating: { $add: [2, {$subtract: [5, { $ifNull: [{$avg: '$reviews.workload_rating'}, 0]}]}]},
                 },
               },
               {
@@ -52,8 +52,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<CourseDetails>)
                   url: 1,
                   requirements: 1,
                   assessments: 1,
-                  contentRating: 1,
-                  workloadRating: 1,
+                  enjoymentRating: 1,
+                  relaxedRating: 1,
                   deliveryRating: 1,
                 },
               },
@@ -80,8 +80,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<CourseDetails>)
         requirements: course.requirements,
         assessments: course.assessments,
         deliveryRating: course.deliveryRating,
-        contentRating: course.contentRating,
-        workloadRating: course.workloadRating,
+        enjoymentRating: Math.max(course.enjoymentRating - 1, 1),
+        relaxedRating: course.relaxedRating,
       }
 
       res.status(200).json(data);
