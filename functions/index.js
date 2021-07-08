@@ -18,6 +18,7 @@ export const getData = async (url, data) => {
       {
         headers: getHeaders(),
         ...(data && { params: data }),
+        withCredentials: true
       }
     )
     .then((response) => response)
@@ -41,6 +42,7 @@ export const getDataServerside = async (url, data) => {
 
       {
         ...(data && { params: data }),
+        withCredentials: true
       }
     )
     .then((response) => response)
@@ -61,6 +63,7 @@ export const postData = async (url, data = {}) => {
   const response = await axios
     .post(`${process.env.NEXT_PUBLIC_HOST}/${url}`, data, {
       headers: getHeaders(),
+      withCredentials: true
     })
     .then((response) => response)
     .catch((error) => {
@@ -77,6 +80,7 @@ export const patchData = async (url, data = {}) => {
   const response = await axios
     .patch(`${process.env.NEXT_PUBLIC_HOST}/${url}`, data, {
       headers: getHeaders(),
+      withCredentials: true
     })
     .then((response) => response)
     .catch((error) => {

@@ -1,4 +1,3 @@
-
 import Link from 'next/link';
 import React, { useContext } from 'react';
 import Button from './atom/Button';
@@ -11,8 +10,6 @@ import SearchButton from './SearchButton';
 
 const Appbar: React.FC = () => {
   const { hasResolved, user, signOut } = useContext(AuthContext);
-
-  console.log(user);
 
   return (
     <Navbar>
@@ -33,7 +30,11 @@ const Appbar: React.FC = () => {
               <Button onClick={() => signOut()}>Sign out</Button>
             </div>
           ) : (
-            <span>not logged in :(</span>
+            <Link href='/account/signin'>
+              <a>
+                <Button>Sign In</Button>
+              </a>
+            </Link>
           )}
         </div>
       </Container>

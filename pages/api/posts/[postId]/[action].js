@@ -4,6 +4,8 @@ import connectDB from '../../../../db/mongoose';
 import RateLimit from 'express-rate-limit';
 import MongoStore from 'rate-limit-mongo';
 import initMiddleware from '../../../../middleware/initMiddleware';
+import Amplify, { withSSRContext } from 'aws-amplify';
+import config from '../../../../aws-exports'
 
 const limiter = initMiddleware(
   new RateLimit({
@@ -20,10 +22,30 @@ const limiter = initMiddleware(
 );
 
 connectDB();
+Amplify.configure(config);
 
 const handler = async (req, res) => {
+
+  const { Auth } = withSSRContext({ req });
+
+  const user = await (async () => {
+    try {
+      const user = await Auth.currentAuthenticatedUser();
+      return user;
+    } catch (e) {
+      console.log(e.message);
+      return;
+    }
+
+  })()
+
   if (req.method === 'PATCH') {
     await limiter(req, res);
+
+    // User must be authenticated
+    if(!user){
+      return res.status(401).json({ success: false })
+    }
 
     switch (req.query.action) {
       case 'upvote':

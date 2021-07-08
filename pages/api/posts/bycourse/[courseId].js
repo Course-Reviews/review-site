@@ -1,10 +1,10 @@
 // a post request for a post on a course (needs the course id)
-import mongoose from 'mongoose';
-import Review from '../../../../models/review';
-import connectDB from '../../../../db/mongoose';
 import RateLimit from 'express-rate-limit';
+import mongoose from 'mongoose';
 import MongoStore from 'rate-limit-mongo';
+import connectDB from '../../../../db/mongoose';
 import initMiddleware from '../../../../middleware/initMiddleware';
+import Review from '../../../../models/review';
 
 const limiter = initMiddleware(
   new RateLimit({
@@ -23,6 +23,7 @@ const limiter = initMiddleware(
 connectDB();
 
 const handler = async (req, res) => {
+
   if (req.method === 'POST') {
     await limiter(req, res);
 
@@ -62,8 +63,6 @@ const handler = async (req, res) => {
         delivery_rating: overallDeliveryRating,
         reviews: reviews.filter((r) => r?.content !== undefined && r?.content !== ''),
       };
-
-      console.log(data);
 
       res.status(200).json(data);
     } catch (e) {

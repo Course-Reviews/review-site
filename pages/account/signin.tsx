@@ -1,10 +1,8 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import Head from 'next/head';
-import React from 'react';
-import { useContext } from 'react';
-import { useState } from 'react';
-import { SubmitHandler } from 'react-hook-form';
-import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/router';
+import React, { useContext } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { object, SchemaOf, string } from 'yup';
 import Button from '../../components/atom/Button';
 import Card from '../../components/atom/Card';
@@ -25,6 +23,7 @@ const schema: SchemaOf<FormFields> = object().shape({
 const Signin: React.FC = () => {
 
   const auth = useContext(AuthContext);
+  const router = useRouter();
 
   const {handleSubmit, register, formState: {errors}, setError} = useForm<FormFields>({
     resolver: yupResolver(schema)
@@ -33,9 +32,15 @@ const Signin: React.FC = () => {
   const handleValidSubmit: SubmitHandler<FormFields> = async ({username, password}) => {
     try {
       await auth.signIn({username, password});
+      router.push('/account');
+
     } catch ({message}) {
       setError('password',{message});
     }
+  }
+
+  if(auth.hasResolved && auth.user){
+    router.push('/account')
   }
 
   return (
