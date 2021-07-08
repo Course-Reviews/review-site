@@ -1,11 +1,11 @@
 import Link from 'next/link';
 import React from 'react';
-import { CourseSummary } from '../types/config';
-import { codeToURL } from '../util/util';
-import Card from './atom/Card';
-import Ripple from './atom/Ripple';
-import StarRating from './atom/StarRating';
-import UniTag from './UniTag';
+import { CourseSummary } from '../../types/config';
+import { codeToURL } from '../../util/util';
+import Card from '../atom/Card';
+import Ripple from '../atom/Ripple';
+import StarRating from '../atom/StarRating';
+import UniTag from '../search/UniTag';
 
 export interface CourseCardProps {
   course: CourseSummary;

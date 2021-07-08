@@ -10,7 +10,7 @@ import Card from '../../components/atom/Card';
 import FormGroup from '../../components/atom/FormGroup';
 import IconButton from '../../components/atom/IconButton';
 import Input from '../../components/atom/Input';
-import { AuthContext } from '../../components/CognitoAuthProvider';
+import { AuthContext } from '../../components/general/CognitoAuthProvider';
 
 interface FormFields {
   username: string;

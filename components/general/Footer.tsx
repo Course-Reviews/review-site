@@ -1,7 +1,7 @@
 import { useModal } from 'async-modals';
 import Link from 'next/link';
 import React from 'react';
-import FeedbackModal from './FeedbackModal';
+import FeedbackModal from '../FeedbackModal';
 
 const Footer: React.FC = () => {
 

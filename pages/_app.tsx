@@ -7,10 +7,10 @@ import React from 'react';
 import { MixpanelProvider } from 'react-mixpanel';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Appbar from '../components/Appbar';
-import { CognitoAuthProvider } from '../components/CognitoAuthProvider';
-import Footer from '../components/Footer';
-import ScrollToTop from '../components/ScrollToTop';
+import Appbar from '../components/general/Appbar';
+import { CognitoAuthProvider } from '../components/general/CognitoAuthProvider';
+import Footer from '../components/general/Footer';
+import ScrollToTop from '../components/general/ScrollToTop';
 import '../styles/index.css';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {

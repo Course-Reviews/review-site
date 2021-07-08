@@ -1,14 +1,14 @@
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import Col from './atom/Col';
-import Dropdown from './atom/Dropdown';
-import FormGroup from './atom/FormGroup';
-import Row from './atom/Row';
-import {Option} from '../components/atom/Dropdown';
-import filter from '../pages/api/courses/filter';
-import { TERMS, FACULTYS } from '../types/config';
-import Button from './atom/Button';
-import Input from './atom/Input';
+import Col from '../atom/Col';
+import Dropdown from '../atom/Dropdown';
+import FormGroup from '../atom/FormGroup';
+import Row from '../atom/Row';
+import {Option} from '../atom/Dropdown';
+import filter from '../../pages/api/courses/filter';
+import { TERMS, FACULTYS } from '../../types/config';
+import Button from '../atom/Button';
+import Input from '../atom/Input';
 
 const stages: Option[] = [
   { label: 'Any', value: undefined },

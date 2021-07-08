@@ -4,10 +4,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { HTMLAttributes } from 'react';
 import { FiInfo, FiSearch } from 'react-icons/fi';
 import { MixpanelConsumer } from 'react-mixpanel';
-import fetchSearchResults from '../functions/fetchSearchResults';
-import Expand from './atom/Expand';
-import Ripple from './atom/Ripple';
-import Loader from './Loader';
+import fetchSearchResults from '../../functions/fetchSearchResults';
+import Expand from '../atom/Expand';
+import Ripple from '../atom/Ripple';
+import Loader from '../general/Loader';
 import SearchResult, { CourseSearchResult } from './SearchResult';
 
 interface CourseSearchProps extends HTMLAttributes<HTMLElement> {}

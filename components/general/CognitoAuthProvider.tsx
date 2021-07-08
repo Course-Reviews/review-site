@@ -1,8 +1,8 @@
 import Amplify, { Auth } from 'aws-amplify';
 import * as React from 'react';
 import { createContext, useEffect, useState } from 'react';
-import awsExports from '../aws-exports';
-import { CognitoUser } from '../types/cognito';
+import awsExports from '../../aws-exports';
+import { CognitoUser } from '../../types/cognito';
 
 // This is a thin wrapper around the Auth package from aws-amplify mostly for the purpose of ensuring that auth state changes are reflected in the app
 // By default calling a method such as Auth.signOut() wont cause react to re-render.

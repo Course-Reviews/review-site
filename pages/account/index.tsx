@@ -5,7 +5,7 @@ import BreadCrumbs from '../../components/atom/BreadCrumbs';
 import Col from '../../components/atom/Col';
 import Container from '../../components/atom/Container';
 import Row from '../../components/atom/Row';
-import { AuthContext } from '../../components/CognitoAuthProvider';
+import { AuthContext } from '../../components/general/CognitoAuthProvider';
 
 const Course: React.FC = () => {
   const { user, hasResolved } = useContext(AuthContext);

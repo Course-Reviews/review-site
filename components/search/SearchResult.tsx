@@ -1,8 +1,11 @@
 import Link from 'next/link';
-import UniTag from './UniTag';
+
 import { FiSearch } from 'react-icons/fi';
 import classNames from 'classnames';
-import { codeToURL } from '../util/util';
+import { codeToURL } from '../../util/util';
+import React from 'react';
+import UniTag from './UniTag';
+
 
 export type CourseSearchResult = {
   id: string;

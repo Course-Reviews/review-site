@@ -4,7 +4,7 @@ import React, { Fragment } from 'react';
 import { FiInstagram } from 'react-icons/fi';
 import Button from '../components/atom/Button';
 import Card from '../components/atom/Card';
-import CourseSearch from '../components/CourseSearch';
+import CourseSearch from '../components/search/CourseSearch';
 import Logo from '../components/Logo';
 import Parallax from '../components/Parallax';
 export interface LandingProps {}

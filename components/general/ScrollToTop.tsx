@@ -3,9 +3,7 @@ import classNames from 'classnames';
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { FiArrowUp } from 'react-icons/fi';
-import Button from './atom/Button';
-import IconButton from './atom/IconButton';
-import Modal from './atom/Modal';
+import IconButton from '../atom/IconButton';
 
 interface ScrollToTopProps {
 
