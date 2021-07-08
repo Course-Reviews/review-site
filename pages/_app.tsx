@@ -5,6 +5,8 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import Link from 'next/link';
 import React from 'react';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { MixpanelProvider } from 'react-mixpanel';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -15,9 +17,26 @@ import Logo from '../components/Logo';
 import NavSearch from '../components/NavSearch';
 import ScrollToTop from '../components/ScrollToTop';
 import SearchButton from '../components/SearchButton';
+import * as ga from '../functions/analytics';
 import '../styles/index.css';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
+  const router = useRouter();
+  useEffect(() => {
+    const handleRouteChange = (url) => {
+      ga.pageview(url);
+    };
+    // When the component is mounted, subscribe to router changes
+    // and log those page views
+    router.events.on('routeChangeComplete', handleRouteChange);
+
+    // If the component is unmounted, unsubscribe
+    // from the event with the `off` method
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, [router.events]);
+
   mixpanel.init('08d4d7028dcc32f1449375dc93c154c7');
   return (
     <MixpanelProvider mixpanel={mixpanel}>

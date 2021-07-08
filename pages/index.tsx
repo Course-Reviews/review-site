@@ -23,6 +23,17 @@ const Landing: React.FC<LandingProps> = () => (
         content='Course reviews, post course reviews, student course reviews, course reviews NZ, uoa course reviews'
       />
       <meta name='robots' content='index,follow' />
+      <script async src='https://www.googletagmanager.com/gtag/js?id=G-PEWLQXVEKL'></script>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-PEWLQXVEKL', { page_path: window.location.pathname });
+            `,
+        }}
+      />
       <link rel='icon' href='/favicon.ico' />
     </Head>
     <main className='-mt-4 flex flex-grow flex-col items-center justify-start self-stretch'>
