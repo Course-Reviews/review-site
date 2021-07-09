@@ -4,9 +4,8 @@ import mixpanel from 'mixpanel-browser';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import Link from 'next/link';
-import React from 'react';
-import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import React, { useEffect } from 'react';
 import { MixpanelProvider } from 'react-mixpanel';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -23,7 +22,7 @@ import '../styles/index.css';
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const router = useRouter();
   useEffect(() => {
-    const handleRouteChange = (url) => {
+    const handleRouteChange = (url: string) => {
       ga.pageview(url);
     };
     // When the component is mounted, subscribe to router changes
@@ -46,6 +45,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         <link rel='icon' type='image/png' sizes='16x16' href='/favicon-16x16.png' />
         <link rel='manifest' href='/site.webmanifest' />
       </Head>
+
       <ModalProvider
         backgroundClassName={(isExiting) =>
           classNames(

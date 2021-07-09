@@ -95,6 +95,7 @@ const Review: React.FC<ReviewProps> = ({
                 onClick={() => {
                   mixpanel.track('[REVIEW] report', { value: content });
                 }}
+                aria-label='Report post'
               >
                 <FiFlag size={24} className={'text-gray-700'} />
               </IconButton>
@@ -108,6 +109,7 @@ const Review: React.FC<ReviewProps> = ({
                   await patchData(`api/posts/${id}/downvote`);
                   setVotes((v) => (v -= 1));
                 }}
+                aria-label='Downvote post'
               />
               <div className={'mx-4 font-bold text-gray-700'}>{votes}</div>{' '}
               <IconButton
@@ -119,6 +121,7 @@ const Review: React.FC<ReviewProps> = ({
                   await patchData(`api/posts/${id}/upvote`);
                   setVotes((v) => v + 1);
                 }}
+                aria-label='Upvote post'
               />
             </div>
           </Card.Body>

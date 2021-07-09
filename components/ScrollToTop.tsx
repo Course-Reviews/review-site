@@ -37,7 +37,7 @@ const ScrollToTop: React.FC<ScrollToTopProps> = ({}) => {
 
   return (
     <div className={classNames('fixed bottom-0 left:0 md:right-0 m-5 z-20', show ? 'animate-float-in' : 'animate-float-out opacity-0')}>
-    {<IconButton icon={FiArrowUp}  onClick={handleClick}/>}
+    {<IconButton icon={FiArrowUp}  onClick={handleClick} aria-label='Back to top'/>}
     </div>
   );
 };
