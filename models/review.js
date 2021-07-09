@@ -43,6 +43,12 @@ const reviewSchema = new mongoose.Schema(
       required: true,
       ref: 'Course',
     },
+    user_id: {
+      type: String,
+    },
+    user_name: {
+      type: String,
+    }
   },
   {
     timestamps: true,

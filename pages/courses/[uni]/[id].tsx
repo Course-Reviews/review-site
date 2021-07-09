@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useContext } from 'react';
 import {
@@ -63,7 +64,8 @@ const Course: React.FC<CourseDetails> = ({
     deliveryRating,
   });
 
-  const {hasResolved, user} = useContext(AuthContext);
+  const router = useRouter();
+  const {user} = useContext(AuthContext);
 
   const messageModal = useModal(PostReviewModal);
   const signupModal = useModal(SignupPromptModal)
@@ -73,7 +75,6 @@ const Course: React.FC<CourseDetails> = ({
   useEffect(() => {
     const hydrate = async () => {
       const data = await fetchReviews(id);
-      console.log(data);
       const processed = data.reviews.map((e) => ({
         id: e._id,
         rating: e.course_rating,
@@ -98,10 +99,15 @@ const Course: React.FC<CourseDetails> = ({
     hydrate();
   }, [id]);
 
+
   const showModal = async () => {
 
     if(!user) {
-      const res = await signupModal.show();
+      const res = await signupModal.show({
+        data: {
+          url: `/courses/${university}/${codeToURL(code)}`
+        }
+      });
       if(res) return;
     }
 
@@ -138,6 +144,17 @@ const Course: React.FC<CourseDetails> = ({
       }));
     }
   };
+
+  // This allows the review modal to be opened as soon as the page loads using the query string "?post=true"
+  // This means we can redirect people to the page with the modal open after signin
+  useEffect(() => {
+    if(router.isReady){
+      const show = JSON.parse(router.query['post'] as string || 'false')
+      if(show){
+        showModal()
+      }
+    }
+  }, [router.isReady])
 
   // Detects course codes in text and replaces them with links
   const renderLinkedCourses = (r: string) => {

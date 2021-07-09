@@ -41,12 +41,15 @@ const Signin: React.FC = () => {
   }
 
   if(auth.hasResolved && auth.user){
-    router.push('/account')
+    // This lets us redirect the user back to what they were doing before authentication
+    const destination = sessionStorage.getItem('authRedirect') || '/account';
+    sessionStorage.removeItem('authRedirect')
+    router.push(destination)
   }
 
   return (
   <main
-    className={'-mt-2 pb-24 flex-grow bg-hero bg-cover bg-center -mb-16 flex flex-col items-center justify-center'}
+    className={'-mt-2 pb-24 flex-grow bg-hero bg-cover bg-center -mb-32 md:-mb-16 flex flex-col items-center justify-center'}
     itemScope={true}
     itemType={'https://schema.org/UserReview'}
   >

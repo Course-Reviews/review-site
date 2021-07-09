@@ -49,6 +49,14 @@ const formFields = {
 
 const YEARS = ['2020', '2021'];
 
+const relaxedPrompts = [
+  'Ridiculously high workload',
+  'Managable workload, but still quite time consuming',
+  'Average workload, not too bad',
+  'Pretty relaxed',
+  'Very chill'
+]
+
 const schema: SchemaOf<FormFields> = object().shape({
   relaxedRating: number().required('Please choose a relaxed rating between 1 and 5'),
   enjoymentRating: number().required('Please choose an enjoyment rating between 1 and 5'),
@@ -166,7 +174,7 @@ const PostReviewModal: React.FC<ModalType<ModalData, reviewResponse>> = ({
               {...register(formFields.content)}
             />
           </FormGroup>
-          {user && <><div className={'flex mt-4'}>
+          {user && <><div className={'flex items-center mt-4'}>
             <Input
               type='checkbox'
               id='anon'

@@ -7,6 +7,7 @@ import { AuthContext } from './CognitoAuthProvider';
 import Logo from './Logo';
 import NavSearch from '../search/NavSearch';
 import SearchButton from '../search/SearchButton';
+import NavAccount from './NavAccount';
 
 const Appbar: React.FC = () => {
   const { hasResolved, user, signOut } = useContext(AuthContext);
@@ -25,10 +26,7 @@ const Appbar: React.FC = () => {
           {!hasResolved ? (
             'e'
           ) : user ? (
-            <div className={'flex'}>
-              <span>Signed in as {user.username}</span>
-              <Button onClick={() => signOut()}>Sign out</Button>
-            </div>
+            <NavAccount/>
           ) : (
             <Link href='/account/signin'>
               <a>

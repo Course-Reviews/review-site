@@ -6,12 +6,23 @@ import { reviewResponse } from '../functions/fetchReviews';
 import Button from './atom/Button';
 import Modal from './atom/Modal';
 
-const SignupPromptModal: React.FC<ModalType<void, boolean>> = ({
+interface ModalData {
+  url: string;
+}
+
+const SignupPromptModal: React.FC<ModalType<ModalData, boolean>> = ({
   data,
   isClosing,
   cancel,
   submit,
-}) => (
+}) => {
+
+  const redirectToSignin = () => {
+    sessionStorage.setItem('authRedirect', `${data.url}?post=true`);
+    submit(true)
+  }
+
+  return(
   <Modal isClosing={isClosing} className={'w-full sm:w-1/2 md:max-w-md m-4 text-center'}>
     <Modal.Title close={cancel}>Create an Account</Modal.Title>
     <p>
@@ -21,7 +32,7 @@ const SignupPromptModal: React.FC<ModalType<void, boolean>> = ({
     </p>
     <Link href={'/account/signup'}>
       <a>
-        <Button block className={'mt-4'} onClick={() => submit(true)}>
+        <Button block className={'mt-4'} onClick={redirectToSignin}>
           Sign up
         </Button>
       </a>
@@ -39,6 +50,7 @@ const SignupPromptModal: React.FC<ModalType<void, boolean>> = ({
       Continue to posting <FiArrowRight className={'ml-2'} size={20} />
     </button>
   </Modal>
-);
+)
+};
 
 export default SignupPromptModal;

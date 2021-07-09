@@ -34,7 +34,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           }
           exitDelay={200}
         >
-          <div className='bg-gray-50 min-h-screen flex flex-col justify-between relative pb-16'>
+          <div className='bg-gray-50 min-h-screen flex flex-col justify-between relative pb-32 md:pb-16'>
             <Appbar />
             <Component {...pageProps} />
             <Footer />
