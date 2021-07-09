@@ -5,8 +5,8 @@ import { FiInstagram } from 'react-icons/fi';
 import Button from '../components/atom/Button';
 import Card from '../components/atom/Card';
 import CourseSearch from '../components/search/CourseSearch';
-import Logo from '../components/Logo';
-import Parallax from '../components/Parallax';
+import Logo from '../components/general/Logo';
+import Parallax from '../components/general/Parallax';
 export interface LandingProps {}
 
 const Landing: React.FC<LandingProps> = () => (

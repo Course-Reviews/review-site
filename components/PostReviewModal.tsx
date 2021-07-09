@@ -1,12 +1,13 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Modal as ModalType } from 'async-modals';
 import mixpanel from 'mixpanel-browser';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { FiArrowRight } from 'react-icons/fi';
 import UseAnimations from 'react-useanimations';
 import radioButton from 'react-useanimations/lib/radioButton';
-import { number, object, SchemaOf, string } from 'yup';
+import { bool, number, object, SchemaOf, string } from 'yup';
+import { boolean } from 'yup/lib/locale';
 import { reviewResponse } from '../functions/fetchReviews';
 import postReview from '../functions/postReview';
 import { TERMS } from '../types/config';
@@ -18,6 +19,7 @@ import Input from './atom/Input';
 import Modal from './atom/Modal';
 import RatingInput from './atom/RatingInput';
 import Row from './atom/Row';
+import { AuthContext } from './general/CognitoAuthProvider';
 
 interface ModalData {
   terms: number[];
@@ -32,6 +34,7 @@ interface FormFields {
   content?: string;
   term: number;
   year: string;
+  anonymous: boolean;
 }
 
 const formFields = {
@@ -41,6 +44,7 @@ const formFields = {
   content: 'content',
   term: 'term',
   year: 'year',
+  anonymous: 'anonymous',
 } as const;
 
 const YEARS = ['2020', '2021'];
@@ -52,6 +56,7 @@ const schema: SchemaOf<FormFields> = object().shape({
   content: string().max(5000, 'Please keep your review to a maximum of 5000 characters'),
   term: number().required(),
   year: string().required(),
+  anonymous: bool().default(false),
 });
 
 const PostReviewModal: React.FC<ModalType<ModalData, reviewResponse>> = ({
@@ -66,11 +71,14 @@ const PostReviewModal: React.FC<ModalType<ModalData, reviewResponse>> = ({
 
   const [review, setReview] = useState<reviewResponse>();
 
+  const {user} = useContext(AuthContext);
+
   const {
     handleSubmit,
     control,
     register,
     formState: { errors },
+    watch
   } = useForm<FormFields>({
     defaultValues: {
       year: '2021',
@@ -78,6 +86,8 @@ const PostReviewModal: React.FC<ModalType<ModalData, reviewResponse>> = ({
     },
     resolver: yupResolver(schema),
   });
+
+  const anon = watch().anonymous
 
   const handleValidSubmit: SubmitHandler<FormFields> = async ({
     enjoymentRating,
@@ -156,7 +166,16 @@ const PostReviewModal: React.FC<ModalType<ModalData, reviewResponse>> = ({
               {...register(formFields.content)}
             />
           </FormGroup>
-
+          {user && <><div className={'flex mt-4'}>
+            <Input
+              type='checkbox'
+              id='anon'
+              className={'mr-2'}
+              {...register(formFields.anonymous)}
+            />
+            <label htmlFor='anon'>Post my review anonymously</label>
+          </div>
+          <p className={'text-sm text-gray-700'}>Your name will show as: <span className={'text-gray-800 font-semibold'}>{anon ? 'anonymous' : user.username}</span></p></>}
           <div className={'flex flex-col mt-4 first:mt-0'}>
             <Button
               block

@@ -1,5 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import Head from 'next/head';
+import Link from 'next/link';
 import router from 'next/router';
 import React, { useContext, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -47,14 +48,14 @@ const Signin: React.FC = () => {
         password,
         email,
       });
-      router.push('/account')
-    } catch ({message}) {
-      setError('password', message)
+      router.push('/account');
+    } catch ({ message }) {
+      setError('password', message);
     }
   };
 
-  if(auth.hasResolved && auth.user){
-    router.push('/account')
+  if (auth.hasResolved && auth.user) {
+    router.push('/account');
   }
 
   return (
@@ -71,33 +72,40 @@ const Signin: React.FC = () => {
         <meta name='robots' content='index,follow' />
       </Head>
       <Card className={'mx-4 self-stretch md:self-center sm:w-96'}>
-        <Card.Body>
-          <h1 className={'text-2xl font-semibold text-gray-700 text-center'}>Sign Up</h1>
-          <form onSubmit={handleSubmit(handleValidSubmit)}>
-            <FormGroup label='Username' error={errors.username}>
-              <Input {...register('username')} />
-            </FormGroup>{' '}
-            <FormGroup label='Email' error={errors.email}>
-              <Input {...register('email')} type='email' />
-            </FormGroup>
-            <FormGroup label='Password' error={errors.password}>
-              <div className={'relative'}>
-                <Input {...register('password')} type={showPass ? 'text' : 'password'} />
-                <div className={'absolute right-0 top-0 z-10 m-2 mx-4'}>
-                  <IconButton
-                    icon={showPass ? FiEye : FiEyeOff}
-                    onClick={() => setShowPass((v) => !v)}
-                    variant='none'
-                    type='button'
-                  />
-                </div>
-              </div>
-            </FormGroup>
-            {/* {serverError && <span className={'text-sm text-danger-500 my-2'}>{serverError}</span>} */}
-            <Button block className={'mt-4'}>
-              Sign in
-            </Button>
-          </form>
+        <Card.Body className={'flex flex-col'}>
+              <h1 className={'text-2xl font-semibold text-gray-700 text-center'}>Sign Up</h1>
+              <form onSubmit={handleSubmit(handleValidSubmit)}>
+                <FormGroup label='Username' error={errors.username}>
+                  <Input {...register('username')} autoComplete='signup username'/>
+                </FormGroup>{' '}
+                <FormGroup label='Email' error={errors.email}>
+                  <Input {...register('email')} type='email' placeholder='example@mail.com' autoComplete='signup email'/>
+                </FormGroup>
+                <FormGroup label='Password' error={errors.password}>
+                  <div className={'relative'}>
+                    <Input {...register('password')} type={showPass ? 'text' : 'password'} autoComplete='signup new-password' placeholder='password'/>
+                    <div className={'absolute right-0 top-0 z-10 m-2 mx-4'}>
+                      <IconButton
+                        icon={showPass ? FiEye : FiEyeOff}
+                        onClick={() => setShowPass((v) => !v)}
+                        variant='none'
+                        type='button'
+                      />
+                    </div>
+                  </div>
+                </FormGroup>
+                {/* {serverError && <span className={'text-sm text-danger-500 my-2'}>{serverError}</span>} */}
+                <Button block className={'mt-4'}>
+                  Sign up
+                </Button>
+              </form>
+              <p className={'text-gray-700 mx-auto text-sm mt-4'}>Already have an account?</p>
+              <Link href='signin'>
+                <a className={'mx-auto'}>
+                  <button className={'font-semibold text-primary-500 w-auto'}>Sign in instead</button>
+                </a>
+              </Link>
+
         </Card.Body>
       </Card>
     </main>

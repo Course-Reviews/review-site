@@ -4,6 +4,7 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import {
   FiBook,
   FiExternalLink,
@@ -21,8 +22,10 @@ import Col from '../../../components/atom/Col';
 import Container from '../../../components/atom/Container';
 import Row from '../../../components/atom/Row';
 import StarRating from '../../../components/atom/StarRating';
+import { AuthContext } from '../../../components/general/CognitoAuthProvider';
 import PostReviewModal from '../../../components/PostReviewModal';
 import Review from '../../../components/Review';
+import SignupPromptModal from '../../../components/SignupPromptModal';
 import fetchCourse from '../../../functions/fetchCourse';
 import fetchReviews from '../../../functions/fetchReviews';
 import {
@@ -60,7 +63,10 @@ const Course: React.FC<CourseDetails> = ({
     deliveryRating,
   });
 
+  const {hasResolved, user} = useContext(AuthContext);
+
   const messageModal = useModal(PostReviewModal);
+  const signupModal = useModal(SignupPromptModal)
 
   const [reviews, setReviews] = useState<ReviewData[]>();
 
@@ -93,6 +99,12 @@ const Course: React.FC<CourseDetails> = ({
   }, [id]);
 
   const showModal = async () => {
+
+    if(!user) {
+      const res = await signupModal.show();
+      if(res) return;
+    }
+
     const review = await messageModal.show({
       data: {
         terms: term,

@@ -15,7 +15,7 @@ const Appbar: React.FC = () => {
     <Navbar>
       <Container className={'flex justify-between'}>
         <Link href='/'>
-          <a className={'flex items-center h-8'}>
+          <a className={'flex items-center'}>
             <Logo className={'h-12 w-12 mx-4'} />
             <span className={'text-gray-700 font-semibold'}>Course Reviews</span>
           </a>
