@@ -17,9 +17,9 @@ const ScrollToTop: React.FC<ScrollToTopProps> = ({}) => {
 
     const listener = () => {
       const scrollTop = window.scrollY;
-      if(scrollTop > 0 && !show){
+      if(scrollTop > 500 && !show){
         setShow(true);
-      } else if (scrollTop <= 0 && show){
+      } else if (scrollTop <= 500 && show){
         setShow(false);
       }
     };
