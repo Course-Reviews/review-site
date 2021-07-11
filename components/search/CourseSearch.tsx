@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 import { HTMLAttributes } from 'react';
 import { FiInfo, FiSearch } from 'react-icons/fi';
@@ -22,6 +23,8 @@ const CourseSearch: React.FC<CourseSearchProps> = ({ className, onClick }) => {
   // When we do a search cache the results in a map
   // * We might want to think abt making sure the cache doesnt exceed a certain number of entries but it should be fine
   const cache = useRef(new Map());
+
+  const router = useRouter();
 
   // Stores a list of search results
   const [searchResults, setSearchResults] = useState<CourseSearchResult[]>([]);
@@ -60,6 +63,12 @@ const CourseSearch: React.FC<CourseSearchProps> = ({ className, onClick }) => {
     }
   }, [searchValue]);
 
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+
+    router.push(`courses?query=${searchValue}`)
+  }
+
   return (
     <div className={classNames('w-full md:max-w-xl mb-2 mx-auto px-8 h-16', className)}>
       {/* <h1 className='text-center font-semibold py-4'>Search reviews for your courses</h1> */}
@@ -74,6 +83,7 @@ const CourseSearch: React.FC<CourseSearchProps> = ({ className, onClick }) => {
             <FiSearch size={24} className={'text-primary-600'} strokeWidth={3} />
             <MixpanelConsumer>
               {(mixpanel: any) => (
+                <form onSubmit={handleSubmit}>
                 <input
                   type='text'
                   className='px-6 focus:outline-none w-full py-4 bg-transparent text-xl'
@@ -85,6 +95,7 @@ const CourseSearch: React.FC<CourseSearchProps> = ({ className, onClick }) => {
                     setSearchValue(e.target?.value || '');
                   }}
                 />
+                </form>
               )}
             </MixpanelConsumer>
             <div className={loading ? 'opacity-100' : 'opacity-0'}>
