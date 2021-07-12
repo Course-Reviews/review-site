@@ -2,11 +2,12 @@ import { useModal } from 'async-modals';
 import classNames from 'classnames';
 import React, { useContext, useState } from 'react';
 import { useEffect } from 'react';
-import { FiFlag, FiThumbsDown, FiThumbsUp } from 'react-icons/fi';
+import { FiEdit2, FiEdit3, FiFlag, FiThumbsDown, FiThumbsUp } from 'react-icons/fi';
 import { MixpanelConsumer } from 'react-mixpanel';
 import { patchData } from '../functions';
 import { ReviewData } from '../types/config';
 import Badge from './atom/Badge';
+import Button from './atom/Button';
 import Card from './atom/Card';
 import IconButton from './atom/IconButton';
 import StarRating from './atom/StarRating';
@@ -17,6 +18,7 @@ interface ReviewProps {
   review: ReviewData;
   highlight?: boolean;
   isOwner?: boolean;
+  onEdit?: () => void;
 }
 
 const Review: React.FC<ReviewProps> = ({
@@ -32,7 +34,8 @@ const Review: React.FC<ReviewProps> = ({
     enjoymentRating,
     username,
   },
-  isOwner
+  isOwner,
+  onEdit
 }) => {
   const [votes, setVotes] = useState(v);
   const {user, ratings} = useContext(AuthContext);
@@ -119,14 +122,21 @@ const Review: React.FC<ReviewProps> = ({
               <div> </div>
             </section>
             <div className={'flex border-t pt-2'}>
-              <IconButton
+
+              {isOwner ?  <button
+                onClick={onEdit}
+                className={'text-primary-500 flex font-semibold'}
+              >
+                <FiEdit3 size={24} className={'mr-2'}/>
+                Edit Review
+              </button> : <IconButton
                 variant='none'
                 onClick={() => {
                   mixpanel.track('[REVIEW] report', { value: content });
                 }}
               >
                 <FiFlag size={24} className={'text-gray-700'} />
-              </IconButton>
+              </IconButton>}
               <div className={'flex-grow'} />
               <IconButton
                 variant='none'

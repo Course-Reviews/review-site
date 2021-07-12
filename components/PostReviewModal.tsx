@@ -25,6 +25,8 @@ interface ModalData {
   terms: number[];
   code: string;
   courseId: string;
+  editMode: boolean;
+  initialValues?: Partial<FormFields>;
 }
 
 interface FormFields {
@@ -91,6 +93,7 @@ const PostReviewModal: React.FC<ModalType<ModalData, reviewResponse>> = ({
     defaultValues: {
       year: '2021',
       term: terms[0],
+      ...data.initialValues
     },
     resolver: yupResolver(schema),
   });
@@ -123,7 +126,7 @@ const PostReviewModal: React.FC<ModalType<ModalData, reviewResponse>> = ({
 
   return (
     <Modal isClosing={isClosing} className={'w-full sm:w-3/4 md:w-2/3 lg:max-w-lg m-4'}>
-      <Modal.Title close={cancel}>Review {data.code}</Modal.Title>
+      <Modal.Title close={cancel}>{data.editMode ? 'Edit review for' : 'Review'} Review {data.code}</Modal.Title>
       {review ? (
         <div className={'flex flex-col items-center text-primary-500 my-8'}>
           <UseAnimations
@@ -133,7 +136,7 @@ const PostReviewModal: React.FC<ModalType<ModalData, reviewResponse>> = ({
             strokeColor={'currentColor'}
             speed={0.75}
           />
-          <div className={'text-lg font-bold my-8'}>Thanks for leaving a review!</div>
+          <div className={'text-lg font-bold my-8'}>{data.editMode ? 'Your review has been updated' : 'Thanks for leaving a review!'}</div>
           <Button onClick={() => (review ? submit(review) : cancel())}>
             Back to {data.code}
             <FiArrowRight size={24} className={'ml-2 -m-2'} />
@@ -194,7 +197,7 @@ const PostReviewModal: React.FC<ModalType<ModalData, reviewResponse>> = ({
               }}
               disabled={submitted}
             >
-              {submitted ? 'Posting...' : user ? 'Post my Review' : 'Post Anonymous Review'}
+              {submitted ? 'Posting...' : user ? data.editMode ? 'Update my Review' : 'Post my Review' : 'Post Anonymous Review'}
             </Button>
           </div>
         </form>

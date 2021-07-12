@@ -17,6 +17,7 @@ import {
   FiStar
 } from 'react-icons/fi';
 import { MixpanelConsumer } from 'react-mixpanel';
+import { boolean } from 'yup';
 import Accordian from '../../../components/atom/Accordian';
 import BreadCrumbs from '../../../components/atom/BreadCrumbs';
 import Button from '../../../components/atom/Button';
@@ -123,11 +124,28 @@ const Course: React.FC<CourseDetails> = ({
       if(res) return;
     }
 
+    // If the user has an existing review the form will be pre-filled (editing rather than posting)
+    const existingReview = reviews?.find(r => r.id === reviewData.userReviewId)
+    const [existingTerm, existingYear] = existingReview?.timeTaken.split(/\s(?=[0-9]{4})/) || []
+    console.log(existingTerm);
+
+    const reviewdata = existingReview && {
+      deliveryRating: existingReview.deliveryRating,
+      enjoymentRating: existingReview.enjoymentRating,
+      relaxedRating: existingReview.relaxedRating,
+      content: existingReview.content,
+      anonymous: !Boolean(existingReview.username),
+      term: TERMS.indexOf(existingTerm),
+      year: existingYear,
+    }
+
     const review = await reviewModal.show({
       data: {
         terms: term,
         code,
         courseId: id,
+        editMode: Boolean(reviewData.userReviewId),
+        initialValues: reviewdata
       },
       canClose: false,
     });
@@ -138,12 +156,13 @@ const Course: React.FC<CourseDetails> = ({
         content: review.content,
         timeTaken: review.taken_date,
         dateCreated: new Date(review.createdAt),
-        votes: 0,
+        votes: review.upvote - review.downvote,
         enjoymentRating: review.enjoyment_rating,
         relaxedRating: review.relaxed_rating,
         deliveryRating: review.delivery_rating,
+        username: review.user_name
       };
-      setReviews((r) => [...(r || []), processedReview]);
+      setReviews((r) => [processedReview, ...(r || [])]);
       setReviewData((d) => ({
         rating: (d.rating * d.numRatings + review.course_rating) / (d.numRatings + 1),
         relaxedRating:
@@ -479,7 +498,8 @@ const Course: React.FC<CourseDetails> = ({
             reviews.length > 0 ? (
               reviews
                 .sort((a, b) => b.dateCreated.getTime() - a.dateCreated.getTime())
-                .map((r, i) => <Review key={i} review={r} isOwner={reviewData.userReviewId === r.id} />)
+                .filter((r, i) => reviews.findIndex(r2 => r2.id === r.id) === i)
+                .map((r, i) => <Review key={i} review={r} isOwner={reviewData.userReviewId === r.id} onEdit={showModal}/>)
             ) : (
               <div
                 className={

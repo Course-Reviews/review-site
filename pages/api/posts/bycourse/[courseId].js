@@ -1,13 +1,13 @@
 // a post request for a post on a course (needs the course id)
+import Amplify from 'aws-amplify';
 import RateLimit from 'express-rate-limit';
 import mongoose from 'mongoose';
 import MongoStore from 'rate-limit-mongo';
+import config from '../../../../aws-exports';
 import connectDB from '../../../../db/mongoose';
 import initMiddleware from '../../../../middleware/initMiddleware';
+import { getUser } from '../../../../middleware/userMiddleware';
 import Review from '../../../../models/review';
-import config from '../../../../aws-exports';
-import Amplify, { withSSRContext } from 'aws-amplify';
-import { getUser } from '../../../../middleware/userMiddleware'
 const limiter = initMiddleware(
   new RateLimit({
     store: new MongoStore({
@@ -42,25 +42,44 @@ const handler = async (req, res) => {
       content,
     } = req.body;
 
-    const review = new Review({
+    const key = {
+      user_id,
+      owner: mongoose.Types.ObjectId(req.query.courseId),
+    };
+
+    const reviewData = {
       taken_date,
       enjoyment_rating,
       relaxed_rating,
       delivery_rating,
-      user_id,
       user_name,
       content,
       course_rating: (enjoyment_rating + relaxed_rating + delivery_rating) / 3,
-      owner: mongoose.Types.ObjectId(req.query.courseId),
-    });
+    };
 
     try {
-      await review.save();
-      res.status(201).json(review);
+      if (user) {
+        // Posting as a user - update an existing review if it exists (so a user can only have a max of 1 review per course)
+        const review = await Review.findOneAndUpdate(key, reviewData, {
+          upsert: true,
+          new: true,
+          setDefaultsOnInsert: true,
+        });
+
+        res.status(201).json(review);
+      } else {
+        // Posting anon - just make a new review
+        const review = new Review({ ...reviewData, ...key });
+
+        await review.save();
+        res.status(201).json(review);
+      }
     } catch (e) {
-      res.status(400).json(e.errors.content.properties.message);
+      console.log(e);
+      res.status(400).json(e.errors?.content.properties.message);
     }
   }
+
   if (req.method === 'GET') {
     // Fetch all reviews for a given course
 
