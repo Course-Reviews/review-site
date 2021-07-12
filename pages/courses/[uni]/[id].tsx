@@ -4,12 +4,9 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
-import { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
-  FiBook,
-  FiEdit,
-  FiEdit2,
+  FiBook, FiEdit3,
   FiExternalLink,
   FiFileText,
   FiInbox,
@@ -17,7 +14,6 @@ import {
   FiStar
 } from 'react-icons/fi';
 import { MixpanelConsumer } from 'react-mixpanel';
-import { boolean } from 'yup';
 import Accordian from '../../../components/atom/Accordian';
 import BreadCrumbs from '../../../components/atom/BreadCrumbs';
 import Button from '../../../components/atom/Button';
@@ -171,7 +167,7 @@ const Course: React.FC<CourseDetails> = ({
           (d.enjoymentRating * d.numRatings + (review.enjoyment_rating as number)) / (d.numRatings + 1),
         deliveryRating:
           (d.deliveryRating * d.numRatings + review.delivery_rating) / (d.numRatings + 1),
-        numRatings: d.numRatings + 1,
+        numRatings: d.userReviewId ? d.numRatings : d.numRatings + 1,
         userReviewId: review._id
       }));
     }
@@ -230,10 +226,6 @@ const Course: React.FC<CourseDetails> = ({
 
     return res;
   };
-
-  const editReview = () => {
-
-  }
 
   return (
     <MixpanelConsumer>
@@ -330,7 +322,7 @@ const Course: React.FC<CourseDetails> = ({
               <Button onClick={showModal}>
                 {reviewData.userReviewId ?
                 <>
-                <FiEdit2 size={24} className={'-m-2 mr-2 -ml-1'} />
+                <FiEdit3 size={24} className={'-m-2 mr-2 -ml-1'} />
                 Edit my review
                 </>
                 : <>

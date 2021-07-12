@@ -43,14 +43,23 @@ const Signin: React.FC = () => {
 
   const handleValidSubmit: SubmitHandler<FormFields> = async ({ username, email, password }) => {
     try {
-      await auth.signUp({
+      const res = await auth.signUp({
         username,
         password,
         email,
       });
+      console.log(res);
+
       router.push('/account');
     } catch ({ message }) {
-      setError('password', message);
+      console.log(message);
+      if(message.match(/EmailExistsException/)){
+        setError('email', {message: 'This email is already in use'});
+      } else if (message.match(/User\salready\sexists/)) {
+        setError('username', {message: 'That username is taken'})
+      } else {
+        setError('password', {message});
+      }
     }
   };
 
