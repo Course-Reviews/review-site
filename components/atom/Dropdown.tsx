@@ -44,7 +44,7 @@ const Dropdown: React.FC<DropdownProps> = ({ options, children, name, control, .
           </Ripple>
           <Expand
             expanded={focused}
-            className={'bg-white absolute z-10 shadow-lg rounded-lg mt-2 w-full'}
+            className={'bg-white absolute z-10 shadow-md rounded-lg mt-2 w-full'}
           >
             <ul className={'p-2 divide-y divide-gray-200'}>
               {options.map((v, i) => (

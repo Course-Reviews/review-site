@@ -13,6 +13,7 @@ export interface reviewResponse {
   taken_date: string;
   updatedAt: string;
   upvote: number;
+  user_name?: string;
 }
 export interface fetchReviewsResponse {
   num_ratings: number;
@@ -20,6 +21,7 @@ export interface fetchReviewsResponse {
   relaxed_rating: number;
   enjoyment_rating: number;
   delivery_rating: number;
+  user_review_id?: string;
   reviews: reviewResponse[];
 }
 

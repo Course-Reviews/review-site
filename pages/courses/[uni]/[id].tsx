@@ -8,6 +8,8 @@ import React, { useEffect, useState } from 'react';
 import { useContext } from 'react';
 import {
   FiBook,
+  FiEdit,
+  FiEdit2,
   FiExternalLink,
   FiFileText,
   FiInbox,
@@ -39,6 +41,15 @@ import {
 import courseList from '../../../util/courseList.json';
 import { codeToURL } from '../../../util/util';
 
+interface CourseReviewData {
+  rating: number;
+  numRatings: number;
+  enjoymentRating: number;
+  relaxedRating: number;
+  deliveryRating: number;
+  userReviewId?: string;
+}
+
 const Course: React.FC<CourseDetails> = ({
   id,
   code,
@@ -56,7 +67,7 @@ const Course: React.FC<CourseDetails> = ({
   faculty,
   term,
 }) => {
-  const [reviewData, setReviewData] = useState({
+  const [reviewData, setReviewData] = useState<CourseReviewData>({
     rating,
     numRatings,
     enjoymentRating,
@@ -67,7 +78,7 @@ const Course: React.FC<CourseDetails> = ({
   const router = useRouter();
   const {user} = useContext(AuthContext);
 
-  const messageModal = useModal(PostReviewModal);
+  const reviewModal = useModal(PostReviewModal);
   const signupModal = useModal(SignupPromptModal)
 
   const [reviews, setReviews] = useState<ReviewData[]>();
@@ -85,7 +96,7 @@ const Course: React.FC<CourseDetails> = ({
         deliveryRating: e.delivery_rating,
         enjoymentRating: e.enjoyment_rating,
         relaxedRating: e.relaxed_rating,
-
+        username: e.user_name
       }));
       setReviews(processed);
       setReviewData({
@@ -94,6 +105,7 @@ const Course: React.FC<CourseDetails> = ({
         enjoymentRating: data.enjoyment_rating,
         relaxedRating: data.relaxed_rating,
         deliveryRating: data.delivery_rating,
+        userReviewId: data.user_review_id
       });
     };
     hydrate();
@@ -111,7 +123,7 @@ const Course: React.FC<CourseDetails> = ({
       if(res) return;
     }
 
-    const review = await messageModal.show({
+    const review = await reviewModal.show({
       data: {
         terms: term,
         code,
@@ -141,6 +153,7 @@ const Course: React.FC<CourseDetails> = ({
         deliveryRating:
           (d.deliveryRating * d.numRatings + review.delivery_rating) / (d.numRatings + 1),
         numRatings: d.numRatings + 1,
+        userReviewId: review._id
       }));
     }
   };
@@ -198,6 +211,10 @@ const Course: React.FC<CourseDetails> = ({
 
     return res;
   };
+
+  const editReview = () => {
+
+  }
 
   return (
     <MixpanelConsumer>
@@ -292,8 +309,15 @@ const Course: React.FC<CourseDetails> = ({
             </Col>
             <Col className={'items-end fixed md:static bottom-0 left-0 p-6 md:p-0 z-10'}>
               <Button onClick={showModal}>
+                {reviewData.userReviewId ?
+                <>
+                <FiEdit2 size={24} className={'-m-2 mr-2 -ml-1'} />
+                Edit my review
+                </>
+                : <>
                 <FiStar size={24} className={'-m-2 mr-2'} />
                 Leave a review
+                </>}
               </Button>
             </Col>
           </Row>
@@ -370,7 +394,7 @@ const Course: React.FC<CourseDetails> = ({
                           <h3 className={'text-lg font-semibold text-gray-700'}>Course Overview</h3>
                         </Accordian.Header>
                         <Accordian.Body>
-                          <p className={'text-gray-700'}>{overview}</p>
+                          <p className={'text-gray-700 whitespace-pre-line'}>{overview}</p>
                           {url && (
                             <div className={'flex'}>
                               <a
@@ -455,7 +479,7 @@ const Course: React.FC<CourseDetails> = ({
             reviews.length > 0 ? (
               reviews
                 .sort((a, b) => b.dateCreated.getTime() - a.dateCreated.getTime())
-                .map((r, i) => <Review key={i} review={r} />)
+                .map((r, i) => <Review key={i} review={r} isOwner={reviewData.userReviewId === r.id} />)
             ) : (
               <div
                 className={

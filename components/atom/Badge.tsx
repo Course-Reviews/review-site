@@ -9,7 +9,7 @@ interface BadgeProps extends HTMLAttributes<HTMLElement> {
 const Badge: React.FC<BadgeProps> = ({ variant = 'primary', children, className, ...rest }) => (
   <div
     className={classnames(
-      `bg-${variant}-500 text-${variant}-100 font-bold px-3 py-0.5 rounded-full`,
+      `bg-${variant}-500 text-${variant}-100 font-bold px-3 py-0.5 rounded-full whitespace-nowrap`,
       className
     )}
     {...rest}

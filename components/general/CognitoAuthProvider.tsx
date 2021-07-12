@@ -2,6 +2,7 @@ import Amplify, { Auth } from 'aws-amplify';
 import * as React from 'react';
 import { createContext, useEffect, useState } from 'react';
 import awsExports from '../../aws-exports';
+import fetchRatings from '../../functions/fetchRatings';
 import { CognitoUser } from '../../types/cognito';
 
 // This is a thin wrapper around the Auth package from aws-amplify mostly for the purpose of ensuring that auth state changes are reflected in the app
@@ -24,6 +25,7 @@ interface SignupData {
 interface AuthState {
   user?: CognitoUser;
   hasResolved: boolean;
+  ratings: {[postId: string]: boolean}
 }
 
 interface contextState {
@@ -32,18 +34,21 @@ interface contextState {
   signOut: () => Promise<void>;
   user?: CognitoUser;
   hasResolved: boolean;
+  ratings: {[postId: string]: boolean};
 }
 
 export const AuthContext = createContext<contextState>({
   signIn: async () => {},
   signUp: async () => {},
   signOut: async () => {},
-  hasResolved: false
+  hasResolved: false,
+  ratings: {}
 });
 
 export const CognitoAuthProvider: React.FC = ({ children }) => {
   const [state, setState] = useState<AuthState>({
     hasResolved: false,
+    ratings: {}
   });
 
   // resolve user on load
@@ -51,15 +56,19 @@ export const CognitoAuthProvider: React.FC = ({ children }) => {
     const doAsync = async () => {
       try {
         const res = await Auth.currentAuthenticatedUser();
+        const ratings = await fetchRatings();
         setState({
           user: res,
           hasResolved: true,
+          ratings
         });
       } catch (e) {
         setState({
           hasResolved: true,
+          ratings: {}
         });
       }
+
     };
     doAsync();
   }, []);
@@ -95,7 +104,7 @@ export const CognitoAuthProvider: React.FC = ({ children }) => {
     ...state,
     signIn: signin,
     signUp: signup,
-    signOut: signout
+    signOut: signout,
   };
 
   return <AuthContext.Provider value={context}>{children}</AuthContext.Provider>;

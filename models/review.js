@@ -17,22 +17,31 @@ const reviewSchema = new mongoose.Schema(
     course_rating: {
       type: Number,
       required: true,
+      min: 1,
+      max: 5,
     },
     delivery_rating: {
       type: Number,
       required: true,
+      min: 1,
+      max: 5,
     },
     relaxed_rating: {
       type: Number,
       required: true,
+      min: 1,
+      max: 5,
     },
     enjoyment_rating: {
       type: Number,
       required: true,
+      min: 1,
+      max: 5,
     },
     upvote: {
       type: Number,
       default: 0,
+
     },
     downvote: {
       type: Number,

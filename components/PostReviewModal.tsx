@@ -104,17 +104,19 @@ const PostReviewModal: React.FC<ModalType<ModalData, reviewResponse>> = ({
     content,
     term,
     year,
+    anonymous
   }) => {
 
     setSubmitted(true);
 
     const res = await postReview(data.courseId, {
-      course_rating: (relaxedRating + deliveryRating + enjoymentRating) / 3,
       content,
       taken_date: `${TERMS[term]} ${year}`,
       enjoyment_rating: enjoymentRating,
       relaxed_rating: relaxedRating,
       delivery_rating: deliveryRating,
+      user_id: user?.username,
+      user_name: !anonymous && user ? user?.username : undefined,
     });
     setReview(res);
   };
@@ -192,7 +194,7 @@ const PostReviewModal: React.FC<ModalType<ModalData, reviewResponse>> = ({
               }}
               disabled={submitted}
             >
-              {submitted ? 'Posting...' : 'Post Anonymous Review'}
+              {submitted ? 'Posting...' : user ? 'Post my Review' : 'Post Anonymous Review'}
             </Button>
           </div>
         </form>
