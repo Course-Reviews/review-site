@@ -213,6 +213,7 @@ const Course: React.FC<CourseDetails> = ({
                 __html: JSON.stringify({
                   '@context': 'https://schema.org',
                   '@type': 'Course',
+                  provider: UNI_NAMES[university],
                   courseCode: code,
                   coursePrerequisites: requirements,
                   numberOfCredits: '15',
@@ -229,6 +230,7 @@ const Course: React.FC<CourseDetails> = ({
                     ? reviews.map((review) => ({
                         '@type': 'Review',
                         author: 'anonymous',
+                        itemReviewed: code,
                         datePublished: review.dateCreated,
                         reviewBody: review.content,
                         name: `${code} User review`,

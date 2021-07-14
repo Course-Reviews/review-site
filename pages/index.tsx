@@ -60,7 +60,7 @@ const Landing: React.FC<LandingProps> = () => (
       <Card as='section' className={'md:w-1/2 mx-4 mt-20 mb-10'}>
         <Card.Body>
           <h2 className='font-bold text-2xl my-4 text-center'>CourseReview</h2>
-          <p className='text-lg text-center'>
+          <p className='text-lg '>
             Do you have something to say about your university courses? Or are you trying to
             prepare/decide what to do next? CourseReviews is a platform for you to search, read and
             post reviews for university courses in NZ.
@@ -104,12 +104,13 @@ const Landing: React.FC<LandingProps> = () => (
             </Accordian.Item>
             <Accordian.Item>
               <Accordian.Header>
-                <h3 className={'text-lg font-semibold text-gray-700'}>
-                  Yes, and you have an option to use your name with an account{' '}
-                </h3>
+                <h3 className={'text-lg font-semibold text-gray-700'}>Are reviews anonymous</h3>
               </Accordian.Header>
               <Accordian.Body>
-                <p className={'text-gray-700'}>Yes but you will need an account at Course Review</p>
+                <p className={'text-gray-700'}>
+                  {' '}
+                  Yes, and you have an option to use your name with an account{' '}
+                </p>
               </Accordian.Body>
             </Accordian.Item>
             <Accordian.Item>
@@ -130,7 +131,9 @@ const Landing: React.FC<LandingProps> = () => (
                 </h3>
               </Accordian.Header>
               <Accordian.Body>
-                <p className={'text-gray-700'}>Are you affiliated with universities? </p>
+                <p className={'text-gray-700'}>
+                  Are <b>you</b> affiliated with universities? (no)
+                </p>
               </Accordian.Body>
             </Accordian.Item>
             <Accordian.Item>
@@ -163,7 +166,9 @@ const Landing: React.FC<LandingProps> = () => (
                 <h3 className={'text-lg font-semibold text-gray-700'}>How can I reach you?</h3>
               </Accordian.Header>
               <Accordian.Body>
-                <p className={'text-gray-700'}>coursereview.nz@gmail.com</p>
+                <p className={'text-gray-700'}>
+                  <a href=''>coursereview.nz@gmail.com</a>
+                </p>
               </Accordian.Body>
             </Accordian.Item>
           </Accordian>
