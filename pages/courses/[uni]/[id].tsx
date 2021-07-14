@@ -212,7 +212,7 @@ const Course: React.FC<CourseDetails> = ({
               dangerouslySetInnerHTML={{
                 __html: JSON.stringify({
                   '@context': 'https://schema.org',
-                  '@type': 'Course',
+                  '@type': 'Product',
                   provider: UNI_NAMES[university],
                   courseCode: code,
                   coursePrerequisites: requirements,
@@ -236,7 +236,7 @@ const Course: React.FC<CourseDetails> = ({
                         name: `${code} User review`,
                         reviewRating: {
                           '@type': 'Rating',
-                          ratingValue: review.rating,
+                          ratingValue: Math.round(rating * 10) / 10,
                         },
                       }))
                     : [],

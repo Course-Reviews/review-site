@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import Head from 'next/head';
 import React, { useState } from 'react';
 import { FiFlag, FiThumbsDown, FiThumbsUp } from 'react-icons/fi';
 import { MixpanelConsumer } from 'react-mixpanel';
@@ -32,25 +33,13 @@ const Review: React.FC<ReviewProps> = ({
   return (
     <MixpanelConsumer>
       {(mixpanel: any) => (
-        <Card
-          className={classNames('mb-4', highlight && 'ring-4 ring-primary-500')}
-          as='article'
-          itemProp='review'
-          itemScope={true}
-          itemType='https://schema.org/Review'
-        >
+        <Card className={classNames('mb-4', highlight && 'ring-4 ring-primary-500')} as='article'>
           <Card.Body>
             <div className={'flex items-center text-sm font-bold text-gray-500'}>
               <StarRating rating={rating} size={20} className={'text-secondary-500 mr-2'} />
-              <div
-                itemProp='reviewRating'
-                itemScope
-                itemType='https://schema.org/Rating'
-                className={'text-gray-500'}
-              >
-                <meta itemProp='worstRating' content='1' />
-                <span itemProp='ratingValue'>{Math.round(rating * 10) / 10}</span>/
-                <span itemProp='bestRating'>5</span>
+              <div className={'text-gray-500'}>
+                <meta content='1' />
+                <span>{Math.round(rating * 10) / 10}</span>/<span>5</span>
               </div>
               <div className={'flex-grow'} />
               <div className={'text-gray-500'}>{timeTaken}</div>
@@ -79,14 +68,10 @@ const Review: React.FC<ReviewProps> = ({
               </div>
             </div>
             <section className={'flex flex-col'}>
-              <p itemProp='reviewBody' className={'mt-2 whitespace-pre-line'}>
-                {content}
-              </p>
+              <p className={'mt-2 whitespace-pre-line'}>{content}</p>
             </section>
             <section className={'flex justify-between mb-2'}>
-              <div itemProp='author' className={' text-gray-400 italic font-semibold'}>
-                - Anonymous
-              </div>
+              <div className={' text-gray-400 italic font-semibold'}>- Anonymous</div>
               <div> </div>
             </section>
             <div className={'flex border-t pt-2'}>
