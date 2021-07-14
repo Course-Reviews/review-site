@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import React, { Fragment } from 'react';
 import { FiInstagram } from 'react-icons/fi';
+import Accordian from '../components/atom/Accordian';
 import Button from '../components/atom/Button';
 import Card from '../components/atom/Card';
 import CourseSearch from '../components/CourseSearch';
@@ -64,6 +65,16 @@ const Landing: React.FC<LandingProps> = () => (
             prepare/decide what to do next? CourseReviews is a platform for you to search, read and
             post reviews for university courses in NZ.
           </p>
+          <br />
+          <br />
+          <p className='text-lg '>
+            We are part 3 software engineering students (Alex, Michael, and JiaQi) who were annoyed
+            at the lack of course reviews (especially when we were selecting our electives). We
+            decided to make a fresh platform to make it easier for students to share their
+            experiences and help future generations of students to prepare for their courses. We are
+            planning to continue working on the site and adding more features so please let us know
+            how we can improve!
+          </p>
         </Card.Body>
       </Card>
       <Card as='section' className={'md:w-1/2 mx-4 mb-10'}>
@@ -79,6 +90,86 @@ const Landing: React.FC<LandingProps> = () => (
           </a>
         </Card.Body>
       </Card>
+      <Card as='section' className={'md:w-1/2 mx-4 mb-10'}>
+        <Card.Body>
+          <h2 className='font-bold text-2xl my-4 text-center'>F.A.Q</h2>
+          <Accordian>
+            <Accordian.Item expanded>
+              <Accordian.Header>
+                <h3 className={'text-lg font-semibold text-gray-700'}>Can I change my review? </h3>
+              </Accordian.Header>
+              <Accordian.Body>
+                <p className={'text-gray-700'}>Yes but you will need an account at Course Review</p>
+              </Accordian.Body>
+            </Accordian.Item>
+            <Accordian.Item>
+              <Accordian.Header>
+                <h3 className={'text-lg font-semibold text-gray-700'}>
+                  Yes, and you have an option to use your name with an account{' '}
+                </h3>
+              </Accordian.Header>
+              <Accordian.Body>
+                <p className={'text-gray-700'}>Yes but you will need an account at Course Review</p>
+              </Accordian.Body>
+            </Accordian.Item>
+            <Accordian.Item>
+              <Accordian.Header>
+                <h3 className={'text-lg font-semibold text-gray-700'}>Do you censor reviews? </h3>
+              </Accordian.Header>
+              <Accordian.Body>
+                <p className={'text-gray-700'}>
+                  No, however, we moderate unhelpful or highly offensive reviews flagged by our
+                  users. Please report anything that you might find inappropriate.
+                </p>
+              </Accordian.Body>
+            </Accordian.Item>
+            <Accordian.Item>
+              <Accordian.Header>
+                <h3 className={'text-lg font-semibold text-gray-700'}>
+                  Are you affiliated with universities?{' '}
+                </h3>
+              </Accordian.Header>
+              <Accordian.Body>
+                <p className={'text-gray-700'}>Are you affiliated with universities? </p>
+              </Accordian.Body>
+            </Accordian.Item>
+            <Accordian.Item>
+              <Accordian.Header>
+                <h3 className={'text-lg font-semibold text-gray-700'}>
+                  Do you have all of NZ universities?
+                </h3>
+              </Accordian.Header>
+              <Accordian.Body>
+                <p className={'text-gray-700'}>
+                  Currently we support UoA, and will soon add AUT, OTAGO, MASSEY, CANTERBURY and
+                  more{' '}
+                </p>
+              </Accordian.Body>
+            </Accordian.Item>
+            <Accordian.Item>
+              <Accordian.Header>
+                <h3 className={'text-lg font-semibold text-gray-700'}>
+                  Did the chicken come before the egg?{' '}
+                </h3>
+              </Accordian.Header>
+              <Accordian.Body>
+                <p className={'text-gray-700'}>
+                  The chicken did <b>not</b> come before the egg.
+                </p>
+              </Accordian.Body>
+            </Accordian.Item>
+            <Accordian.Item>
+              <Accordian.Header>
+                <h3 className={'text-lg font-semibold text-gray-700'}>How can I reach you?</h3>
+              </Accordian.Header>
+              <Accordian.Body>
+                <p className={'text-gray-700'}>coursereview.nz@gmail.com</p>
+              </Accordian.Body>
+            </Accordian.Item>
+          </Accordian>
+        </Card.Body>
+      </Card>
+
       <span className={'text-sm mx-2 text-center'}>
         By using our platform you agree to our{' '}
         <Link href='/terms-and-conditions'>
