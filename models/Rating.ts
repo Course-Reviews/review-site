@@ -1,25 +1,28 @@
-import {Schema, model} from 'mongoose';
+import {Schema, model, Model} from 'mongoose';
+
+
+const schema = {
+  user_id: {
+    type: String,
+    required: true,
+  },
+  post_id: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: 'Review',
+  },
+  course_id: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: 'Course',
+  },
+  positive: {
+    type: Boolean
+  }
+}
 
 const ratingSchema = new Schema(
-  {
-    user_id: {
-      type: String,
-      required: true,
-    },
-    post_id: {
-      type: Schema.Types.ObjectId,
-      required: true,
-      ref: 'Review',
-    },
-    course_id: {
-      type: Schema.Types.ObjectId,
-      required: true,
-      ref: 'Course',
-    },
-    positive: {
-      type: Boolean
-    }
-  },
+  schema,
   {
     timestamps: true,
   }
@@ -27,6 +30,12 @@ const ratingSchema = new Schema(
 
 // mongoose.models = {};
 
-const Rating = model('Rating', ratingSchema);
+let Rating: Model<typeof schema>;
+
+try {
+  Rating = model('Rating')
+} catch (error) {
+  Rating = model('Rating', ratingSchema)
+}
 
 export default Rating;

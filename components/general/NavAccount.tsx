@@ -1,7 +1,7 @@
 import { useModal } from 'async-modals';
 import Link from 'next/link';
 import React, { useContext, useState } from 'react';
-import { FiChevronDown, FiInstagram, FiLogOut, FiMessageSquare, FiUser } from 'react-icons/fi';
+import { FiChevronDown, FiInstagram, FiLogOut, FiMessageSquare, FiSettings, FiUser } from 'react-icons/fi';
 import Expand from '../atom/Expand';
 import IconButton from '../atom/IconButton';
 import FeedbackModal from '../FeedbackModal';
@@ -52,7 +52,7 @@ const NavAccount: React.FC<NavAccountProps> = ({}) => {
             </div>
           }
           <li className={'px-2 font-semibold'}>Account</li>
-          <Link href='/account'>
+          <Link href='/account/reviews'>
             <a>
               <li
                 className={
@@ -60,7 +60,19 @@ const NavAccount: React.FC<NavAccountProps> = ({}) => {
                 }
               >
                 <FiUser className={'mr-2 mt-1'} />
-                My Account
+                My Reviews
+              </li>
+            </a>
+          </Link>
+          <Link href='/account/settings'>
+            <a>
+              <li
+                className={
+                  'p-1 px-3 cursor-pointer hover:bg-gray-100 flex items-center hover:text-primary-500'
+                }
+              >
+                <FiSettings className={'mr-2 mt-1'} />
+                Settings
               </li>
             </a>
           </Link>

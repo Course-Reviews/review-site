@@ -42,7 +42,7 @@ const Signin: React.FC = () => {
 
   if(auth.hasResolved && auth.user){
     // This lets us redirect the user back to what they were doing before authentication
-    const destination = sessionStorage.getItem('authRedirect') || '/account';
+    const destination = sessionStorage.getItem('authRedirect') || '/account/reviews';
     sessionStorage.removeItem('authRedirect')
     router.push(destination)
   }

@@ -22,11 +22,9 @@ const Course: React.FC = () => {
     <Container
       as={'main'}
       className={'pb-24 flex-grow'}
-      itemScope={true}
-      itemType={'https://schema.org/UserReview'}
     >
       <Head>
-        <title>Account - CourseReview</title>
+        <title>My Reviews - CourseReview</title>
         <meta name='description' content={'View you profile and account.'} />
         <meta name='robots' content='index,follow' />
       </Head>
@@ -34,11 +32,11 @@ const Course: React.FC = () => {
         <Col>
           <BreadCrumbs>
             <BreadCrumbs.Home />
-            <BreadCrumbs.Item href='/account'>Account</BreadCrumbs.Item>
+            <BreadCrumbs.Item href='/account/reviews'>My Reviews</BreadCrumbs.Item>
           </BreadCrumbs>
         </Col>
       </Row>
-      <h1 className={'text-2xl font-bold text-gray-800'}>Account Details</h1>
+      <h1 className={'text-2xl font-bold text-gray-800'}>My Reviews</h1>
     </Container>
   );
 };
