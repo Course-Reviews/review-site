@@ -212,7 +212,11 @@ const Course: React.FC<CourseDetails> = ({
               dangerouslySetInnerHTML={{
                 __html: JSON.stringify({
                   '@context': 'https://schema.org',
-                  '@type': 'Thing',
+                  '@type': 'Product',
+                  provider: UNI_NAMES[university],
+                  courseCode: code,
+                  coursePrerequisites: requirements,
+                  numberOfCredits: '15',
                   aggregateRating: {
                     '@type': 'AggregateRating',
                     ratingValue: '3.5',
@@ -226,12 +230,13 @@ const Course: React.FC<CourseDetails> = ({
                     ? reviews.map((review) => ({
                         '@type': 'Review',
                         author: 'anonymous',
+                        itemReviewed: code,
                         datePublished: review.dateCreated,
                         reviewBody: review.content,
                         name: `${code} User review`,
                         reviewRating: {
                           '@type': 'Rating',
-                          ratingValue: review.rating,
+                          ratingValue: Math.round(rating * 10) / 10,
                         },
                       }))
                     : [],
