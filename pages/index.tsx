@@ -173,6 +173,21 @@ const Landing: React.FC<LandingProps> = () => (
             </Accordian.Item>
           </Accordian>
         </Card.Body>
+        <Card as='section' className={'md:w-1/2 mx-4 mb-10'}>
+          <Card.Body>
+            <h2 className='font-bold text-2xl my-4'>Writing helpful reviews</h2>
+            <p className='text-lg '>
+              You can write the review in any way you'd like however we suggest you structure it as
+              advice to the next generation of students. You can first describe your course
+              experience (was it hard, was the lecturer annoying or nice) and how the reader who is
+              about to take this course can prepare to make their life easier. If the course had an
+              alternative that you consider, let the reader know and perhaps you can save them a
+              wrong decision. Be respectful of the lecturers and the staff as they are just doing
+              their job and trying to educate the future generation. Or write a funny review, we
+              welcome that also.
+            </p>
+          </Card.Body>
+        </Card>
       </Card>
 
       <span className={'text-sm mx-2 text-center'}>
