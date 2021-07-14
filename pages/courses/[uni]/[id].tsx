@@ -212,7 +212,10 @@ const Course: React.FC<CourseDetails> = ({
               dangerouslySetInnerHTML={{
                 __html: JSON.stringify({
                   '@context': 'https://schema.org',
-                  '@type': 'Thing',
+                  '@type': 'Course',
+                  courseCode: code,
+                  coursePrerequisites: requirements,
+                  numberOfCredits: '15',
                   aggregateRating: {
                     '@type': 'AggregateRating',
                     ratingValue: '3.5',
