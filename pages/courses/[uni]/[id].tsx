@@ -173,12 +173,7 @@ const Course: React.FC<CourseDetails> = ({
   return (
     <MixpanelConsumer>
       {(mixpanel: any) => (
-        <Container
-          as={'main'}
-          className={'pb-24 flex-grow'}
-          itemScope={true}
-          itemType='https://schema.org/AggregateRating'
-        >
+        <Container as={'main'} className={'pb-24 flex-grow'}>
           <Head>
             <title>
               {code} at {UNI_NAMES_SHORT[university]} - Course info and reviews
@@ -212,6 +207,37 @@ const Course: React.FC<CourseDetails> = ({
             />
             <meta property='og:image' content='https://coursereview.co.nz/course_cover.jpg' />
             <meta property='og:site_name' content='CourseReview' />
+            <script
+              type='application/ld+json'
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify({
+                  '@context': 'https://schema.org',
+                  '@type': 'Thing',
+                  aggregateRating: {
+                    '@type': 'AggregateRating',
+                    ratingValue: '3.5',
+                    reviewCount: `${reviewData.numRatings}`,
+                  },
+                  description: `${title}`,
+                  name: `${code}`,
+                  image: 'https://coursereview.co.nz/course_cover.jpg',
+
+                  review: reviews
+                    ? reviews.map((review) => ({
+                        '@type': 'Review',
+                        author: 'anonymous',
+                        datePublished: review.dateCreated,
+                        reviewBody: review.content,
+                        name: `${code} User review`,
+                        reviewRating: {
+                          '@type': 'Rating',
+                          ratingValue: review.rating,
+                        },
+                      }))
+                    : [],
+                }),
+              }}
+            />
           </Head>
           <Row className={'my-2'}>
             <Col>
@@ -226,13 +252,9 @@ const Course: React.FC<CourseDetails> = ({
             </Col>
           </Row>
           <Row>
-            <Col
-              itemType={'https://schema.org/UserReview'}
-              itemProp='itemReviewed'
-              itemScope={true}
-            >
+            <Col>
               <h1 className={'text-2xl font-bold text-gray-800'}>
-                <span itemProp='name'>{code}</span> - {title}
+                <span>{code}</span> - {title}
               </h1>
               <h2 className={'text-sm text-gray-400 font-semibold'}>
                 Faculty of {faculty} • {UNI_NAMES[university]}
@@ -248,11 +270,10 @@ const Course: React.FC<CourseDetails> = ({
                 />{' '}
                 <div className={'text-gray-600 max-h-min'}>
                   {reviewData.rating ? (
-                    <div itemProp='aggregateRating'>
-                      <span itemProp='ratingValue'>{Math.round(reviewData.rating * 10) / 10}</span>/
-                      <span itemProp='bestRating'>5</span>{' '}
+                    <div>
+                      <span>{Math.round(reviewData.rating * 10) / 10}</span>/<span>5</span>{' '}
                       <span>
-                        (<span itemProp='reviewCount'>{reviewData.numRatings}</span> rating
+                        (<span>{reviewData.numRatings}</span> rating
                         {reviewData.numRatings === 1 ? '' : 's'})
                       </span>
                     </div>
