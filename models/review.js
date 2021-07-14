@@ -43,6 +43,10 @@ const reviewSchema = new mongoose.Schema(
       required: true,
       ref: 'Course',
     },
+    poster_ip: {
+      type: string,
+      required: true,
+    }
   },
   {
     timestamps: true,
