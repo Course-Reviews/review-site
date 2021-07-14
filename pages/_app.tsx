@@ -36,7 +36,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     };
   }, [router.events]);
 
-  mixpanel.init('08d4d7028dcc32f1449375dc93c154c7');
+  mixpanel.init(`${process.env.NEXT_PUBLIC_MIXPANEL_TOKEN}`);
   return (
     <MixpanelProvider mixpanel={mixpanel}>
       <Head>
