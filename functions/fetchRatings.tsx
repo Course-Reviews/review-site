@@ -1,12 +1,9 @@
 // Fetches all ratings for the user
 
 import { getData } from '.';
+import { FetchUserRatingsResponse } from '../dtos/FetchUserRatings';
 
-export interface fetchRatingsResponse {
-  [postId: string]: boolean
-}
-
-const fetchRatings = async (): Promise<fetchRatingsResponse> => {
+const fetchRatings = async (): Promise<FetchUserRatingsResponse> => {
   const { data } = await getData('api/user/ratings');
 
   return data;

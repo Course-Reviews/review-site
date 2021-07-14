@@ -36,9 +36,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<ratingsResponse
       return p;
     }, {} as ratingsResponse);
 
-    console.log(data);
-
-
     res.status(200).json(data);
   }
 };

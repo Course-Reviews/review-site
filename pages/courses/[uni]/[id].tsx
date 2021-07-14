@@ -73,12 +73,15 @@ const Course: React.FC<CourseDetails> = ({
   });
 
   const router = useRouter();
-  const {user} = useContext(AuthContext);
+  const {user, hasResolved} = useContext(AuthContext);
 
   const reviewModal = useModal(PostReviewModal);
   const signupModal = useModal(SignupPromptModal)
 
   const [reviews, setReviews] = useState<ReviewData[]>();
+
+  // state for if the reviews have been fetched
+  const [fetched, setFetched] = useState(false);
 
   useEffect(() => {
     const hydrate = async () => {
@@ -96,6 +99,7 @@ const Course: React.FC<CourseDetails> = ({
         username: e.user_name
       }));
       setReviews(processed);
+      setFetched(true);
       setReviewData({
         rating: data.overall_rating,
         numRatings: data.num_ratings,
@@ -176,13 +180,13 @@ const Course: React.FC<CourseDetails> = ({
   // This allows the review modal to be opened as soon as the page loads using the query string "?post=true"
   // This means we can redirect people to the page with the modal open after signin
   useEffect(() => {
-    if(router.isReady){
+    if(router.isReady && hasResolved && fetched){
       const show = JSON.parse(router.query['post'] as string || 'false')
       if(show){
         showModal()
       }
     }
-  }, [router.isReady])
+  }, [router.isReady, hasResolved, fetched])
 
   // Detects course codes in text and replaces them with links
   const renderLinkedCourses = (r: string) => {
