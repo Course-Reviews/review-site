@@ -68,13 +68,12 @@ const Signin: React.FC = () => {
           <FormGroup label='Password' error={errors.password}>
             <Input {...register('password')} type='password' autoComplete='current-password'/>
           </FormGroup>
-          {/* {serverError && <span className={'text-sm text-danger-500 my-2'}>{serverError}</span>} */}
           <Button block className={'mt-4'}>Sign in</Button>
         </form>
         <p className={'text-gray-700 mx-auto text-sm mt-4'}>{'Don\'t have an account?'}</p>
               <Link href='signup'>
                 <a className={'mx-auto'}>
-                  <button className={'font-semibold text-primary-500 w-auto'}>Sign in instead</button>
+                  <button className={'font-semibold text-primary-500 w-auto'}>Sign up instead</button>
                 </a>
               </Link>
       </Card.Body>

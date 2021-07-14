@@ -24,7 +24,10 @@ const schema: SchemaOf<FormFields> = object().shape({
   email: string().required('Please enter an email'),
   password: string()
     .required('Please enter a password')
-    .min(8, 'Password must be at least 8 characters'),
+    .min(8, 'Password must be at least 8 characters')
+    .matches(/[0-9]/, 'Password must contain at least 1 number')
+    .matches(/[A-Z]/, 'Password must contain at least 1 capital letter')
+    .matches(/[a-z]/, 'Password must contain at least 1 lowercase letter'),
 });
 
 const Signin: React.FC = () => {
