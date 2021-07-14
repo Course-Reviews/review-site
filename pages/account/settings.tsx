@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import router from 'next/router';
 import React, { useContext } from 'react';
+import { FiTool } from 'react-icons/fi';
 import BreadCrumbs from '../../components/atom/BreadCrumbs';
 import Col from '../../components/atom/Col';
 import Container from '../../components/atom/Container';
@@ -39,6 +40,8 @@ const Course: React.FC = () => {
         </Col>
       </Row>
       <h1 className={'text-2xl font-bold text-gray-800'}>Settings</h1>
+      <FiTool className={'text-primary-500 mx-auto my-2'} size={64}/>
+      <p className={'mt-2 text-gray-700 mx-8 md:w-96 md:mx-auto text-center'}>We are still working on this! In the meantime please get in touch with us via instagram or send us an email at coursereview.nz@gmail.com</p>
     </Container>
   );
 };
