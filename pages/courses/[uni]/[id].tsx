@@ -127,7 +127,6 @@ const Course: React.FC<CourseDetails> = ({
     // If the user has an existing review the form will be pre-filled (editing rather than posting)
     const existingReview = reviews?.find(r => r.id === reviewData.userReviewId)
     const [existingTerm, existingYear] = existingReview?.timeTaken.split(/\s(?=[0-9]{4})/) || []
-    console.log(existingTerm);
 
     const reviewdata = existingReview && {
       deliveryRating: existingReview.deliveryRating,

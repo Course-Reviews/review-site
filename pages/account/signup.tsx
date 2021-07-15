@@ -51,11 +51,9 @@ const Signin: React.FC = () => {
         password,
         email,
       });
-      console.log(res);
 
       router.push('/account/reviews');
     } catch ({ message }) {
-      console.log(message);
       if (message.match(/EmailExistsException/)) {
         setError('email', { message: 'This email is already in use' });
       } else if (message.match(/User\salready\sexists/)) {
@@ -68,7 +66,7 @@ const Signin: React.FC = () => {
 
   if (auth.hasResolved && auth.user) {
     // This lets us redirect the user back to what they were doing before authentication
-    const destination = sessionStorage.getItem('authRedirect') || '/account';
+    const destination = sessionStorage.getItem('authRedirect') || '/account/reviews';
     sessionStorage.removeItem('authRedirect');
     router.push(destination);
   }

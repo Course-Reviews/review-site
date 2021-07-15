@@ -15,7 +15,7 @@ const TermsAndConditions: React.FC = () => (
         content='CourseReview provides a platform for anonymous reviews of the courses. Terms and Conditions apply.'
       />
     </Head>
-    <Container as='main' className={'text-gray-700 max-w-xl'}>
+    <Container as='main' className={'text-gray-700 max-w-xl flex-grow'}>
       <Logo className={'mx-auto h-16'} />
       <h1 className='font-bold text-3xl my-4 text-gray-800 text-center'>Terms and Conditions</h1>
       <Card>

@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import mixpanel from 'mixpanel-browser';
+import { useRouter } from 'next/router';
 import React, { HTMLAttributes, useEffect, useRef, useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import { MixpanelConsumer } from 'react-mixpanel';
@@ -16,6 +17,7 @@ const SEARCH_DELAY = 50;
 const SEARCH_LENGTH_THRESHOLD = 1;
 
 const NavSearch: React.FC<HTMLAttributes<HTMLElement>> = ({ className }) => {
+  const router = useRouter()
   const [searchResults, setSearchResults] = useState<CourseSearchResult[]>([]);
   const cache = useRef(new Map());
 
@@ -51,6 +53,12 @@ const NavSearch: React.FC<HTMLAttributes<HTMLElement>> = ({ className }) => {
     }
   }, [searchValue]);
 
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    setFocused(false)
+    router.push(`/courses?query=${searchValue}`)
+  }
+
   return (
     <div
       className={classNames(
@@ -72,6 +80,7 @@ const NavSearch: React.FC<HTMLAttributes<HTMLElement>> = ({ className }) => {
 
           <MixpanelConsumer>
             {(mixpanel: any) => (
+              <form onSubmit={handleSubmit}>
               <input
                 className='px-2 focus:outline-none w-full py-2  bg-transparent'
                 onFocus={() => setFocused(true)}
@@ -83,6 +92,7 @@ const NavSearch: React.FC<HTMLAttributes<HTMLElement>> = ({ className }) => {
                 }}
                 onBlur={() => searchValue.length < SEARCH_LENGTH_THRESHOLD && setFocused(false)}
               />
+              </form>
             )}
           </MixpanelConsumer>
           {searchValue.length >= SEARCH_LENGTH_THRESHOLD && loading && <Loader className='mx-4' />}

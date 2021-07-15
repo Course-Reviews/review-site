@@ -23,9 +23,7 @@ const Appbar: React.FC = () => {
         </Link>
         <div className={'flex items-center'}>
           <SearchButton className={'sm:hidden'} /> <NavSearch className={'hidden sm:flex'} />
-          {!hasResolved ? (
-            ''
-          ) : user ? (
+          {user && hasResolved ? (
             <NavAccount/>
           ) : (
             <>

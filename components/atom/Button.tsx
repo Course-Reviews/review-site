@@ -50,7 +50,7 @@ const Button: React.FC<ButtonProps> = ({
           'text-sm px-5 py-3': size === 'md',
           'text-lg px-7 py-3': size === 'lg',
         },
-        outline ? ' border-2' : 'text-gray-50',
+        outline ? ' border-2' : 'text-white',
         [
           `ring-${variant}-200`,
           outline

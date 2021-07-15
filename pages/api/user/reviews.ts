@@ -70,7 +70,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<FetchUserReview
       university: r.course.university,
       title: r.course.title,
     }));
-    console.log(data);
 
     res.status(200).json(data as FetchUserReviewsResponse);
   }

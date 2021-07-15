@@ -64,7 +64,6 @@ const Dropdown: React.FC<DropdownProps> = ({ options, children, name, control, .
               {options.map((v, i) => (
                 <li
                   onClick={() => {
-                    console.log(`Clicked ${v.label}`);
                     onChange(v.value)
                     setFocused(false)
                   }}

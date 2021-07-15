@@ -16,7 +16,6 @@ async function connectDB() {
   });
 
   connection.isConnected = db.connections[0].readyState;
-  // console.log(connection.isConnected);
 }
 
 export default connectDB;

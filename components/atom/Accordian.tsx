@@ -47,23 +47,20 @@ const AccordianHeader: React.FC<AccordianHeaderProps> = ({
   className,
   expanded,
   setExpanded,
-  ...rest
 }) => (
-  <div
+  <button
     onClick={() => setExpanded && setExpanded((v) => !v)}
     className={classnames(
       'cursor-pointer flex items-center justify-between py-1 px-1 border-b hover:bg-gray-50 rounded-t-lg',
       className
     )}
+    aria-expanded={expanded}
   >
     <div>{children}</div>
-    <IconButton
-      size={'sm'}
-      variant='none'
-      icon={FiChevronDown}
-      innerClassName={classNames('transform transition-transform', !expanded && '-rotate-90')}
+    <FiChevronDown
+      className={classNames('transform transition-transform', !expanded && '-rotate-90')}
     />
-  </div>
+  </button>
 );
 
 interface AccordianBodyProps extends HTMLAttributes<HTMLElement> {
