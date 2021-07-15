@@ -7,6 +7,7 @@ import config from '../../../../aws-exports';
 import connectDB from '../../../../db/mongoose';
 import initMiddleware from '../../../../middleware/initMiddleware';
 import Rating from '../../../../models/Rating';
+import Review from '../../../../models/review';
 
 const limiter = initMiddleware(
   new RateLimit({
@@ -45,42 +46,62 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     // User must be authenticated
     if(!user){
-      return res.status(401).json({ success: false })
+      return res.status(401).send('unauthenticated')
     }
 
-    const rating = await Rating.findOneAndUpdate({user_id: user.username, post_id: req.query.postId}, {positive: req.query.action === 'upvote'}, { upsert: true, new: true, setDefaultsOnInsert: true })
-    res.status(200).json(rating);
-    // switch (req.query.action) {
-    //   case 'upvote':
-    //     try {
-    //       const rating = await Rating.create({user_id: user.username, post_id: req.query.postId})
-    //       // const review = await Review.findByIdAndUpdate(req.query.postId, {
-    //       //   $inc: {
-    //       //     upvote: 1,
-    //       //   },
-    //       // }, {new: true});
+    const rating = await Rating.findOneAndUpdate({
+      user_id: user.username,
+      post_id: req.query.postId
+    }, {
+      positive: req.query.action === 'upvote'
+    }, {
+      upsert: true,
+      setDefaultsOnInsert: true
+    })
 
-    //       res.status(200).json(rating);
-    //     } catch (e) {
-    //       res.status(400).json(e);
-    //     }
-    //     break;
-    //   case 'downvote':
-    //     try {
-    //       const review = await Review.findByIdAndUpdate(req.query.postId, {
-    //         $inc: {
-    //           downvote: 1,
-    //         },
-    //       }, {new: true});
+    // if rating is null, it means that the user has not rated this post before
 
-    //       res.status(200).json(review);
-    //     } catch (e) {
-    //       res.status(400).json(e);
-    //     }
-    //     break;
-    //   default:
-    //     res.status(400).json({ success: false });
-    // }
+    const previousRating = rating?.positive;
+
+    switch (req.query.action) {
+      case 'upvote':
+        try {
+          if(previousRating !== true){
+            const review = await Review.findByIdAndUpdate(req.query.postId, {
+              $inc: {
+                upvote: 1,
+                downvote: rating ? -1 : 0
+              },
+            }, {new: true});
+            res.status(200).json(review.upvote - review.downvote);
+          } else {
+            res.status(200).json(null);
+          }
+
+        } catch (e) {
+          res.status(400).json(e);
+        }
+        break;
+      case 'downvote':
+        try {
+          if(previousRating !== false){
+            const review = await Review.findByIdAndUpdate(req.query.postId, {
+              $inc: {
+                downvote: 1,
+                upvote: rating ? -1 : 0
+              },
+            }, {new: true});
+            res.status(200).json(review.upvote - review.downvote);
+          } else {
+            res.status(200).json(null);
+          }
+        } catch (e) {
+          res.status(400).json(e);
+        }
+        break;
+      default:
+        res.status(400).json({ success: false });
+    }
   }
 };
 

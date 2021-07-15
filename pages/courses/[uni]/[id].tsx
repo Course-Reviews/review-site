@@ -96,10 +96,7 @@ const Course: React.FC<CourseDetails> = ({
         deliveryRating: e.delivery_rating,
         enjoymentRating: e.enjoyment_rating,
         relaxedRating: e.relaxed_rating,
-<<<<<<< HEAD
         username: e.user_name
-=======
->>>>>>> 89bab2ff4699fde632d8096b2a7008f3277aa442
       }));
       setReviews(processed);
       setFetched(true);

@@ -30,7 +30,7 @@ const ratingSchema = new Schema(
 
 // mongoose.models = {};
 
-let Rating: Model<typeof schema>;
+let Rating: Model<any>;
 
 try {
   Rating = model('Rating')
