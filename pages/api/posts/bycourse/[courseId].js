@@ -34,6 +34,7 @@ const handler = async (req, res) => {
   if (req.method === 'POST') {
     await limiter(req, res);
 
+
     // Destructure so we only put the properties we need into the database
     const {
       taken_date,
@@ -73,7 +74,7 @@ const handler = async (req, res) => {
       user_name,
       content,
       course_rating: (enjoyment_rating + relaxed_rating + delivery_rating) / 3,
-      ip
+      ip,
     };
 
     try {

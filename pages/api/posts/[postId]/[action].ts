@@ -1,7 +1,6 @@
 // needs the review id, easily exploitable
 import Amplify, { withSSRContext } from 'aws-amplify';
 import RateLimit from 'express-rate-limit';
-import { ObjectId } from 'mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
 import MongoStore from 'rate-limit-mongo';
 import config from '../../../../aws-exports';
