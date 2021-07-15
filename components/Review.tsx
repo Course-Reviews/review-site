@@ -14,13 +14,11 @@ import SignupBenefitsModal from './SignupBenefitsModal';
 
 interface ReviewProps {
   review: ReviewData;
-  highlight?: boolean;
   isOwner?: boolean;
   onEdit?: () => void;
 }
 
 const Review: React.FC<ReviewProps> = ({
-  highlight,
   review: {
     id,
     rating,
@@ -49,17 +47,21 @@ const Review: React.FC<ReviewProps> = ({
       modal.show()
     } else {
       if (isOwner) return;
+      if (vote === type) return;
       setVote(type);
-      await patchData(`api/posts/${id}/${type ? 'upvote' : 'downvote'}`);
-      setVotes((v) => v + (type ? 1 : -1));
+      const {data} = await patchData(`api/posts/${id}/${type ? 'upvote' : 'downvote'}`);
+      if(data || data === 0){
+        setVotes(data);
+      }
     }
   }
+
 
 
   return (
     <MixpanelConsumer>
       {(mixpanel: any) => (
-        <Card className={classNames('mb-4', highlight && 'ring-4 ring-primary-500')} as='article'>
+        <Card className={classNames('mb-4', isOwner && 'ring-4 ring-primary-500')} as='article'>
           <Card.Body>
             <div className={'flex items-start text-sm font-bold text-gray-500 relative'}>
             {isOwner && <Badge className={'absolute -top-7 left-0'}>Your review</Badge>}
