@@ -32,22 +32,18 @@ const SignupPromptModal: React.FC<ModalType<ModalData, boolean>> = ({
     </p>
     <Link href={'/account/signup'}>
       <a>
-        <Button block className={'mt-4'} onClick={redirectToSignin}>
+        <Button block className={'my-4'} onClick={redirectToSignin}>
           Sign up
         </Button>
       </a>
     </Link>
-    <p className={'my-2 '}>or</p>
-    <Button block className={'mb-4'}>
-      Sign in with google
-    </Button>
     <p>You can still post without an account, however you wont be able to edit your review later</p>
 
     <button
       className={'font-semibold text-primary-500 mt-2 flex mx-auto items-center'}
       onClick={cancel}
     >
-      Continue to posting <FiArrowRight className={'ml-2'} size={20} />
+      Post without an account <FiArrowRight className={'ml-2'} size={20} />
     </button>
   </Modal>
 )

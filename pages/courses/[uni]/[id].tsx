@@ -173,7 +173,7 @@ const Course: React.FC<CourseDetails> = ({
         deliveryRating:
           (d.deliveryRating * d.numRatings + review.delivery_rating) / (d.numRatings + 1),
         numRatings: d.userReviewId ? d.numRatings : d.numRatings + 1,
-        userReviewId: review._id
+        userReviewId: user ? review._id : undefined
       }));
     }
   };

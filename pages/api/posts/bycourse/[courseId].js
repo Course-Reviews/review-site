@@ -74,7 +74,7 @@ const handler = async (req, res) => {
       user_name,
       content,
       course_rating: (enjoyment_rating + relaxed_rating + delivery_rating) / 3,
-      ip,
+      poster_ip: ip,
     };
 
     try {
