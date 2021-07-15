@@ -5,7 +5,7 @@ module.exports = {
     options: {
       safelist: [
         /^border-(primary|secondary|info|warning|danger|success)-(200|500|gray)$/,
-        /^text-(primary|secondary|info|warning|danger|success|gray)-(50|200|500)$/,
+        /^text-(primary|secondary|info|warning|danger|success|gray)-(50|100|200|500)$/,
         /^bg-(primary|secondary|info|warning|danger|success|gray)-(400|500|600)$/,
         /^ring-(primary|secondary|info|warning|danger|success|gray)-(400|500)$/,
         /^text-(|uoa|aut|vic|massey|otago)$/
