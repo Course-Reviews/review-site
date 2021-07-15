@@ -2,7 +2,8 @@ import { GetServerSideProps } from 'next';
 import React from 'react';
 import Card from '../../components/atom/Card';
 import StarRating from '../../components/atom/StarRating';
-import Logo from '../../components/Logo';
+import Logo from '../../components/general/Logo';
+
 import connectDB from '../../db/mongoose';
 import Course from '../../models/course';
 import Review from '../../models/review';
