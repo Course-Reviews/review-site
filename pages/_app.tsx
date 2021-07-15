@@ -47,7 +47,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         <ModalProvider
           backgroundClassName={(isExiting) =>
             classNames(
-              'fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center z-40',
+              'fixed inset-0 bg-gray-900 bg-opacity-75 flex flex-col justify-center items-center z-40',
               isExiting ? 'animate-modal-bg-fade-out' : 'animate-modal-bg-fade-in'
             )
           }

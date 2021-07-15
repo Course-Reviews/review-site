@@ -84,7 +84,7 @@ const Course: React.FC = () => {
           >
             <FiInbox className={'my-2'} size={30} />
             <div>It looks like you havent written any reviews yet</div>
-            <Link href='/browse'>
+            <Link href='/courses'>
             <a>
             <Button outline className={'mt-4'}>
               Search courses to review

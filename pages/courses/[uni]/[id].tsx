@@ -45,6 +45,7 @@ interface CourseReviewData {
   relaxedRating: number;
   deliveryRating: number;
   userReviewId?: string;
+  fetched: boolean;
 }
 
 const Course: React.FC<CourseDetails> = ({
@@ -70,6 +71,7 @@ const Course: React.FC<CourseDetails> = ({
     enjoymentRating,
     relaxedRating,
     deliveryRating,
+    fetched: false
   });
 
   const router = useRouter();
@@ -79,9 +81,6 @@ const Course: React.FC<CourseDetails> = ({
   const signupModal = useModal(SignupPromptModal)
 
   const [reviews, setReviews] = useState<ReviewData[]>();
-
-  // state for if the reviews have been fetched
-  const [fetched, setFetched] = useState(false);
 
   useEffect(() => {
     const hydrate = async () => {
@@ -99,15 +98,16 @@ const Course: React.FC<CourseDetails> = ({
         username: e.user_name
       }));
       setReviews(processed);
-      setFetched(true);
       setReviewData({
         rating: data.overall_rating,
         numRatings: data.num_ratings,
         enjoymentRating: data.enjoyment_rating,
         relaxedRating: data.relaxed_rating,
         deliveryRating: data.delivery_rating,
-        userReviewId: data.user_review_id
+        userReviewId: data.user_review_id,
+        fetched: true
       });
+
     };
     hydrate();
   }, [id]);
@@ -172,7 +172,8 @@ const Course: React.FC<CourseDetails> = ({
         deliveryRating:
           (d.deliveryRating * d.numRatings + review.delivery_rating) / (d.numRatings + 1),
         numRatings: d.userReviewId ? d.numRatings : d.numRatings + 1,
-        userReviewId: user ? review._id : undefined
+        userReviewId: user ? review._id : undefined,
+        fetched: true,
       }));
     }
   };
@@ -180,13 +181,13 @@ const Course: React.FC<CourseDetails> = ({
   // This allows the review modal to be opened as soon as the page loads using the query string "?post=true"
   // This means we can redirect people to the page with the modal open after signin
   useEffect(() => {
-    if(router.isReady && hasResolved && fetched){
+    if(router.isReady && hasResolved && reviewData.fetched){
       const show = JSON.parse(router.query['post'] as string || 'false')
       if(show){
         showModal()
       }
     }
-  }, [router.isReady, hasResolved, fetched])
+  }, [router.isReady, hasResolved, reviewData.fetched])
 
   // Detects course codes in text and replaces them with links
   const renderLinkedCourses = (r: string) => {

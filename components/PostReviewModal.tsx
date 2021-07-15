@@ -124,7 +124,8 @@ const PostReviewModal: React.FC<ModalType<ModalData, reviewResponse>> = ({
   };
 
   return (
-    <Modal isClosing={isClosing} className={'w-full sm:w-3/4 md:w-2/3 lg:max-w-lg m-4'}>
+    <div className={'overflow-y-auto w-full px-4'}>
+    <Modal isClosing={isClosing} className={'w-full sm:w-3/4 md:w-2/3 lg:max-w-lg m-4 mx-auto'}>
       <Modal.Title close={cancel}>{data.editMode ? 'Edit review for' : 'Review'} {data.code}</Modal.Title>
       {review ? (
         <div className={'flex flex-col items-center text-primary-500 my-8'}>
@@ -210,6 +211,7 @@ const PostReviewModal: React.FC<ModalType<ModalData, reviewResponse>> = ({
         </form>
       )}
     </Modal>
+    </div>
   );
 };
 
