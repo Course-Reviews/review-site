@@ -13,6 +13,7 @@ const SearchButton: React.FC<HTMLAttributes<HTMLElement>> = ({ className }) => {
       variant='none'
       icon={FiSearch}
       onClick={() => modal.show()}
+      aria-label='Search Courses'
     />
   );
 };

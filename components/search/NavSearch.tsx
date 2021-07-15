@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import mixpanel from 'mixpanel-browser';
 import React, { HTMLAttributes, useEffect, useRef, useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import { MixpanelConsumer } from 'react-mixpanel';
@@ -93,31 +94,21 @@ const NavSearch: React.FC<HTMLAttributes<HTMLElement>> = ({ className }) => {
         >
           {focused && searchValue.length > SEARCH_LENGTH_THRESHOLD && (
             <ul className='w-full py-1'>
-              {
-              // !loading ? (
-                searchResults.length > 0 ? (
-                  <MixpanelConsumer>
-                    {(mixpanel: any) =>
-                      searchResults.map((result) => (
-                        <div key={result.id} onClick={() => setSearchValue('')}>
-                          <SearchResult
-                            result={result}
-                            isCondensed
-                            onClick={() => {
-                              mixpanel.track('[NAV] Course Clicked', { value: result.code });
-                            }}
-                          />
-                        </div>
-                      ))
-                    }
-                  </MixpanelConsumer>
-                ) : (
-                  <div className={'py-2 my-2 px-4'}>No Results</div>
-                )
-              // ) : (
-              //   <div className={'py-2 my-2 px-4'}>Loading...</div>
-              // )
-              }
+              {searchResults.length > 0 ? (
+                searchResults.map((result, i) => (
+                  <SearchResult
+                    result={result}
+                    isCondensed
+                    key={i}
+                    onClick={() => {
+                      mixpanel.track('[NAV] Course Clicked', { value: result.code });
+                      setSearchValue('');
+                    }}
+                  />
+                ))
+              ) : (
+                <div className={'py-2 my-2 px-4'}>No Results</div>
+              )}
             </ul>
           )}
         </Expand>

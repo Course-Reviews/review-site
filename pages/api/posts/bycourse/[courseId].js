@@ -6,18 +6,24 @@ import MongoStore from 'rate-limit-mongo';
 import config from '../../../../aws-exports';
 import connectDB from '../../../../db/mongoose';
 import initMiddleware from '../../../../middleware/initMiddleware';
+<<<<<<< HEAD
 import { getUser } from '../../../../middleware/userMiddleware';
 import Review from '../../../../models/review';
+=======
+
+const LIMIT_TIMER =  60 * 60 * 1000
+
+>>>>>>> 89bab2ff4699fde632d8096b2a7008f3277aa442
 const limiter = initMiddleware(
   new RateLimit({
     store: new MongoStore({
       uri: process.env.MONGO_URI,
       // should match windowMs
-      expireTimeMs: 60 * 60 * 1000,
+      expireTimeMs: LIMIT_TIMER,
       errorHandler: console.error.bind(null, 'rate-limit-mongo'),
       // see Configuration section for more options and details
     }),
-    windowMs: 60 * 60 * 1000,
+    windowMs: LIMIT_TIMER,
     max: 20,
   })
 );
@@ -31,6 +37,7 @@ const handler = async (req, res) => {
   if (req.method === 'POST') {
     await limiter(req, res);
 
+<<<<<<< HEAD
     // Destructure so we only put the properties we need into the database
     const {
       taken_date,
@@ -44,6 +51,30 @@ const handler = async (req, res) => {
 
     const key = {
       user_id,
+=======
+    // quick and dirty validation - redo this better later
+    const {relaxed_rating, delivery_rating, course_rating, enjoyment_rating} = req.body;
+
+    if(enjoyment_rating > 5 || enjoyment_rating < 1){
+      res.status(400).json('invalid enjoyment_rating')
+      return;
+    } else if (delivery_rating > 5 || delivery_rating < 1 ) {
+      res.status(400).json('invalid delivery_rating')
+      return;
+    }else if (relaxed_rating > 5 || relaxed_rating < 1 ) {
+      res.status(400).json('invalid relaxed_rating')
+      return;
+    }else if (course_rating > 5 || course_rating < 1 ) {
+      res.status(400).json('invalid course_rating')
+      return;
+    }
+
+    const ip =  req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+
+    const review = new Review({
+      ...req.body,
+      poster_ip: ip,
+>>>>>>> 89bab2ff4699fde632d8096b2a7008f3277aa442
       owner: mongoose.Types.ObjectId(req.query.courseId),
     };
 

@@ -1,8 +1,7 @@
 import classNames from 'classnames';
-import Link from 'next/link';
+import mixpanel from 'mixpanel-browser';
 import { useRouter } from 'next/router';
-import React, { useEffect, useRef, useState } from 'react';
-import { HTMLAttributes } from 'react';
+import { default as React, HTMLAttributes, useEffect, useRef, useState } from 'react';
 import { FiInfo, FiSearch } from 'react-icons/fi';
 import { MixpanelConsumer } from 'react-mixpanel';
 import fetchSearchResults from '../../functions/fetchSearchResults';
@@ -118,27 +117,19 @@ const CourseSearch: React.FC<CourseSearchProps> = ({ className, onClick }) => {
             className='w-full mx-auto shadow-xl rounded-lg'
           >
             <ul className='w-full bg-white '>
-              {
-              // loading ? (
-              //   <div className={'py-2 px-3'}>loading...</div>
-              // ) :
-              searchResults.length > 0 ? (
-                <MixpanelConsumer>
-                  {(mixpanel: any) =>
-                    searchResults.map((result, i) => (
-                      <SearchResult
-                        onClick={(e:any) => {
-                          mixpanel.track('[LANDING] Course Clicked', { value: result.code });
-                          onClick && onClick(e)
-                        }}
-                        result={result}
-                        key={i}
-                        isCondensed={false}
-                        className='bg-white'
-                      />
-                    ))
-                  }
-                </MixpanelConsumer>
+              {searchResults.length > 0 ? (
+                searchResults.map((result, i) => (
+                  <SearchResult
+                    onClick={(e: any) => {
+                      mixpanel.track('[LANDING] Course Clicked', { value: result.code });
+                      onClick && onClick(e);
+                    }}
+                    result={result}
+                    key={i}
+                    isCondensed={false}
+                    className='bg-white'
+                  />
+                ))
               ) : (
                 <div className='bg-white shadow rounded-lg py-2 '>
                   <span>No results.</span>

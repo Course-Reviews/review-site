@@ -1,13 +1,11 @@
 import { useModal } from 'async-modals';
 import classNames from 'classnames';
-import React, { useContext, useState } from 'react';
-import { useEffect } from 'react';
-import { FiEdit2, FiEdit3, FiFlag, FiThumbsDown, FiThumbsUp } from 'react-icons/fi';
+import React, { useContext, useEffect, useState } from 'react';
+import { FiEdit3, FiFlag, FiThumbsDown, FiThumbsUp } from 'react-icons/fi';
 import { MixpanelConsumer } from 'react-mixpanel';
 import { patchData } from '../functions';
 import { ReviewData } from '../types/config';
 import Badge from './atom/Badge';
-import Button from './atom/Button';
 import Card from './atom/Card';
 import IconButton from './atom/IconButton';
 import StarRating from './atom/StarRating';
@@ -61,28 +59,15 @@ const Review: React.FC<ReviewProps> = ({
   return (
     <MixpanelConsumer>
       {(mixpanel: any) => (
-        <Card
-          className={classNames('mb-4', (highlight || isOwner) && 'ring-4 ring-primary-500')}
-          as='article'
-          itemProp='review'
-          itemScope={true}
-          itemType='https://schema.org/Review'
-        >
+        <Card className={classNames('mb-4', highlight && 'ring-4 ring-primary-500')} as='article'>
           <Card.Body>
             <div className={'flex items-start text-sm font-bold text-gray-500 relative'}>
             {isOwner && <Badge className={'absolute -top-7 left-0'}>Your review</Badge>}
 
               <StarRating rating={rating} size={20} className={'text-secondary-500 mr-2'} />
-              <div
-                itemProp='reviewRating'
-                itemScope
-                itemType='https://schema.org/Rating'
-                className={'text-gray-500 mr-2 '}
-
-              >
-                <meta itemProp='worstRating' content='1' />
-                <span itemProp='ratingValue'>{Math.round(rating * 10) / 10}</span>/
-                <span itemProp='bestRating'>5</span>
+              <div className={'text-gray-500'}>
+                <meta content='1' />
+                <span>{Math.round(rating * 10) / 10}</span>/<span>5</span>
               </div>
               <div className={'flex-grow'} />
               <div className={'text-gray-500'}>{timeTaken}</div>
@@ -111,9 +96,7 @@ const Review: React.FC<ReviewProps> = ({
               </div>
             </div>
             <section className={'flex flex-col'}>
-              <p itemProp='reviewBody' className={'mt-2 whitespace-pre-line'}>
-                {content}
-              </p>
+              <p className={'mt-2 whitespace-pre-line'}>{content}</p>
             </section>
             <section className={'flex justify-between mb-2'}>
               <div itemProp='author' className={' text-gray-500 italic'}>
@@ -134,6 +117,7 @@ const Review: React.FC<ReviewProps> = ({
                 onClick={() => {
                   mixpanel.track('[REVIEW] report', { value: content });
                 }}
+                aria-label='Report post'
               >
                 <FiFlag size={24} className={'text-gray-700'} />
               </IconButton>}

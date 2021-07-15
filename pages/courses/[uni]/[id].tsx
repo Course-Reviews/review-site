@@ -11,7 +11,7 @@ import {
   FiFileText,
   FiInbox,
   FiMessageSquare,
-  FiStar
+  FiStar,
 } from 'react-icons/fi';
 import { MixpanelConsumer } from 'react-mixpanel';
 import Accordian from '../../../components/atom/Accordian';
@@ -33,7 +33,7 @@ import {
   ReviewData,
   TERMS,
   UNI_NAMES,
-  UNI_NAMES_SHORT
+  UNI_NAMES_SHORT,
 } from '../../../types/config';
 import courseList from '../../../util/courseList.json';
 import { codeToURL } from '../../../util/util';
@@ -96,7 +96,10 @@ const Course: React.FC<CourseDetails> = ({
         deliveryRating: e.delivery_rating,
         enjoymentRating: e.enjoyment_rating,
         relaxedRating: e.relaxed_rating,
+<<<<<<< HEAD
         username: e.user_name
+=======
+>>>>>>> 89bab2ff4699fde632d8096b2a7008f3277aa442
       }));
       setReviews(processed);
       setFetched(true);
@@ -168,7 +171,8 @@ const Course: React.FC<CourseDetails> = ({
         relaxedRating:
           (d.relaxedRating * d.numRatings + (review.relaxed_rating as number)) / (d.numRatings + 1),
         enjoymentRating:
-          (d.enjoymentRating * d.numRatings + (review.enjoyment_rating as number)) / (d.numRatings + 1),
+          (d.enjoymentRating * d.numRatings + (review.enjoyment_rating as number)) /
+          (d.numRatings + 1),
         deliveryRating:
           (d.deliveryRating * d.numRatings + review.delivery_rating) / (d.numRatings + 1),
         numRatings: d.userReviewId ? d.numRatings : d.numRatings + 1,
@@ -234,12 +238,7 @@ const Course: React.FC<CourseDetails> = ({
   return (
     <MixpanelConsumer>
       {(mixpanel: any) => (
-        <Container
-          as={'main'}
-          className={'pb-24 flex-grow'}
-          itemScope={true}
-          itemType={'https://schema.org/UserReview'}
-        >
+        <Container as={'main'} className={'pb-24 flex-grow'}>
           <Head>
             <title>
               {code} at {UNI_NAMES_SHORT[university]} - Course info and reviews
@@ -273,6 +272,42 @@ const Course: React.FC<CourseDetails> = ({
             />
             <meta property='og:image' content='https://coursereview.co.nz/course_cover.jpg' />
             <meta property='og:site_name' content='CourseReview' />
+            <script
+              type='application/ld+json'
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify({
+                  '@context': 'https://schema.org',
+                  '@type': 'Product',
+                  provider: UNI_NAMES[university],
+                  courseCode: code,
+                  coursePrerequisites: requirements,
+                  numberOfCredits: '15',
+                  aggregateRating: {
+                    '@type': 'AggregateRating',
+                    ratingValue: '3.5',
+                    reviewCount: `${reviewData.numRatings}`,
+                  },
+                  description: `${title}`,
+                  name: `${code}`,
+                  image: 'https://coursereview.co.nz/course_cover.jpg',
+
+                  review: reviews
+                    ? reviews.map((review) => ({
+                        '@type': 'Review',
+                        author: 'anonymous',
+                        itemReviewed: code,
+                        datePublished: review.dateCreated,
+                        reviewBody: review.content,
+                        name: `${code} User review`,
+                        reviewRating: {
+                          '@type': 'Rating',
+                          ratingValue: Math.round(rating * 10) / 10,
+                        },
+                      }))
+                    : [],
+                }),
+              }}
+            />
           </Head>
           <Row className={'my-2'}>
             <Col>
@@ -289,7 +324,7 @@ const Course: React.FC<CourseDetails> = ({
           <Row>
             <Col>
               <h1 className={'text-2xl font-bold text-gray-800'}>
-                {code} - {title}
+                <span>{code}</span> - {title}
               </h1>
               <h2 className={'text-sm text-gray-400 font-semibold'}>
                 Faculty of {faculty} • {UNI_NAMES[university]}
@@ -305,15 +340,11 @@ const Course: React.FC<CourseDetails> = ({
                 />{' '}
                 <div className={'text-gray-600 max-h-min'}>
                   {reviewData.rating ? (
-                    <div
-                      itemScope
-                      itemType='https://schema.org/AggregateRating'
-                      itemProp='aggregateRating'
-                    >
-                      <span itemProp='ratingValue'>{Math.round(reviewData.rating * 10) / 10}</span>/
-                      <span>5</span>{' '}
-                      <span itemProp='reviewCount'>
-                        ({reviewData.numRatings} rating{reviewData.numRatings === 1 ? '' : 's'})
+                    <div>
+                      <span>{Math.round(reviewData.rating * 10) / 10}</span>/<span>5</span>{' '}
+                      <span>
+                        (<span>{reviewData.numRatings}</span> rating
+                        {reviewData.numRatings === 1 ? '' : 's'})
                       </span>
                     </div>
                   ) : (
@@ -355,7 +386,7 @@ const Course: React.FC<CourseDetails> = ({
                         <div className={'w-1/3'}>
                           <div className={'font-bold text-primary-500'}>
                             <span className={'text-2xl'}>
-                              {Math.round((reviewData.relaxedRating) * 10) / 10}
+                              {Math.round(reviewData.relaxedRating * 10) / 10}
                             </span>
                           </div>
                           <div className={'mt-0.5 text-xs font-semibold text-gray-500'}>
@@ -365,7 +396,7 @@ const Course: React.FC<CourseDetails> = ({
                         <div className={'w-1/3'}>
                           <div className={'font-bold text-primary-500'}>
                             <span className={'text-2xl'}>
-                              {Math.round((reviewData.enjoymentRating) * 10) / 10}
+                              {Math.round(reviewData.enjoymentRating * 10) / 10}
                             </span>
                           </div>
                           <div className={'mt-0.5 text-xs font-semibold text-gray-500'}>

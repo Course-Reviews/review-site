@@ -109,7 +109,6 @@ const PostReviewModal: React.FC<ModalType<ModalData, reviewResponse>> = ({
     year,
     anonymous
   }) => {
-
     setSubmitted(true);
 
     const res = await postReview(data.courseId, {
@@ -165,10 +164,18 @@ const PostReviewModal: React.FC<ModalType<ModalData, reviewResponse>> = ({
           <FormGroup label='How relaxed was the course?' required error={errors.relaxedRating}>
             <RatingInput className={'mt-1'} name={formFields.relaxedRating} control={control} />
           </FormGroup>
-          <FormGroup label='How much did you enjoy the course?' required error={errors.enjoymentRating}>
+          <FormGroup
+            label='How much did you enjoy the course?'
+            required
+            error={errors.enjoymentRating}
+          >
             <RatingInput className={'mt-1'} name={formFields.enjoymentRating} control={control} />
           </FormGroup>
-          <FormGroup label='How well was the content delivered?' required error={errors.deliveryRating}>
+          <FormGroup
+            label='How well was the content delivered?'
+            required
+            error={errors.deliveryRating}
+          >
             <RatingInput className={'mt-1'} name={formFields.deliveryRating} control={control} />
           </FormGroup>
           <FormGroup label='Review' error={errors.content}>

@@ -41,7 +41,6 @@ const reviewSchema = new mongoose.Schema(
     upvote: {
       type: Number,
       default: 0,
-
     },
     downvote: {
       type: Number,
@@ -57,7 +56,11 @@ const reviewSchema = new mongoose.Schema(
     },
     user_name: {
       type: String,
-    }
+    },
+    poster_ip: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,
