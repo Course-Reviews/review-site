@@ -2,7 +2,8 @@ import Head from 'next/head';
 import React, { Fragment } from 'react';
 import Card from '../../components/atom/Card';
 import Container from '../../components/atom/Container';
-import Logo from '../../components/Logo';
+import Logo from '../../components/general/Logo';
+
 
 const TermsAndConditions: React.FC = () => (
   <Fragment>

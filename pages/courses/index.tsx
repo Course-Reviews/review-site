@@ -3,19 +3,15 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { FiFilter } from 'react-icons/fi';
 import BreadCrumbs from '../../components/atom/BreadCrumbs';
-import Button from '../../components/atom/Button';
 import Col from '../../components/atom/Col';
 import Container from '../../components/atom/Container';
-import Dropdown, { Option } from '../../components/atom/Dropdown';
-import FormGroup from '../../components/atom/FormGroup';
 import IconButton from '../../components/atom/IconButton';
-import Input from '../../components/atom/Input';
 import PaginationControls from '../../components/atom/PaginationControls';
 import Row from '../../components/atom/Row';
-import CourseCard from '../../components/CourseCard';
-import CourseFilter from '../../components/CourseFilter';
+import CourseCard from '../../components/browse/CourseCard';
+import CourseFilter from '../../components/browse/CourseFilter';
 import fetchCourses from '../../functions/fetchCourses';
-import { CourseSummary, FACULTYS, Pagination, TERMS } from '../../types/config';
+import { CourseSummary, Pagination } from '../../types/config';
 
 interface Filter {
   query?: string;

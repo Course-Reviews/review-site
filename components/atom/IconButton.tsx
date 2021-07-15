@@ -31,7 +31,7 @@ const IconButton: React.FC<ButtonProps> = ({
   icon: Icon,
   ...rest
 }) => (
-  <Ripple disabled={disabled} rippleContainerClassName='rounded-full' rippleClassName={'bg-primary-500'}>
+  <Ripple disabled={disabled} className={className} rippleContainerClassName={'rounded-full'} rippleClassName={'bg-primary-500'}>
     <button
       className={classNames(
         'rounded-full font-bold transition transform duration-200 ease-in-out focus:outline-none items-center ',

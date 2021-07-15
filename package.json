@@ -12,9 +12,11 @@
   "dependencies": {
     "@hookform/resolvers": "^2.6.0",
     "async-modals": "^0.3.14",
+    "aws-amplify": "^4.1.2",
     "axios": "^0.21.1",
     "classnames": "^2.3.1",
     "express-rate-limit": "^5.2.6",
+    "javascript-time-ago": "^2.3.8",
     "mixpanel-browser": "^2.41.0",
     "mongodb": "^3.6.9",
     "mongoose": "^5.12.15",
@@ -31,6 +33,7 @@
     "yup": "^0.32.9"
   },
   "devDependencies": {
+    "@types/javascript-time-ago": "^2.0.3",
     "@types/mixpanel-browser": "^2.35.6",
     "@types/react": "^17.0.11",
     "autoprefixer": "^10.2.6",

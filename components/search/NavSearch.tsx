@@ -3,10 +3,10 @@ import mixpanel from 'mixpanel-browser';
 import React, { HTMLAttributes, useEffect, useRef, useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import { MixpanelConsumer } from 'react-mixpanel';
-import fetchSearchResults from '../functions/fetchSearchResults';
-import Expand from './atom/Expand';
-import Ripple from './atom/Ripple';
-import Loader from './Loader';
+import fetchSearchResults from '../../functions/fetchSearchResults';
+import Expand from '../atom/Expand';
+import Ripple from '../atom/Ripple';
+import Loader from '../general/Loader';
 import SearchResult, { CourseSearchResult } from './SearchResult';
 
 // This is how long we should wait after each keypress before actually executing the search

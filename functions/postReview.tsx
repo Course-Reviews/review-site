@@ -1,12 +1,13 @@
 import { postData } from '.';
 
 interface reviewData {
-  course_rating: number;
   relaxed_rating: number;
   enjoyment_rating: number;
   delivery_rating: number;
   content?: string;
   taken_date: string;
+  user_id?: string;
+  user_name?: string;
 }
 
 const postReview = async (courseId: string, data: reviewData) => {

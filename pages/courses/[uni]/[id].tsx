@@ -3,9 +3,10 @@ import classNames from 'classnames';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import React, { useContext, useEffect, useState } from 'react';
 import {
-  FiBook,
+  FiBook, FiEdit3,
   FiExternalLink,
   FiFileText,
   FiInbox,
@@ -21,8 +22,10 @@ import Col from '../../../components/atom/Col';
 import Container from '../../../components/atom/Container';
 import Row from '../../../components/atom/Row';
 import StarRating from '../../../components/atom/StarRating';
+import { AuthContext } from '../../../components/general/CognitoAuthProvider';
 import PostReviewModal from '../../../components/PostReviewModal';
 import Review from '../../../components/Review';
+import SignupPromptModal from '../../../components/SignupPromptModal';
 import fetchCourse from '../../../functions/fetchCourse';
 import fetchReviews from '../../../functions/fetchReviews';
 import {
@@ -34,6 +37,15 @@ import {
 } from '../../../types/config';
 import courseList from '../../../util/courseList.json';
 import { codeToURL } from '../../../util/util';
+
+interface CourseReviewData {
+  rating: number;
+  numRatings: number;
+  enjoymentRating: number;
+  relaxedRating: number;
+  deliveryRating: number;
+  userReviewId?: string;
+}
 
 const Course: React.FC<CourseDetails> = ({
   id,
@@ -52,7 +64,7 @@ const Course: React.FC<CourseDetails> = ({
   faculty,
   term,
 }) => {
-  const [reviewData, setReviewData] = useState({
+  const [reviewData, setReviewData] = useState<CourseReviewData>({
     rating,
     numRatings,
     enjoymentRating,
@@ -60,14 +72,20 @@ const Course: React.FC<CourseDetails> = ({
     deliveryRating,
   });
 
-  const messageModal = useModal(PostReviewModal);
+  const router = useRouter();
+  const {user, hasResolved} = useContext(AuthContext);
+
+  const reviewModal = useModal(PostReviewModal);
+  const signupModal = useModal(SignupPromptModal)
 
   const [reviews, setReviews] = useState<ReviewData[]>();
+
+  // state for if the reviews have been fetched
+  const [fetched, setFetched] = useState(false);
 
   useEffect(() => {
     const hydrate = async () => {
       const data = await fetchReviews(id);
-      console.log(data);
       const processed = data.reviews.map((e) => ({
         id: e._id,
         rating: e.course_rating,
@@ -78,25 +96,59 @@ const Course: React.FC<CourseDetails> = ({
         deliveryRating: e.delivery_rating,
         enjoymentRating: e.enjoyment_rating,
         relaxedRating: e.relaxed_rating,
+<<<<<<< HEAD
+        username: e.user_name
+=======
+>>>>>>> 89bab2ff4699fde632d8096b2a7008f3277aa442
       }));
       setReviews(processed);
+      setFetched(true);
       setReviewData({
         rating: data.overall_rating,
         numRatings: data.num_ratings,
         enjoymentRating: data.enjoyment_rating,
         relaxedRating: data.relaxed_rating,
         deliveryRating: data.delivery_rating,
+        userReviewId: data.user_review_id
       });
     };
     hydrate();
   }, [id]);
 
+
   const showModal = async () => {
-    const review = await messageModal.show({
+
+    if(!user) {
+      const res = await signupModal.show({
+        data: {
+          url: `/courses/${university}/${codeToURL(code)}`
+        }
+      });
+      if(res) return;
+    }
+
+    // If the user has an existing review the form will be pre-filled (editing rather than posting)
+    const existingReview = reviews?.find(r => r.id === reviewData.userReviewId)
+    const [existingTerm, existingYear] = existingReview?.timeTaken.split(/\s(?=[0-9]{4})/) || []
+    console.log(existingTerm);
+
+    const reviewdata = existingReview && {
+      deliveryRating: existingReview.deliveryRating,
+      enjoymentRating: existingReview.enjoymentRating,
+      relaxedRating: existingReview.relaxedRating,
+      content: existingReview.content,
+      anonymous: !Boolean(existingReview.username),
+      term: TERMS.indexOf(existingTerm),
+      year: existingYear,
+    }
+
+    const review = await reviewModal.show({
       data: {
         terms: term,
         code,
         courseId: id,
+        editMode: Boolean(reviewData.userReviewId),
+        initialValues: reviewdata
       },
       canClose: false,
     });
@@ -107,12 +159,13 @@ const Course: React.FC<CourseDetails> = ({
         content: review.content,
         timeTaken: review.taken_date,
         dateCreated: new Date(review.createdAt),
-        votes: 0,
+        votes: review.upvote - review.downvote,
         enjoymentRating: review.enjoyment_rating,
         relaxedRating: review.relaxed_rating,
         deliveryRating: review.delivery_rating,
+        username: review.user_name
       };
-      setReviews((r) => [...(r || []), processedReview]);
+      setReviews((r) => [processedReview, ...(r || [])]);
       setReviewData((d) => ({
         rating: (d.rating * d.numRatings + review.course_rating) / (d.numRatings + 1),
         relaxedRating:
@@ -122,10 +175,22 @@ const Course: React.FC<CourseDetails> = ({
           (d.numRatings + 1),
         deliveryRating:
           (d.deliveryRating * d.numRatings + review.delivery_rating) / (d.numRatings + 1),
-        numRatings: d.numRatings + 1,
+        numRatings: d.userReviewId ? d.numRatings : d.numRatings + 1,
+        userReviewId: review._id
       }));
     }
   };
+
+  // This allows the review modal to be opened as soon as the page loads using the query string "?post=true"
+  // This means we can redirect people to the page with the modal open after signin
+  useEffect(() => {
+    if(router.isReady && hasResolved && fetched){
+      const show = JSON.parse(router.query['post'] as string || 'false')
+      if(show){
+        showModal()
+      }
+    }
+  }, [router.isReady, hasResolved, fetched])
 
   // Detects course codes in text and replaces them with links
   const renderLinkedCourses = (r: string) => {
@@ -290,8 +355,15 @@ const Course: React.FC<CourseDetails> = ({
             </Col>
             <Col className={'items-end fixed md:static bottom-0 left-0 p-6 md:p-0 z-10'}>
               <Button onClick={showModal}>
+                {reviewData.userReviewId ?
+                <>
+                <FiEdit3 size={24} className={'-m-2 mr-2 -ml-1'} />
+                Edit my review
+                </>
+                : <>
                 <FiStar size={24} className={'-m-2 mr-2'} />
                 Leave a review
+                </>}
               </Button>
             </Col>
           </Row>
@@ -368,7 +440,7 @@ const Course: React.FC<CourseDetails> = ({
                           <h3 className={'text-lg font-semibold text-gray-700'}>Course Overview</h3>
                         </Accordian.Header>
                         <Accordian.Body>
-                          <p className={'text-gray-700'}>{overview}</p>
+                          <p className={'text-gray-700 whitespace-pre-line'}>{overview}</p>
                           {url && (
                             <div className={'flex'}>
                               <a
@@ -453,7 +525,8 @@ const Course: React.FC<CourseDetails> = ({
             reviews.length > 0 ? (
               reviews
                 .sort((a, b) => b.dateCreated.getTime() - a.dateCreated.getTime())
-                .map((r, i) => <Review key={i} review={r} />)
+                .filter((r, i) => reviews.findIndex(r2 => r2.id === r.id) === i)
+                .map((r, i) => <Review key={i} review={r} isOwner={reviewData.userReviewId === r.id} onEdit={showModal}/>)
             ) : (
               <div
                 className={

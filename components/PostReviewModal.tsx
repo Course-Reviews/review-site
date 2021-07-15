@@ -1,12 +1,13 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Modal as ModalType } from 'async-modals';
 import mixpanel from 'mixpanel-browser';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { FiArrowRight } from 'react-icons/fi';
 import UseAnimations from 'react-useanimations';
 import radioButton from 'react-useanimations/lib/radioButton';
-import { number, object, SchemaOf, string } from 'yup';
+import { bool, number, object, SchemaOf, string } from 'yup';
+import { boolean } from 'yup/lib/locale';
 import { reviewResponse } from '../functions/fetchReviews';
 import postReview from '../functions/postReview';
 import { TERMS } from '../types/config';
@@ -18,11 +19,14 @@ import Input from './atom/Input';
 import Modal from './atom/Modal';
 import RatingInput from './atom/RatingInput';
 import Row from './atom/Row';
+import { AuthContext } from './general/CognitoAuthProvider';
 
 interface ModalData {
   terms: number[];
   code: string;
   courseId: string;
+  editMode: boolean;
+  initialValues?: Partial<FormFields>;
 }
 
 interface FormFields {
@@ -32,6 +36,7 @@ interface FormFields {
   content?: string;
   term: number;
   year: string;
+  anonymous: boolean;
 }
 
 const formFields = {
@@ -41,9 +46,18 @@ const formFields = {
   content: 'content',
   term: 'term',
   year: 'year',
+  anonymous: 'anonymous',
 } as const;
 
 const YEARS = ['2020', '2021'];
+
+const relaxedPrompts = [
+  'Ridiculously high workload',
+  'Managable workload, but still quite time consuming',
+  'Average workload, not too bad',
+  'Pretty relaxed',
+  'Very chill'
+]
 
 const schema: SchemaOf<FormFields> = object().shape({
   relaxedRating: number().required('Please choose a relaxed rating between 1 and 5'),
@@ -52,6 +66,7 @@ const schema: SchemaOf<FormFields> = object().shape({
   content: string().max(5000, 'Please keep your review to a maximum of 5000 characters'),
   term: number().required(),
   year: string().required(),
+  anonymous: bool().default(false),
 });
 
 const PostReviewModal: React.FC<ModalType<ModalData, reviewResponse>> = ({
@@ -66,18 +81,24 @@ const PostReviewModal: React.FC<ModalType<ModalData, reviewResponse>> = ({
 
   const [review, setReview] = useState<reviewResponse>();
 
+  const {user} = useContext(AuthContext);
+
   const {
     handleSubmit,
     control,
     register,
     formState: { errors },
+    watch
   } = useForm<FormFields>({
     defaultValues: {
       year: '2021',
       term: terms[0],
+      ...data.initialValues
     },
     resolver: yupResolver(schema),
   });
+
+  const anon = watch().anonymous
 
   const handleValidSubmit: SubmitHandler<FormFields> = async ({
     enjoymentRating,
@@ -86,23 +107,25 @@ const PostReviewModal: React.FC<ModalType<ModalData, reviewResponse>> = ({
     content,
     term,
     year,
+    anonymous
   }) => {
     setSubmitted(true);
 
     const res = await postReview(data.courseId, {
-      course_rating: (relaxedRating + deliveryRating + enjoymentRating) / 3,
       content,
       taken_date: `${TERMS[term]} ${year}`,
       enjoyment_rating: enjoymentRating,
       relaxed_rating: relaxedRating,
       delivery_rating: deliveryRating,
+      user_id: user?.username,
+      user_name: !anonymous && user ? user?.username : undefined,
     });
     setReview(res);
   };
 
   return (
     <Modal isClosing={isClosing} className={'w-full sm:w-3/4 md:w-2/3 lg:max-w-lg m-4'}>
-      <Modal.Title close={cancel}>Review {data.code}</Modal.Title>
+      <Modal.Title close={cancel}>{data.editMode ? 'Edit review for' : 'Review'} {data.code}</Modal.Title>
       {review ? (
         <div className={'flex flex-col items-center text-primary-500 my-8'}>
           <UseAnimations
@@ -112,7 +135,7 @@ const PostReviewModal: React.FC<ModalType<ModalData, reviewResponse>> = ({
             strokeColor={'currentColor'}
             speed={0.75}
           />
-          <div className={'text-lg font-bold my-8'}>Thanks for leaving a review!</div>
+          <div className={'text-lg font-bold my-8'}>{data.editMode ? 'Your review has been updated' : 'Thanks for leaving a review!'}</div>
           <Button onClick={() => (review ? submit(review) : cancel())}>
             Back to {data.code}
             <FiArrowRight size={24} className={'ml-2 -m-2'} />
@@ -163,7 +186,16 @@ const PostReviewModal: React.FC<ModalType<ModalData, reviewResponse>> = ({
               {...register(formFields.content)}
             />
           </FormGroup>
-
+          {user && <><div className={'flex items-center mt-4'}>
+            <Input
+              type='checkbox'
+              id='anon'
+              className={'mr-2'}
+              {...register(formFields.anonymous)}
+            />
+            <label htmlFor='anon'>Post my review anonymously</label>
+          </div>
+          <p className={'text-sm text-gray-700'}>Your name will show as: <span className={'text-gray-800 font-semibold'}>{anon ? 'anonymous' : user.username}</span></p></>}
           <div className={'flex flex-col mt-4 first:mt-0'}>
             <Button
               block
@@ -172,7 +204,7 @@ const PostReviewModal: React.FC<ModalType<ModalData, reviewResponse>> = ({
               }}
               disabled={submitted}
             >
-              {submitted ? 'Posting...' : 'Post Anonymous Review'}
+              {submitted ? 'Posting...' : user ? data.editMode ? 'Update my Review' : 'Post my Review' : 'Post Anonymous Review'}
             </Button>
           </div>
         </form>

@@ -1,7 +1,5 @@
-import { FiSearch, FiFilter, FiArrowLeft, FiInfo } from 'react-icons/fi';
-import Link from 'next/link';
-import UniTag from '../components/UniTag';
 import { SetStateAction } from 'react';
+import UniTag from './UniTag';
 
 export interface UniFilterProps {
   list: string[]; // list of unis to include

@@ -3,9 +3,7 @@ import classNames from 'classnames';
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { FiArrowUp } from 'react-icons/fi';
-import Button from './atom/Button';
-import IconButton from './atom/IconButton';
-import Modal from './atom/Modal';
+import IconButton from '../atom/IconButton';
 
 interface ScrollToTopProps {
 
@@ -19,9 +17,9 @@ const ScrollToTop: React.FC<ScrollToTopProps> = ({}) => {
 
     const listener = () => {
       const scrollTop = window.scrollY;
-      if(scrollTop > 0 && !show){
+      if(scrollTop > 500 && !show){
         setShow(true);
-      } else if (scrollTop <= 0 && show){
+      } else if (scrollTop <= 500 && show){
         setShow(false);
       }
     };

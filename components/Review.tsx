@@ -1,17 +1,22 @@
+import { useModal } from 'async-modals';
 import classNames from 'classnames';
-import Head from 'next/head';
-import React, { useState } from 'react';
-import { FiFlag, FiThumbsDown, FiThumbsUp } from 'react-icons/fi';
+import React, { useContext, useEffect, useState } from 'react';
+import { FiEdit3, FiFlag, FiThumbsDown, FiThumbsUp } from 'react-icons/fi';
 import { MixpanelConsumer } from 'react-mixpanel';
 import { patchData } from '../functions';
 import { ReviewData } from '../types/config';
+import Badge from './atom/Badge';
 import Card from './atom/Card';
 import IconButton from './atom/IconButton';
 import StarRating from './atom/StarRating';
+import { AuthContext } from './general/CognitoAuthProvider';
+import SignupBenefitsModal from './SignupBenefitsModal';
 
 interface ReviewProps {
   review: ReviewData;
   highlight?: boolean;
+  isOwner?: boolean;
+  onEdit?: () => void;
 }
 
 const Review: React.FC<ReviewProps> = ({
@@ -25,17 +30,40 @@ const Review: React.FC<ReviewProps> = ({
     deliveryRating,
     relaxedRating,
     enjoymentRating,
+    username,
   },
+  isOwner,
+  onEdit
 }) => {
   const [votes, setVotes] = useState(v);
-  const [hasVoted, setHasVoted] = useState(false);
+  const {user, ratings} = useContext(AuthContext);
+  const [vote, setVote] = useState<boolean>();
+  const modal = useModal(SignupBenefitsModal);
+
+  useEffect(() => {
+    setVote(ratings[id])
+  }, [ratings, id])
+
+  const castVote = async (type: boolean) => {
+    if(!user){
+      modal.show()
+    } else {
+      if (isOwner) return;
+      setVote(type);
+      await patchData(`api/posts/${id}/${type ? 'upvote' : 'downvote'}`);
+      setVotes((v) => v + (type ? 1 : -1));
+    }
+  }
+
 
   return (
     <MixpanelConsumer>
       {(mixpanel: any) => (
         <Card className={classNames('mb-4', highlight && 'ring-4 ring-primary-500')} as='article'>
           <Card.Body>
-            <div className={'flex items-center text-sm font-bold text-gray-500'}>
+            <div className={'flex items-start text-sm font-bold text-gray-500 relative'}>
+            {isOwner && <Badge className={'absolute -top-7 left-0'}>Your review</Badge>}
+
               <StarRating rating={rating} size={20} className={'text-secondary-500 mr-2'} />
               <div className={'text-gray-500'}>
                 <meta content='1' />
@@ -71,11 +99,20 @@ const Review: React.FC<ReviewProps> = ({
               <p className={'mt-2 whitespace-pre-line'}>{content}</p>
             </section>
             <section className={'flex justify-between mb-2'}>
-              <div className={' text-gray-400 italic font-semibold'}>- Anonymous</div>
+              <div itemProp='author' className={' text-gray-500 italic'}>
+                - {username || 'Anonymous'}
+              </div>
               <div> </div>
             </section>
             <div className={'flex border-t pt-2'}>
-              <IconButton
+
+              {isOwner ?  <button
+                onClick={onEdit}
+                className={'text-primary-500 flex font-semibold'}
+              >
+                <FiEdit3 size={24} className={'mr-2'}/>
+                Edit Review
+              </button> : <IconButton
                 variant='none'
                 onClick={() => {
                   mixpanel.track('[REVIEW] report', { value: content });
@@ -83,31 +120,23 @@ const Review: React.FC<ReviewProps> = ({
                 aria-label='Report post'
               >
                 <FiFlag size={24} className={'text-gray-700'} />
-              </IconButton>
+              </IconButton>}
               <div className={'flex-grow'} />
               <IconButton
                 variant='none'
-                icon={FiThumbsDown}
-                onClick={async () => {
-                  if (hasVoted) return;
-                  setHasVoted(true);
-                  await patchData(`api/posts/${id}/downvote`);
-                  setVotes((v) => (v -= 1));
-                }}
-                aria-label='Downvote post'
-              />
+                disabled={isOwner}
+                onClick={() => castVote(false)}
+              >
+                <FiThumbsDown className={vote === false ? 'text-primary-500' : ''} fill={vote === false ? 'currentColor' : 'none'} size={24}/>
+              </IconButton>
               <div className={'mx-4 font-bold text-gray-700'}>{votes}</div>{' '}
               <IconButton
                 variant='none'
-                icon={FiThumbsUp}
-                onClick={async () => {
-                  if (hasVoted) return;
-                  setHasVoted(true);
-                  await patchData(`api/posts/${id}/upvote`);
-                  setVotes((v) => v + 1);
-                }}
-                aria-label='Upvote post'
-              />
+                disabled={isOwner}
+                onClick={() => castVote(true)}
+              >
+                <FiThumbsUp className={vote === true ? 'text-primary-500' : ''} fill={vote === true ? 'currentColor' : 'none'} size={24}/>
+              </IconButton>
             </div>
           </Card.Body>
         </Card>

@@ -5,9 +5,9 @@ import { FiInstagram } from 'react-icons/fi';
 import Accordian from '../components/atom/Accordian';
 import Button from '../components/atom/Button';
 import Card from '../components/atom/Card';
-import CourseSearch from '../components/CourseSearch';
-import Logo from '../components/Logo';
-import Parallax from '../components/Parallax';
+import CourseSearch from '../components/search/CourseSearch';
+import Logo from '../components/general/Logo';
+import Parallax from '../components/general/Parallax';
 export interface LandingProps {}
 
 const Landing: React.FC<LandingProps> = () => (
@@ -96,7 +96,7 @@ const Landing: React.FC<LandingProps> = () => (
         <Card.Body>
           <h2 className='font-bold text-2xl my-4 text-center'>F.A.Q</h2>
           <Accordian>
-            <Accordian.Item expanded>
+            <Accordian.Item>
               <Accordian.Header>
                 <h3 className={'text-lg font-semibold text-gray-700'}>Can I change my review? </h3>
               </Accordian.Header>
@@ -180,13 +180,13 @@ const Landing: React.FC<LandingProps> = () => (
         <Card.Body>
           <h2 className='font-bold text-2xl my-4'>Writing helpful reviews</h2>
           <p className='text-lg '>
-            You can write the review in any way you`d like however we suggest you structure it as
+            {`You can write the review in any way you\'d like however we suggest you structure it as
             advice to the next generation of students. You can first describe your course experience
             (was it hard, was the lecturer annoying or nice) and how the reader who is about to take
             this course can prepare to make their life easier. If the course had an alternative that
             you consider, let the reader know and perhaps you can save them a wrong decision. Be
             respectful of the lecturers and the staff as they are just doing their job and trying to
-            educate the future generation. Or write a funny review, we welcome that also.
+            educate the future generation. Or write a funny review, we welcome that also.`}
           </p>
         </Card.Body>
       </Card>
@@ -194,7 +194,7 @@ const Landing: React.FC<LandingProps> = () => (
         By using our platform you agree to our{' '}
         <Link href='/terms-and-conditions'>
           <a className={'text-primary-500'}>
-            <strong>Terms and & Conditions</strong>
+            <strong>Terms and Conditions</strong>
           </a>
         </Link>
       </span>
