@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useContext, useState } from 'react';
 import { FiInbox } from 'react-icons/fi';
@@ -83,9 +84,12 @@ const Course: React.FC = () => {
           >
             <FiInbox className={'my-2'} size={30} />
             <div>It looks like you havent written any reviews yet</div>
+            <Link href='/browse'>
+            <a>
             <Button outline className={'mt-4'}>
               Search courses to review
             </Button>
+            </a></Link>
           </div>
         )
       ) : (
