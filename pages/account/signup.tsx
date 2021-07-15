@@ -32,7 +32,6 @@ const schema: SchemaOf<FormFields> = object().shape({
 
 const Signin: React.FC = () => {
   const [showPass, setShowPass] = useState(false);
-
   const auth = useContext(AuthContext);
 
   const {
@@ -40,6 +39,7 @@ const Signin: React.FC = () => {
     register,
     formState: { errors },
     setError,
+    watch,
   } = useForm<FormFields>({
     resolver: yupResolver(schema),
   });
@@ -56,21 +56,21 @@ const Signin: React.FC = () => {
       router.push('/account/reviews');
     } catch ({ message }) {
       console.log(message);
-      if(message.match(/EmailExistsException/)){
-        setError('email', {message: 'This email is already in use'});
+      if (message.match(/EmailExistsException/)) {
+        setError('email', { message: 'This email is already in use' });
       } else if (message.match(/User\salready\sexists/)) {
-        setError('username', {message: 'That username is taken'})
+        setError('username', { message: 'That username is taken' });
       } else {
-        setError('password', {message});
+        setError('password', { message });
       }
     }
   };
 
-  if(auth.hasResolved && auth.user){
+  if (auth.hasResolved && auth.user) {
     // This lets us redirect the user back to what they were doing before authentication
     const destination = sessionStorage.getItem('authRedirect') || '/account';
-    sessionStorage.removeItem('authRedirect')
-    router.push(destination)
+    sessionStorage.removeItem('authRedirect');
+    router.push(destination);
   }
 
   return (
@@ -88,39 +88,48 @@ const Signin: React.FC = () => {
       </Head>
       <Card className={'mx-4 self-stretch md:self-center sm:w-96'}>
         <Card.Body className={'flex flex-col'}>
-              <h1 className={'text-2xl font-semibold text-gray-700 text-center'}>Sign Up</h1>
-              <form onSubmit={handleSubmit(handleValidSubmit)}>
-                <FormGroup label='Username' error={errors.username}>
-                  <Input {...register('username')} autoComplete='signup username'/>
-                </FormGroup>{' '}
-                <FormGroup label='Email' error={errors.email}>
-                  <Input {...register('email')} type='email' placeholder='example@mail.com' autoComplete='signup email'/>
-                </FormGroup>
-                <FormGroup label='Password' error={errors.password}>
-                  <div className={'relative'}>
-                    <Input {...register('password')} type={showPass ? 'text' : 'password'} autoComplete='signup new-password' placeholder='password'/>
-                    <div className={'absolute right-0 top-0 z-10 m-2 mx-4'}>
-                      <IconButton
-                        icon={showPass ? FiEye : FiEyeOff}
-                        onClick={() => setShowPass((v) => !v)}
-                        variant='none'
-                        type='button'
-                      />
-                    </div>
-                  </div>
-                </FormGroup>
-                {/* {serverError && <span className={'text-sm text-danger-500 my-2'}>{serverError}</span>} */}
-                <Button block className={'mt-4'}>
-                  Sign up
-                </Button>
-              </form>
-              <p className={'text-gray-700 mx-auto text-sm mt-4'}>Already have an account?</p>
-              <Link href='signin'>
-                <a className={'mx-auto'}>
-                  <button className={'font-semibold text-primary-500 w-auto'}>Sign in instead</button>
-                </a>
-              </Link>
-
+          <h1 className={'text-2xl font-semibold text-gray-700 text-center'}>Sign Up</h1>
+          <form onSubmit={handleSubmit(handleValidSubmit)}>
+            <FormGroup label='Username' error={errors.username}>
+              <Input {...register('username')} autoComplete='signup username' />
+            </FormGroup>{' '}
+            <FormGroup label='Email' error={errors.email}>
+              <Input
+                {...register('email')}
+                type='email'
+                placeholder='example@mail.com'
+                autoComplete='signup email'
+              />
+            </FormGroup>
+            <FormGroup label='Password' error={errors.password}>
+              <div className={'relative'}>
+                <Input
+                  {...register('password')}
+                  type={showPass ? 'text' : 'password'}
+                  autoComplete='signup new-password'
+                  placeholder='password'
+                />
+                <div className={'absolute right-0 top-0 z-10 m-2 mx-4'}>
+                  <IconButton
+                    icon={showPass ? FiEye : FiEyeOff}
+                    onClick={() => setShowPass((v) => !v)}
+                    variant='none'
+                    type='button'
+                  />
+                </div>
+              </div>
+            </FormGroup>
+            {/* {serverError && <span className={'text-sm text-danger-500 my-2'}>{serverError}</span>} */}
+            <Button block className={'mt-4'}>
+              Sign up
+            </Button>
+          </form>
+          <p className={'text-gray-700 mx-auto text-sm mt-4'}>Already have an account?</p>
+          <Link href='signin'>
+            <a className={'mx-auto'}>
+              <button className={'font-semibold text-primary-500 w-auto'}>Sign in instead</button>
+            </a>
+          </Link>
         </Card.Body>
       </Card>
     </main>
