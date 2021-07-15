@@ -1,7 +1,7 @@
 import Amplify, { withSSRContext } from 'aws-amplify';
 import { NextApiRequest, NextApiResponse } from 'next';
 import connectDB from '../../../db/mongoose';
-import config from '../../../aws-exports';
+import config from '../../../util/aws-exports';
 import Review from '../../../models/review';
 import { getUser } from '../../../middleware/userMiddleware';
 import { FetchUserRatingsResponse } from '../../../dtos/FetchUserRatings';

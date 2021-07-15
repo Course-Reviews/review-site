@@ -3,7 +3,7 @@ import Amplify from 'aws-amplify';
 import RateLimit from 'express-rate-limit';
 import mongoose from 'mongoose';
 import MongoStore from 'rate-limit-mongo';
-import config from '../../../../aws-exports';
+import config from '../../../../util/aws-exports';
 import connectDB from '../../../../db/mongoose';
 import initMiddleware from '../../../../middleware/initMiddleware';
 import { getUser } from '../../../../middleware/userMiddleware';

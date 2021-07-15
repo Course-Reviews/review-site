@@ -1,7 +1,7 @@
 import Amplify, { Auth } from 'aws-amplify';
 import * as React from 'react';
 import { createContext, useEffect, useState } from 'react';
-import awsExports from '../../aws-exports';
+import awsExports from '../../util/aws-exports';
 import fetchRatings from '../../functions/fetchRatings';
 import { CognitoUser } from '../../types/cognito';
 

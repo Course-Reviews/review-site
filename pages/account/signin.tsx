@@ -76,6 +76,8 @@ const Signin: React.FC = () => {
                   <button className={'font-semibold text-primary-500 w-auto'}>Sign up instead</button>
                 </a>
               </Link>
+              <hr className={'my-2'}/>
+              <p className={'text-center text-sm'}>Having trouble? Contact us at coursereview.nz@gmail.com</p>
       </Card.Body>
     </Card>
   </main>
