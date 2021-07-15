@@ -53,7 +53,7 @@ const Signin: React.FC = () => {
       });
       console.log(res);
 
-      router.push('/account');
+      router.push('/account/reviews');
     } catch ({ message }) {
       console.log(message);
       if(message.match(/EmailExistsException/)){

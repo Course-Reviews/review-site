@@ -33,7 +33,7 @@ const Signin: React.FC = () => {
   const handleValidSubmit: SubmitHandler<FormFields> = async ({username, password}) => {
     try {
       await auth.signIn({username, password});
-      router.push('/account');
+      router.push('/account/reviews');
 
     } catch ({message}) {
       setError('password',{message});
