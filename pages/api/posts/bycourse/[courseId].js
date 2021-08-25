@@ -126,7 +126,7 @@ const handler = async (req, res) => {
         delivery_rating: overallDeliveryRating,
         reviews: reviews
           .filter((r) => r?.content !== undefined && r?.content !== '')
-          .map(({ user_id, ...rest }) => ({
+          .map(({ user_id, poster_ip, ...rest }) => ({
             ...rest,
           })),
         // This is the id of the users review if they have already left a review for this course
