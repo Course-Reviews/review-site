@@ -14,7 +14,7 @@ const AdBanner: React.FunctionComponent<AdBannerProps> = () => (
       <Image src={logo} alt='fistbump-logo' />
       <span
         style={{
-          fontSize: 17,
+          fontSize: 16,
         }}
       >
         Make <b>friends</b> and <b>socialize</b> on <b>UoA</b> campus
