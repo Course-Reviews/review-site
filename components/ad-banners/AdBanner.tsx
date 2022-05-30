@@ -8,7 +8,7 @@ const AdBanner: React.FunctionComponent<AdBannerProps> = () => (
   <a
     className='w-full bg-white p-4 mt-4 flex justify-between cursor-pointer'
     href='https://bit.ly/3NEQG0M'
-    target='_blank'
+    target='_blank' rel='noreferrer'
   >
     <div className='md:w-2/5 w-2/3 flex flex-col md:flex-row  items-center justify-between content-center m-auto'>
       <Image src={logo} alt='fistbump-logo' />
