@@ -1,8 +1,9 @@
 import * as React from 'react';
 import Image from 'next/image';
 import logo from '../../assets/logo-full.svg';
+import learneryLogo from '../../assets/learnery-logo.svg';
 
-interface AdBannerProps {}
+interface AdBannerProps { }
 
 const AdBanner: React.FunctionComponent<AdBannerProps> = () => (
   <a
@@ -11,13 +12,13 @@ const AdBanner: React.FunctionComponent<AdBannerProps> = () => (
     target='_blank' rel='noreferrer'
   >
     <div className='md:w-2/5 w-2/3 flex flex-col md:flex-row  items-center justify-between content-center m-auto'>
-      <Image src={logo} alt='fistbump-logo' />
+      <Image src={learneryLogo} alt='learnery-logo' />
       <span
         style={{
           fontSize: 16,
         }}
       >
-        Make <b>friends</b> and <b>socialize</b> on <b>UoA</b> campus
+        Learn anything you want <b>10 times faster</b>, fully <b>personalized</b> to you.
       </span>
     </div>
   </a>
